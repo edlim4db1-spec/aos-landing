@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AOS — The AI Brain Running Your Factory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            },
+            surface: {
+              900: '#0a0a0f',
+              800: '#0f0f1a',
+              700: '#151523',
+              600: '#1c1c2e',
+              500: '#252540',
+            }
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"Inter"', '"Segoe UI"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: #0a0a0f;
+      color: #e2e8f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Gradient orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-border {
+      position: relative;
+    }
+
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.4), rgba(129,140,248,0.2), rgba(192,132,252,0.1));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 60px rgba(56,189,248,0.08);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .glow-blue {
+      box-shadow: 0 0 40px rgba(14,165,233,0.2);
+    }
+
+    nav {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(10,10,15,0.8);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .pricing-card {
+      background: #0f0f1a;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .pricing-card:hover {
+      border-color: rgba(56,189,248,0.3);
+      transform: translateY(-4px);
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(135deg, #0f1520 0%, #0f0f1a 100%);
+      border-color: rgba(56,189,248,0.4);
+      box-shadow: 0 0 60px rgba(56,189,248,0.08);
+    }
+
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    }
+
+    .problem-card {
+      background: #0f0f1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    /* Scroll animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .terminal-window {
+      background: #0d1117;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      background: #161b22;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    input, textarea {
+      background: #0f0f1a;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    input:focus, textarea:focus {
+      border-color: rgba(14,165,233,0.5);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+    }
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .stat-card {
+      background: #0f0f1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="logo-mark">
+        <div class="logo-icon text-white">A</div>
+        <span class="text-white">AOS</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <a href="#problem" class="hover:text-white transition-colors">Why AOS</a>
+        <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+        <a href="#features" class="hover:text-white transition-colors">Agents</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+      </div>
+      <a href="#waitlist" class="btn-primary text-white text-sm font-semibold px-5 py-2 rounded-lg">
+        Get Early Access
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <!-- Background orbs -->
+    <div class="orb w-96 h-96 bg-blue-500 top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="orb w-96 h-96 bg-purple-500 bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="relative max-w-5xl mx-auto px-6 text-center py-24">
+
+      <div class="inline-flex items-center gap-2 bg-slate-800/60 border border-slate-700/50 rounded-full px-4 py-2 text-sm text-slate-300 mb-8">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        Now in pilot — Southeast Asia manufacturing
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white leading-tight mb-6">
+        Run your factory<br />
+        <span class="gradient-text">from your phone.</span>
+      </h1>
+
+      <p class="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto mb-4 leading-relaxed">
+        AOS deploys AI agents that handle procurement, sales, production, and inventory — so you spend 30 minutes a day approving decisions, not making them.
+      </p>
+
+      <p class="text-slate-500 text-base mb-10">
+        Built for manufacturers in Malaysia, Indonesia, Thailand, and beyond.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#waitlist" class="btn-primary text-white font-bold text-lg px-8 py-4 rounded-xl glow-blue">
+          Join the Waitlist →
+        </a>
+        <a href="#how-it-works" class="bg-slate-800/60 border border-slate-700 hover:border-slate-500 text-white font-semibold text-lg px-8 py-4 rounded-xl transition-colors">
+          See How It Works
+        </a>
+      </div>
+
+      <!-- Social proof numbers -->
+      <div class="grid grid-cols-3 gap-6 max-w-2xl mx-auto mt-20">
+        <div class="stat-card">
+          <div class="text-3xl font-black text-white mb-1">30 min</div>
+          <div class="text-slate-500 text-sm">Owner time per day</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-3xl font-black gradient-text mb-1">60%</div>
+          <div class="text-slate-500 text-sm">Ops cost reduction</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-3xl font-black text-white mb-1">24/7</div>
+          <div class="text-slate-500 text-sm">AI never sleeps</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">The Problem</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+          Your factory runs on<br />
+          <span class="text-slate-500">chaos and WhatsApp.</span>
+        </h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+          You built something real. But running it means drowning in messages, spreadsheets, and decisions that never stop coming.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">📱</div>
+          <h3 class="text-white font-bold text-lg mb-2">WhatsApp is your ERP</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Purchase orders, supplier quotes, customer updates — all buried in group chats. One missed message and an order is delayed.</p>
+        </div>
+
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">📊</div>
+          <h3 class="text-white font-bold text-lg mb-2">Excel doesn't scale</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Your inventory is 12 spreadsheets updated by 4 different people. Nobody trusts the numbers. Everyone double-checks everything.</p>
+        </div>
+
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">🔥</div>
+          <h3 class="text-white font-bold text-lg mb-2">You're the bottleneck</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Every decision comes back to you. Can't take a holiday. Can't step back. Your business needs you present every single day.</p>
+        </div>
+
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">💸</div>
+          <h3 class="text-white font-bold text-lg mb-2">ERP is out of reach</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">SAP, Oracle, even mid-tier ERPs cost $50K+ and take a year to implement. They were built for companies 10x your size.</p>
+        </div>
+
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">🕐</div>
+          <h3 class="text-white font-bold text-lg mb-2">Hiring doesn't fix it</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">More headcount means more management overhead. Your admin costs grow faster than revenue. The margin squeeze is real.</p>
+        </div>
+
+        <div class="problem-card fade-in">
+          <div class="text-3xl mb-4">📉</div>
+          <h3 class="text-white font-bold text-lg mb-2">You can't see the business</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Real-time visibility into orders, inventory, margins? You find out there's a problem after the customer complains.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section id="solution" class="py-24 px-6 relative overflow-hidden">
+    <div class="orb w-80 h-80 bg-blue-600 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="max-w-5xl mx-auto relative">
+      <div class="text-center mb-16 fade-in">
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">The Solution</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+          An AI brain that runs<br />
+          <span class="gradient-text">your entire operation.</span>
+        </h2>
+        <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+          AOS deploys a team of specialized AI agents — each one an expert in a part of your business. They talk to each other, make decisions, and surface only what needs you.
+        </p>
+      </div>
+
+      <!-- Terminal mockup -->
+      <div class="terminal-window max-w-2xl mx-auto fade-in glow-blue">
+        <div class="terminal-bar">
+          <div class="terminal-dot bg-red-500"></div>
+          <div class="terminal-dot bg-yellow-500"></div>
+          <div class="terminal-dot bg-green-500"></div>
+          <span class="text-slate-500 text-xs ml-2 font-mono">AOS Command Center</span>
+        </div>
+        <div class="p-6 font-mono text-sm space-y-3">
+          <div class="flex items-start gap-3">
+            <span class="text-green-400 shrink-0">✓</span>
+            <div>
+              <span class="text-slate-400">Procurement Agent:</span>
+              <span class="text-white"> Steel coil from Supplier A — RM 12,400. Approved and PO sent.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-green-400 shrink-0">✓</span>
+            <div>
+              <span class="text-slate-400">Inventory Agent:</span>
+              <span class="text-white"> Stock for SKU-0042 updated. Reorder triggered automatically.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-yellow-400 shrink-0">⚡</span>
+            <div>
+              <span class="text-slate-400">Sales Agent:</span>
+              <span class="text-white"> Customer Petronas — new order RM 89,000. Delivery in 14 days.</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="text-blue-400 shrink-0">→</span>
+            <div>
+              <span class="text-slate-400">Needs your approval:</span>
+              <span class="text-brand-400 font-bold"> 2 items require sign-off today.</span>
+            </div>
+          </div>
+          <div class="border-t border-slate-800 pt-3 mt-3 text-slate-500 text-xs">
+            Everything else handled. You're good. <span class="typing-cursor"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="py-24 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">How It Works</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+          Live in a week.<br />Not a year.
+        </h2>
+        <p class="text-xl text-slate-400 max-w-xl mx-auto">
+          No IT team. No months of setup. Tell us about your factory — AOS builds itself.
+        </p>
+      </div>
+
+      <div class="space-y-8">
+        <div class="flex gap-6 items-start fade-in">
+          <div class="step-number text-white shrink-0">1</div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-2">Tell us about your business</h3>
+            <p class="text-slate-400 leading-relaxed">A 30-minute onboarding call. Tell us your products, suppliers, customers, workflows. That's it. AOS builds your agent ecosystem from your inputs — no forms to fill, no consultants needed.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 items-start fade-in">
+          <div class="step-number text-white shrink-0">2</div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-2">Agents go live</h3>
+            <p class="text-slate-400 leading-relaxed">Your AI team is deployed in days. Procurement agent starts tracking supplier quotes. Inventory agent monitors stock. Sales agent follows up on leads. They work together — you just watch the dashboard.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 items-start fade-in">
+          <div class="step-number text-white shrink-0">3</div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-2">You approve, they execute</h3>
+            <p class="text-slate-400 leading-relaxed">Morning on your phone: 2-3 approvals. That's your day's work. AOS handles the follow-ups, the paperwork, the vendor calls, the status updates. You stay in control without being in the weeds.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-6 items-start fade-in">
+          <div class="step-number text-white shrink-0">4</div>
+          <div>
+            <h3 class="text-white font-bold text-xl mb-2">It gets smarter over time</h3>
+            <p class="text-slate-400 leading-relaxed">AOS learns your business patterns, your suppliers' reliability, your customers' behavior. Every week it runs better than the last. No extra work from you — it improves on its own.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENT FEATURES -->
+  <section id="features" class="py-24 px-6 bg-surface-800/30">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">Your AI Team</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+          Specialists in every<br />
+          <span class="gradient-text">corner of your factory.</span>
+        </h2>
+        <p class="text-xl text-slate-400 max-w-xl mx-auto">
+          Each agent is built for one job and does it relentlessly, 24/7.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-blue-500/10 text-2xl mb-4">🛒</div>
+          <h3 class="text-white font-bold text-xl mb-2">Procurement Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Tracks supplier pricing, generates POs, chases deliveries, and flags when a vendor is underperforming. Never let a stockout catch you off guard again.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Auto-quotes from approved suppliers</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> PO generation and tracking</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Delivery follow-ups on autopilot</li>
+          </ul>
+        </div>
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-purple-500/10 text-2xl mb-4">📦</div>
+          <h3 class="text-white font-bold text-xl mb-2">Inventory Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Real-time stock monitoring with predictive reorder points. Knows what you have, where it is, and when you'll run out — before you do.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Live stock visibility</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Smart reorder triggers</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Waste and shrinkage alerts</li>
+          </ul>
+        </div>
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-green-500/10 text-2xl mb-4">💼</div>
+          <h3 class="text-white font-bold text-xl mb-2">Sales Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Follows up on leads, sends quotes, tracks deal status, and reminds your team when a customer goes quiet. Your best salesperson never takes a day off.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Quote generation and follow-up</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Pipeline visibility</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Customer relationship tracking</li>
+          </ul>
+        </div>
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-orange-500/10 text-2xl mb-4">🏭</div>
+          <h3 class="text-white font-bold text-xl mb-2">Production Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Schedules production runs, tracks work-in-progress, and surfaces bottlenecks before they cause delays. Keep your floor running at full capacity.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Production scheduling</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> WIP tracking</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Bottleneck detection</li>
+          </ul>
+        </div>
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-cyan-500/10 text-2xl mb-4">🚚</div>
+          <h3 class="text-white font-bold text-xl mb-2">Logistics Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Coordinates outbound deliveries, manages freight relationships, and proactively updates customers on their order status. No more "where's my order?" calls.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Shipment coordination</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Customer delivery updates</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Freight cost optimization</li>
+          </ul>
+        </div>
+
+        <div class="gradient-border bg-surface-700 rounded-2xl p-6 card-hover fade-in">
+          <div class="feature-icon bg-yellow-500/10 text-2xl mb-4">📊</div>
+          <h3 class="text-white font-bold text-xl mb-2">Intelligence Agent</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">Your daily business briefing. Revenue vs targets, margin analysis, what's working, what's not. Real numbers, real fast — so you can make good decisions.</p>
+          <ul class="space-y-2 text-sm text-slate-400">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Daily P&L summaries</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Margin alerts</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Trend detection</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16 fade-in">
+        <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">Pricing</p>
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+          Less than one<br />
+          <span class="gradient-text">junior hire.</span>
+        </h2>
+        <p class="text-xl text-slate-400 max-w-xl mx-auto">
+          One monthly fee. No implementation cost. No hidden charges. Cancel anytime.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Starter -->
+        <div class="pricing-card fade-in">
+          <div class="mb-6">
+            <p class="text-slate-400 font-semibold text-sm mb-2">STARTER</p>
+            <div class="flex items-end gap-1 mb-2">
+              <span class="text-4xl font-black text-white">$199</span>
+              <span class="text-slate-500 mb-1">/month</span>
+            </div>
+            <p class="text-slate-500 text-sm">For manufacturers just getting started with automation.</p>
+          </div>
+
+          <div class="border-t border-slate-800 pt-6 mb-6 space-y-3">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">2 AI agents (Procurement + Inventory)</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Mobile command center</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Up to 20 users</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">WhatsApp integration</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Email support</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-slate-600 text-base">✗</span>
+              <span class="text-slate-600">Sales & Production agents</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-slate-600 text-base">✗</span>
+              <span class="text-slate-600">Custom workflows</span>
+            </div>
+          </div>
+
+          <a href="#waitlist" class="block text-center bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm">
+            Start with Starter
+          </a>
+        </div>
+
+        <!-- Growth (Featured) -->
+        <div class="pricing-card featured fade-in relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold px-4 py-1 rounded-full">MOST POPULAR</span>
+          </div>
+
+          <div class="mb-6">
+            <p class="text-brand-400 font-semibold text-sm mb-2">GROWTH</p>
+            <div class="flex items-end gap-1 mb-2">
+              <span class="text-4xl font-black text-white">$399</span>
+              <span class="text-slate-500 mb-1">/month</span>
+            </div>
+            <p class="text-slate-500 text-sm">For factories ready to fully automate their operations.</p>
+          </div>
+
+          <div class="border-t border-slate-700 pt-6 mb-6 space-y-3">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">5 AI agents (full ops suite)</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Mobile + web command center</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Up to 75 users</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">WhatsApp + email integration</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Custom approval workflows</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Priority support (chat)</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Analytics dashboard</span>
+            </div>
+          </div>
+
+          <a href="#waitlist" class="btn-primary block text-center text-white font-bold py-3 rounded-xl text-sm">
+            Get Growth Access →
+          </a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card fade-in">
+          <div class="mb-6">
+            <p class="text-slate-400 font-semibold text-sm mb-2">ENTERPRISE</p>
+            <div class="flex items-end gap-1 mb-2">
+              <span class="text-4xl font-black text-white">$699</span>
+              <span class="text-slate-500 mb-1">/month</span>
+            </div>
+            <p class="text-slate-500 text-sm">For multi-site operations that need full customization.</p>
+          </div>
+
+          <div class="border-t border-slate-800 pt-6 mb-6 space-y-3">
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Unlimited AI agents</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Multi-site support</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Unlimited users</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Full ERP integrations</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Custom agent development</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">Dedicated success manager</span>
+            </div>
+            <div class="flex items-center gap-3 text-sm">
+              <span class="text-green-400 text-base">✓</span>
+              <span class="text-slate-300">SLA + 24/7 support</span>
+            </div>
+          </div>
+
+          <a href="#waitlist" class="block text-center bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm">
+            Talk to Sales
+          </a>
+        </div>
+
+      </div>
+
+      <p class="text-center text-slate-600 text-sm mt-8">
+        All plans include a 14-day free trial. No credit card required to start.
+      </p>
+    </div>
+  </section>
+
+  <!-- WAITLIST / CTA -->
+  <section id="waitlist" class="py-24 px-6 relative overflow-hidden">
+    <div class="orb w-96 h-96 bg-blue-600 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+    <div class="max-w-xl mx-auto relative">
+      <div class="gradient-border bg-surface-700 rounded-2xl p-10 fade-in">
+        <div class="text-center mb-8">
+          <p class="text-brand-400 font-semibold text-sm uppercase tracking-widest mb-4">Early Access</p>
+          <h2 class="text-3xl md:text-4xl font-black text-white mb-4">
+            Be first in line.
+          </h2>
+          <p class="text-slate-400">
+            We're onboarding pilot factories now. Join the waitlist and we'll reach out personally — no spam, no pressure.
+          </p>
+        </div>
+
+        <form onsubmit="handleSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-slate-300 text-sm font-medium mb-2">Your name</label>
+            <input type="text" name="name" placeholder="Ahmad Razak" required />
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-medium mb-2">Email address</label>
+            <input type="email" name="email" placeholder="ahmad@yourfactory.com" required />
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-medium mb-2">WhatsApp number</label>
+            <input type="tel" name="whatsapp" placeholder="+60 12 345 6789" />
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-medium mb-2">What does your factory make?</label>
+            <input type="text" name="business" placeholder="e.g. metal stamping parts, furniture, food packaging..." />
+          </div>
+
+          <div>
+            <label class="block text-slate-300 text-sm font-medium mb-2">Biggest operational headache right now?</label>
+            <textarea name="pain" rows="3" placeholder="Tell us the one thing that drives you crazy every week..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary w-full text-white font-bold text-lg py-4 rounded-xl mt-2">
+            Join the Waitlist →
+          </button>
+        </form>
+
+        <div id="form-success" class="hidden text-center py-8">
+          <div class="text-5xl mb-4">🎉</div>
+          <h3 class="text-white font-bold text-xl mb-2">You're on the list.</h3>
+          <p class="text-slate-400">We'll be in touch within 48 hours. Check your WhatsApp.</p>
+        </div>
+
+        <p class="text-center text-slate-600 text-xs mt-6">
+          We only accept factories we can genuinely help. We'll have an honest conversation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 px-6 border-t border-slate-800/50">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="logo-mark">
+        <div class="logo-icon text-white">A</div>
+        <span class="text-white">AOS</span>
+        <span class="text-slate-600 font-normal text-sm ml-2">Agentic Operating System</span>
+      </div>
+
+      <div class="flex items-center gap-8 text-sm text-slate-600">
+        <a href="#" class="hover:text-slate-300 transition-colors">Privacy</a>
+        <a href="#" class="hover:text-slate-300 transition-colors">Terms</a>
+        <a href="mailto:hello@agenticos.io" class="hover:text-slate-300 transition-colors">Contact</a>
+      </div>
+
+      <p class="text-slate-700 text-sm">© 2026 AOS. Built for factories.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      form.style.display = 'none';
+      document.getElementById('form-success').classList.remove('hidden');
+      // TODO: Wire to backend / Airtable / HubSpot
+    }
+  </script>
+
+</body>
+</html>
