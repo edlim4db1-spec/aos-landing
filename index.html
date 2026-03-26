@@ -6,6 +6,7 @@
 <title>AOS — Your factory runs itself.</title>
 <meta name="description" content="AOS deploys AI agents that handle procurement, sales, and production for your factory. 30 minutes a day is all it takes.">
 <meta name="theme-color" content="#0A1628">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A1628'/%3E%3Cpath d='M16 4L27.7 10.75V24.25L16 31L4.3 24.25V10.75Z' fill='none' stroke='%2300D4AA' stroke-width='2'/%3E%3Ctext x='16' y='21' text-anchor='middle' font-family='Inter,sans-serif' font-weight='700' font-size='14' fill='%2300D4AA'%3EA%3C/text%3E%3C/svg%3E">
 <meta property="og:title" content="AOS — Your factory runs itself.">
 <meta property="og:description" content="AI agents that handle procurement, sales, and production. Describe your factory. We build the rest.">
 <meta property="og:type" content="website">
@@ -291,8 +292,9 @@ p {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 170, 0.06) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255, 140, 66, 0.04) 0%, transparent 50%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 170, 0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 80% 20%, rgba(255, 140, 66, 0.05) 0%, transparent 50%),
+              radial-gradient(ellipse 40% 30% at 20% 80%, rgba(0, 212, 170, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -382,7 +384,17 @@ p {
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 212, 170, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 212, 170, 0.35);
+}
+
+.btn-primary.glow {
+  box-shadow: 0 0 20px rgba(0, 212, 170, 0.2), 0 0 60px rgba(0, 212, 170, 0.08);
+  animation: btn-glow 3s ease-in-out infinite;
+}
+
+@keyframes btn-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 170, 0.2), 0 0 60px rgba(0, 212, 170, 0.08); }
+  50% { box-shadow: 0 0 28px rgba(0, 212, 170, 0.35), 0 0 80px rgba(0, 212, 170, 0.12); }
 }
 
 .btn-primary svg {
@@ -1186,7 +1198,7 @@ p {
       <a href="#pricing">Pricing</a>
       <a href="#about">About</a>
       <a href="https://app.getaos.ai/login">Login</a>
-      <a href="https://app.getaos.ai/signup" class="nav-cta">Get Started</a>
+      <a href="https://app.getaos.ai" class="nav-cta">Start Free Trial</a>
     </div>
     <button class="nav-mobile-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1202,13 +1214,14 @@ p {
     <div class="hero-content">
       <div class="hero-label reveal">
         <span class="hero-label-dot"></span>
-        Now available in Southeast Asia
+        Now onboarding our first manufacturers
       </div>
       <h1 class="reveal reveal-delay-1">Your factory<br><span class="accent">runs itself.</span></h1>
       <p class="hero-sub reveal reveal-delay-2">AI agents that handle procurement, sales, and production. Describe your factory. We build the rest. You spend 30 minutes a day.</p>
+      <p class="hero-sub reveal reveal-delay-2" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; margin-top: -24px;">Unlike traditional ERPs that take 6 months and $50,000 to implement, AOS deploys in under an hour.</p>
       <div class="hero-ctas reveal reveal-delay-3">
-        <a href="https://app.getaos.ai/signup" class="btn-primary">
-          Start free trial
+        <a href="https://app.getaos.ai" class="btn-primary glow">
+          Start free trial — 14 days, no credit card
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a href="#product" class="btn-secondary">See how it works</a>
@@ -1223,41 +1236,34 @@ p {
     </div>
     <div class="mockup-body">
       <div class="mockup-row">
-        <span class="mockup-row-label">PO-2847 Steel sheets from SteelCo</span>
+        <span class="mockup-row-label">PO-2847 PP Resin from Polychem Supplies</span>
         <span class="mockup-row-status status-approved">Approved</span>
       </div>
       <div class="mockup-row">
-        <span class="mockup-row-label">Quote REQ-112 Precision parts</span>
+        <span class="mockup-row-label">Quote REQ-112 Injection mold parts for Proton</span>
         <span class="mockup-row-status status-pending">Needs review</span>
       </div>
       <div class="mockup-row">
-        <span class="mockup-row-label">Production schedule Week 14</span>
+        <span class="mockup-row-label">Production run: ABS casings batch 14</span>
         <span class="mockup-row-status status-approved">Optimized</span>
       </div>
       <div class="mockup-row">
-        <span class="mockup-row-label">Inventory reorder: Aluminum rods</span>
+        <span class="mockup-row-label">Inventory reorder: HDPE pellets 25kg</span>
         <span class="mockup-row-status status-auto">Auto-ordered</span>
       </div>
       <div class="mockup-row">
-        <span class="mockup-row-label">Delivery DEL-0394 to Penang</span>
+        <span class="mockup-row-label">Delivery DEL-0394 mold tooling to Penang</span>
         <span class="mockup-row-status status-approved">On track</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== SOCIAL PROOF BAR ===================== -->
+<!-- ===================== EARLY ACCESS BAR ===================== -->
 <div class="proof-bar">
   <div class="container">
-    <div class="proof-bar-inner reveal">
-      <p class="proof-bar-text">Trusted by manufacturers across Southeast Asia</p>
-      <div class="proof-logos">
-        <span class="proof-logo">Precision Metal Works</span>
-        <span class="proof-logo">KL Industrial</span>
-        <span class="proof-logo">SteelTech Asia</span>
-        <span class="proof-logo">Johor Manufacturing</span>
-        <span class="proof-logo">Pacific Components</span>
-      </div>
+    <div class="proof-bar-inner reveal" style="text-align:center;">
+      <p class="proof-bar-text" style="margin-bottom:0; letter-spacing:0.06em;">🚀 Now in early access — onboarding manufacturers in Southeast Asia</p>
     </div>
   </div>
 </div>
@@ -1395,16 +1401,16 @@ p {
   </div>
 </section>
 
-<!-- ===================== TESTIMONIAL ===================== -->
+<!-- ===================== EARLY ACCESS CTA ===================== -->
 <section class="section testimonial">
   <div class="container">
-    <div class="testimonial-card reveal">
-      <span class="testimonial-quote-mark">"</span>
-      <p class="testimonial-text">I used to start every morning buried in purchase orders and WhatsApp messages. Now I open AOS, approve three things, and get on with running my business. It feels like I hired a full operations team overnight.</p>
-      <div class="testimonial-author">
-        <span class="testimonial-name">Early Access Customer</span>
-        <span class="testimonial-role">Manufacturing business owner, Penang</span>
-      </div>
+    <div class="testimonial-card reveal" style="text-align:center; padding: 56px 40px;">
+      <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 16px;">Be one of the first.</h2>
+      <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 480px; margin: 0 auto 32px; line-height: 1.7;">We're onboarding a small group of manufacturers for early access. Get in now and help shape the future of factory operations.</p>
+      <a href="https://app.getaos.ai" class="btn-primary glow" style="display:inline-flex;">
+        Join early access — it's free
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -1436,7 +1442,7 @@ p {
           <li>Email support</li>
           <li>Standard dashboards</li>
         </ul>
-        <a href="https://app.getaos.ai/signup?plan=starter" class="pricing-cta">Start free trial</a>
+        <a href="https://app.getaos.ai" class="pricing-cta">Start free trial</a>
       </div>
       <!-- Growth -->
       <div class="pricing-card featured reveal reveal-delay-2">
@@ -1458,7 +1464,7 @@ p {
           <li>Custom dashboards</li>
           <li>Advanced analytics</li>
         </ul>
-        <a href="https://app.getaos.ai/signup?plan=growth" class="pricing-cta">Start free trial</a>
+        <a href="https://app.getaos.ai" class="pricing-cta">Start free trial</a>
       </div>
       <!-- Enterprise -->
       <div class="pricing-card reveal reveal-delay-3">
@@ -1480,7 +1486,7 @@ p {
           <li>API access</li>
           <li>SLA guarantee</li>
         </ul>
-        <a href="https://app.getaos.ai/signup?plan=enterprise" class="pricing-cta">Start free trial</a>
+        <a href="https://app.getaos.ai" class="pricing-cta">Start free trial</a>
       </div>
     </div>
   </div>
@@ -1491,8 +1497,8 @@ p {
   <div class="final-cta-bg"></div>
   <div class="container">
     <h2 class="reveal">Your factory deserves better<br>than spreadsheets.</h2>
-    <p class="reveal reveal-delay-1">Start your free trial today. No credit card required. Set up in under an hour.</p>
-    <a href="https://app.getaos.ai/signup" class="btn-primary reveal reveal-delay-2">
+    <p class="reveal reveal-delay-1">14-day free trial. No credit card required. Set up in under an hour.</p>
+    <a href="https://app.getaos.ai" class="btn-primary glow reveal reveal-delay-2">
       Start your free trial
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     </a>
@@ -1512,17 +1518,12 @@ p {
         <ul>
           <li><a href="#product">How it works</a></li>
           <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#">Integrations</a></li>
-          <li><a href="#">Changelog</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="#about">About</a></li>
         </ul>
       </div>
       <div class="footer-col">
