@@ -318,6 +318,1416 @@ p, li { text-wrap: pretty; }
   text-align: center;
 }
 
+/* Animated orbs */
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: orb-float 20s ease-in-out infinite;
+}
+.hero-orb-1 {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 70%);
+  top: 10%; left: 50%; transform: translateX(-50%);
+}
+.hero-orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,160,130,0.08) 0%, transparent 70%);
+  top: 30%; right: 10%;
+  animation-delay: -7s; animation-duration: 25s;
+}
+.hero-orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,181,71,0.05) 0%, transparent 70%);
+  bottom: 20%; left: 15%;
+  animation-delay: -14s; animation-duration: 22s;
+}
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(15px, 30px) scale(1.02); }
+}
+
+/* Grid pattern */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 1;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 1rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,212,170,0.2);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 2rem;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 0.5rem + 7vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.5rem;
+}
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #00E8BB 50%, var(--warm) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+  font-size: clamp(1.0625rem, 0.5rem + 1vw, 1.375rem);
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  line-height: 1.6;
+}
+.hero-diff {
+  font-size: clamp(0.875rem, 0.5rem + 0.5vw, 1rem);
+  color: var(--text-faint);
+  max-width: 580px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-meta {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+.hero-meta .dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  display: inline-block;
+}
+
+/* ========================================
+   TERMINAL (WhatsApp Daily Brief)
+   ======================================== */
+.hero-terminal {
+  position: relative;
+  z-index: 2;
+  margin-top: 3rem;
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.terminal-window {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot:nth-child(1) { background: #FF5F57; }
+.terminal-dot:nth-child(2) { background: #FEBC2E; }
+.terminal-dot:nth-child(3) { background: #28C840; }
+.terminal-title {
+  flex: 1;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
+.terminal-body {
+  padding: 1.25rem;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 200px;
+}
+
+.terminal-line {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.terminal-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.terminal-label { color: var(--accent); font-weight: 600; }
+.terminal-value { color: var(--text-muted); }
+.terminal-highlight { color: var(--warm); font-weight: 600; }
+.terminal-cursor {
+  display: inline-block;
+  width: 8px; height: 16px;
+  background: var(--accent);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-size: clamp(2rem, 1rem + 3vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+.section-desc {
+  font-size: clamp(1rem, 0.5rem + 0.75vw, 1.25rem);
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ========================================
+   PROBLEM SECTION
+   ======================================== */
+.problem { background: var(--bg); }
+
+.problem-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) { .problem-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.problem-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: border-color var(--transition), transform 0.3s;
+}
+.problem-card:hover {
+  border-color: rgba(255,181,71,0.25);
+  transform: translateY(-4px);
+}
+
+.problem-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.25rem;
+  background: var(--warm-dim);
+}
+.problem-icon svg {
+  width: 24px; height: 24px;
+  stroke: var(--warm);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.problem-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.problem-card p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ========================================
+   SOLUTION / HOW IT WORKS
+   ======================================== */
+.solution {
+  background: var(--surface);
+  position: relative;
+}
+.solution::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-hover), transparent);
+}
+
+.steps {
+  display: grid;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+
+.step { text-align: left; position: relative; }
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 0.75rem;
+  background: var(--accent-dim);
+  border: 1px solid rgba(0,212,170,0.2);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9375rem;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.step h3 {
+  font-size: clamp(1.25rem, 1rem + 0.75vw, 1.5rem);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+.step p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+@media (min-width: 768px) {
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: -1rem;
+    width: 24px; height: 2px;
+    background: var(--border-hover);
+  }
+}
+
+/* ========================================
+   AGENTS SHOWCASE
+   ======================================== */
+.showcase { background: var(--bg); }
+
+.agents-grid {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 640px) { .agents-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .agents-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.agent-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.agent-card:hover {
+  border-color: rgba(0,212,170,0.2);
+  box-shadow: 0 0 30px rgba(0,212,170,0.05);
+  transform: translateY(-3px);
+}
+
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.agent-card-icon {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 0.75rem;
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+.agent-active {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+}
+.agent-active-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.agent-card h3 { font-size: 1rem; font-weight: 700; }
+.agent-card p { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; }
+
+/* ========================================
+   COMPARISON TABLE
+   ======================================== */
+.comparison { background: var(--surface); }
+
+.comparison-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -1.5rem;
+  padding: 0 1.5rem;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9375rem;
+}
+.comparison-table thead th {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.comparison-table thead th:first-child { color: var(--text); }
+.comparison-table thead th.aos-col { color: var(--accent); }
+.comparison-table tbody td:first-child { font-weight: 600; color: var(--text); }
+.comparison-table tbody td { color: var(--text-muted); }
+.comparison-table tbody td.aos-col { color: var(--accent); font-weight: 600; }
+.comparison-table .check { color: var(--accent); }
+.comparison-table .cross { color: var(--text-faint); }
+
+/* ========================================
+   METRICS
+   ======================================== */
+.metrics {
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.metrics::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 80% at 50% 50%, rgba(0,212,170,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+  position: relative;
+}
+@media (max-width: 640px) { .metrics-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+.metric { padding: 1.25rem; }
+.metric-value {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+}
+.metric-label {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ========================================
+   EARLY ACCESS CTA
+   ======================================== */
+.early-access {
+  background: var(--surface);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.early-access-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3.5rem 2.5rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  position: relative;
+}
+.early-access-card h2 {
+  font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.early-access-card p {
+  font-size: 1.0625rem;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+
+/* ========================================
+   PRICING
+   ======================================== */
+.pricing { background: var(--bg); }
+
+.pricing-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+}
+
+.pricing-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2.5rem 2rem;
+  transition: all 0.3s;
+}
+.pricing-card.featured {
+  border-color: var(--accent);
+  position: relative;
+  box-shadow: 0 0 60px rgba(0,212,170,0.08);
+}
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.375rem 1.125rem;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.pricing-tier {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+.pricing-name {
+  font-family: var(--font-display);
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.pricing-price { margin-bottom: 0.5rem; }
+.pricing-amount {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.pricing-currency {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  vertical-align: top;
+  margin-right: 2px;
+}
+.pricing-period {
+  font-size: 1rem;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+.pricing-usd {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+  margin-bottom: 1.5rem;
+}
+.pricing-desc {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.pricing-features { margin-bottom: 2rem; }
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+.pricing-features li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  margin-top: 2px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300D4AA' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") no-repeat center;
+  background-size: contain;
+}
+
+.pricing-cta {
+  display: block;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.pricing-cta:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+.pricing-card.featured .pricing-cta {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.pricing-card.featured .pricing-cta:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,212,170,0.25);
+}
+
+/* ========================================
+   FINAL CTA
+   ======================================== */
+.final-cta {
+  background: var(--surface);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,212,170,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta .container { position: relative; z-index: 1; }
+.final-cta h2 {
+  font-size: clamp(2rem, 1rem + 3vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+.final-cta p {
+  color: var(--text-muted);
+  font-size: clamp(1rem, 0.5rem + 0.75vw, 1.25rem);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 0 2rem;
+  background: var(--bg);
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+@media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+
+.footer-brand p {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  max-width: 300px;
+  line-height: 1.7;
+}
+
+.footer-col h4 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.footer-col a {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  padding: 0.25rem 0;
+  transition: color var(--transition);
+}
+.footer-col a:hover { color: var(--text); }
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.footer-bottom p {
+  font-size: 0.8125rem;
+  color: var(--text-faint);
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.footer-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  color: var(--text-faint);
+  transition: color var(--transition);
+}
+.footer-socials a:hover { color: var(--text); }
+.footer-socials svg { width: 18px; height: 18px; }
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 767px) {
+  .hero { padding: 6rem 1.25rem 3rem; }
+  .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+  </button>
+  <a href="#product">Product</a>
+  <a href="#agents-section">Agents</a>
+  <a href="#pricing">Pricing</a>
+  <a href="https://app.getaos.ai" class="nav-cta">Request Early Access</a>
+</div>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="AOS Home">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M18 6L28 12V24L18 30L8 24V12L18 6Z" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
+        <path d="M18 10L25 14V22L18 26L11 22V14L18 10Z" stroke="url(#navLogoGrad)" stroke-width="2"/>
+        <circle cx="18" cy="10" r="2" fill="#00D4AA"/>
+        <circle cx="25" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
+        <circle cx="25" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
+        <circle cx="18" cy="26" r="1.5" fill="#00D4AA" opacity="0.7"/>
+        <circle cx="11" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
+        <circle cx="11" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
+        <circle cx="18" cy="18" r="2.5" fill="#00D4AA"/>
+        <line x1="18" y1="18" x2="18" y2="10" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <line x1="18" y1="18" x2="25" y2="14" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <line x1="18" y1="18" x2="25" y2="22" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <line x1="18" y1="18" x2="18" y2="26" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <line x1="18" y1="18" x2="11" y2="22" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <line x1="18" y1="18" x2="11" y2="14" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
+        <defs>
+          <linearGradient id="navLogoGrad" x1="11" y1="10" x2="25" y2="26">
+            <stop stop-color="#00D4AA"/>
+            <stop offset="1" stop-color="#00A88A"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="nav-logo-text">AOS</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#agents-section">Agents</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://app.getaos.ai" class="nav-cta">Request Early Access</a>
+    </div>
+
+    <button class="nav-mobile-toggle" id="mobileMenuToggle" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="hero">
+  <div class="hero-gradient" aria-hidden="true">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+  </div>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge reveal">
+      <span class="hero-badge-dot"></span>
+      Now onboarding manufacturers
+    </div>
+
+    <h1 class="reveal reveal-delay-1">Your factory<br><span class="gradient-text">runs itself.</span></h1>
+
+    <p class="hero-sub reveal reveal-delay-2">AI agents that handle procurement, sales, and production. Describe your factory. We build the rest. You spend 30 minutes a day.</p>
+
+    <p class="hero-diff reveal reveal-delay-2">Unlike traditional ERPs that take 6 months and $50,000 to implement, AOS deploys in under an hour.</p>
+
+    <div class="hero-ctas reveal reveal-delay-3">
+      <a href="https://app.getaos.ai" class="btn-primary glow">
+        Request Early Access
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#product" class="btn-secondary">See how it works</a>
+    </div>
+
+    <div class="hero-meta reveal reveal-delay-4">
+      <span>No credit card required</span>
+      <span class="dot"></span>
+      <span>14-day free trial</span>
+      <span class="dot"></span>
+      <span>Setup in under an hour</span>
+    </div>
+  </div>
+
+  <!-- WhatsApp Daily Brief Terminal -->
+  <div class="hero-terminal reveal reveal-delay-4">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-dot"></span>
+        <span class="terminal-title">AOS Daily Brief -- WhatsApp</span>
+      </div>
+      <div class="terminal-body" id="terminalBody">
+        <div class="terminal-line" data-delay="400">
+          <span class="terminal-label">Good morning, Ahmad.</span>
+        </div>
+        <div class="terminal-line" data-delay="1200">
+          <span class="terminal-value">Here's your factory brief for today:</span>
+        </div>
+        <div class="terminal-line" data-delay="2000">&nbsp;</div>
+        <div class="terminal-line" data-delay="2400">
+          <span class="terminal-highlight">3 POs ready</span> <span class="terminal-value">for approval (MYR 12,400)</span>
+        </div>
+        <div class="terminal-line" data-delay="3200">
+          <span class="terminal-highlight">Steel rod stock</span> <span class="terminal-value">below reorder point</span>
+        </div>
+        <div class="terminal-line" data-delay="4000">
+          <span class="terminal-value">Production line B:</span> <span class="terminal-highlight">94% on schedule</span>
+        </div>
+        <div class="terminal-line" data-delay="4800">
+          <span class="terminal-value">AR overdue:</span> <span class="terminal-highlight">MYR 8,200 (2 invoices)</span>
+        </div>
+        <div class="terminal-line" data-delay="5600">&nbsp;</div>
+        <div class="terminal-line" data-delay="6200">
+          <span class="terminal-label">Reply 1 to approve all POs.</span><span class="terminal-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROBLEM ===================== -->
+<section class="section problem" id="about">
+  <div class="container">
+    <div class="section-label reveal">The Problem</div>
+    <h2 class="section-title reveal">Your factory is stuck<br>in 2010.</h2>
+    <p class="section-desc reveal">You built a real business. But you're running it on spreadsheets, group chats, and memory. It works until it doesn't.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>Excel everything</h3>
+        <p>Purchase orders in one sheet. Pricing in another. Inventory in a third. Nothing connects. Mistakes compound silently.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-1">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>WhatsApp chaos</h3>
+        <p>Orders buried in group chats. Supplier quotes lost in scroll. Critical info mixed with lunch plans. No audit trail.</p>
+      </div>
+      <div class="problem-card reveal reveal-delay-2">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="m4.93 4.93 14.14 14.14" stroke-width="2"/></svg>
+        </div>
+        <h3>ERPs that cost more than your equipment</h3>
+        <p>18-month implementations. Consultants who charge by the hour. Software designed for multinationals, forced onto SMEs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<section class="section solution" id="product">
+  <div class="container">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="section-title reveal">Three steps. One system.</h2>
+    <p class="section-desc reveal">No consultants. No six-month implementation. Describe your factory and AOS builds your operating system in minutes.</p>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-number">1</div>
+        <h3>Describe</h3>
+        <p>Tell AOS about your business. Products, suppliers, customers, workflows. In plain language. Like briefing a new operations manager.</p>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-number">2</div>
+        <h3>Deploy</h3>
+        <p>AOS builds your custom agent system. Procurement, sales, production, inventory, logistics. Connected, configured, ready. In under an hour.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-number">3</div>
+        <h3>Run</h3>
+        <p>Your AI agents work around the clock. You check in for 30 minutes. Review, approve, decide. The system handles everything else.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AI AGENTS ===================== -->
+<section class="section showcase" id="agents-section">
+  <div class="container">
+    <div class="section-label reveal">AI Agents</div>
+    <h2 class="section-title reveal">Six agents. Zero consultants.</h2>
+    <p class="section-desc reveal">Each agent specializes in one domain. Together, they run your factory while you focus on growing it.</p>
+
+    <div class="agents-grid">
+      <div class="agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Procurement Agent</h3>
+        <p>Compares supplier quotes, generates purchase orders, tracks deliveries. Flags anomalies before they become problems.</p>
+      </div>
+
+      <div class="agent-card reveal reveal-delay-1">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Sales Agent</h3>
+        <p>Responds to inquiries, generates quotes with real margins, follows up automatically. Never forgets a lead.</p>
+      </div>
+
+      <div class="agent-card reveal reveal-delay-2">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Production Agent</h3>
+        <p>Schedules production runs, optimizes machine allocation, predicts bottlenecks. Your floor runs smoother.</p>
+      </div>
+
+      <div class="agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Inventory Agent</h3>
+        <p>Tracks stock in real time. Auto-reorders before you run out. Eliminates the surprise stockout that kills your timeline.</p>
+      </div>
+
+      <div class="agent-card reveal reveal-delay-1">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="23 7 16 12 16 2 23 7"/><path d="M1 20h22"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Logistics Agent</h3>
+        <p>Coordinates deliveries, tracks shipments, optimizes routes. Your customers know when to expect their order.</p>
+      </div>
+
+      <div class="agent-card reveal reveal-delay-2">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          </div>
+          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
+        </div>
+        <h3>Operations Agent</h3>
+        <p>The coordinator. Connects all agents, compiles your daily brief, surfaces what needs your attention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COMPARISON TABLE ===================== -->
+<section class="section comparison">
+  <div class="container">
+    <div class="section-label reveal">The Difference</div>
+    <h2 class="section-title reveal">AOS vs. the old way.</h2>
+    <p class="section-desc reveal">Built for factories with 10-200 people, not Fortune 500 enterprises.</p>
+
+    <div class="comparison-wrapper reveal">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="aos-col">AOS</th>
+            <th>SAP</th>
+            <th>Oracle</th>
+            <th>Odoo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Setup time</td>
+            <td class="aos-col">Under 1 hour</td>
+            <td>6-18 months</td>
+            <td>12-24 months</td>
+            <td>1-3 months</td>
+          </tr>
+          <tr>
+            <td>Monthly cost</td>
+            <td class="aos-col">From MYR 199</td>
+            <td>$50K+/year</td>
+            <td>$100K+/year</td>
+            <td>$1K+/month</td>
+          </tr>
+          <tr>
+            <td>AI agents</td>
+            <td class="aos-col">6 autonomous</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>WhatsApp briefs</td>
+            <td class="aos-col"><span class="check">Yes</span></td>
+            <td><span class="cross">No</span></td>
+            <td><span class="cross">No</span></td>
+            <td><span class="cross">No</span></td>
+          </tr>
+          <tr>
+            <td>Implementation</td>
+            <td class="aos-col">Self-serve</td>
+            <td>Consultant army</td>
+            <td>Consultant army</td>
+            <td>Partner required</td>
+          </tr>
+          <tr>
+            <td>Daily time needed</td>
+            <td class="aos-col">30 minutes</td>
+            <td>Full-time staff</td>
+            <td>Full-time staff</td>
+            <td>Hours/day</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METRICS ===================== -->
+<section class="section metrics">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric reveal">
+        <div class="metric-value" data-target="6" data-suffix="">6</div>
+        <div class="metric-label">AI agents working for you</div>
+      </div>
+      <div class="metric reveal reveal-delay-1">
+        <div class="metric-value" data-target="30" data-suffix=" min">30 min</div>
+        <div class="metric-label">Your daily time commitment</div>
+      </div>
+      <div class="metric reveal reveal-delay-2">
+        <div class="metric-value" data-target="1" data-suffix=" hr" data-prefix="<"><1 hr</div>
+        <div class="metric-label">From signup to running</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EARLY ACCESS CTA ===================== -->
+<section class="section early-access">
+  <div class="container">
+    <div class="early-access-card reveal">
+      <h2>Be one of the first.</h2>
+      <p>We're onboarding a small group of manufacturers for early access. Get in now and help shape the future of factory operations.</p>
+      <a href="https://app.getaos.ai" class="btn-primary glow">
+        Request Early Access
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <div class="section-label reveal" style="justify-content:center;">Pricing</div>
+      <h2 class="section-title reveal" style="text-align:center;">Simple plans. Real value.</h2>
+      <p class="section-desc reveal" style="margin:0 auto 3rem; text-align:center;">Start with what you need. Scale when you're ready. No hidden fees.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Starter -->
+      <div class="pricing-card reveal">
+        <div class="pricing-tier">Starter</div>
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">MYR</span>
+          <span class="pricing-amount">199</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <div class="pricing-usd">~$49 USD/mo</div>
+        <p class="pricing-desc">For small factories getting started with AI operations.</p>
+        <ul class="pricing-features">
+          <li>2 AI agents (pick any two)</li>
+          <li>Up to 5 users</li>
+          <li>WhatsApp integration</li>
+          <li>Email support</li>
+          <li>Standard dashboards</li>
+        </ul>
+        <a href="https://app.getaos.ai" class="pricing-cta">Request Early Access</a>
+      </div>
+      <!-- Growth -->
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <span class="pricing-badge">Most popular</span>
+        <div class="pricing-tier">Growth</div>
+        <div class="pricing-name">Growth</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">MYR</span>
+          <span class="pricing-amount">599</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <div class="pricing-usd">~$149 USD/mo</div>
+        <p class="pricing-desc">For growing factories ready to automate end-to-end.</p>
+        <ul class="pricing-features">
+          <li>All 6 AI agents</li>
+          <li>Up to 20 users</li>
+          <li>WhatsApp + integrations</li>
+          <li>Priority support</li>
+          <li>Custom dashboards</li>
+          <li>Advanced analytics</li>
+        </ul>
+        <a href="https://app.getaos.ai" class="pricing-cta">Request Early Access</a>
+      </div>
+      <!-- Enterprise -->
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-price">
+          <span class="pricing-currency">MYR</span>
+          <span class="pricing-amount">1,199</span>
+          <span class="pricing-period">/mo</span>
+        </div>
+        <div class="pricing-usd">~$299 USD/mo</div>
+        <p class="pricing-desc">For multi-site operations needing full control.</p>
+        <ul class="pricing-features">
+          <li>All 6 AI agents</li>
+          <li>Unlimited users</li>
+          <li>Multi-site management</li>
+          <li>Dedicated support</li>
+          <li>Custom integrations</li>
+          <li>API access</li>
+          <li>SLA guarantee</li>
+        </ul>
+        <a href="https://app.getaos.ai" class="pricing-cta">Request Early Access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINAL CTA ===================== -->
+<section class="section final-cta">
+  <div class="final-cta-bg" aria-hidden="true"></div>
+  <div class="container">
+    <h2 class="reveal">Your factory deserves better<br>than spreadsheets.</h2>
+    <p class="reveal reveal-delay-1">14-day free trial. No credit card required. Set up in under an hour.</p>
+    <a href="https://app.getaos.ai" class="btn-primary glow reveal reveal-delay-2">
+      Request Early Access
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" aria-label="AOS Home">
+          <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 10L25 14V22L18 26L11 22V14L18 10Z" stroke="#00D4AA" stroke-width="2"/>
+            <circle cx="18" cy="18" r="2.5" fill="#00D4AA"/>
+            <circle cx="18" cy="10" r="1.5" fill="#00D4AA"/>
+            <circle cx="25" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
+            <circle cx="25" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
+            <circle cx="18" cy="26" r="1.5" fill="#00D4AA" opacity="0.7"/>
+            <circle cx="11" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
+            <circle cx="11" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
+          </svg>
+          <span class="nav-logo-text">AOS</span>
+        </a>
+        <p>The operating system for modern factories. Built in Malaysia. Deployed everywhere.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#product">How it works</a>
+        <a href="#agents-section">AI Agents</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#about">About</a>
+        <a href="mailto:hello@getaos.ai">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>2026 Agentic OS Systems. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+(function() {
+  'use strict';
+
+  // Respect reduced motion
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // --- Navigation scroll ---
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  // --- Mobile menu ---
+  var mobileMenu = document.getElementById('mobileMenu');
+  var mobileToggle = document.getElementById('mobileMenuToggle');
+  var mobileClose = document.getElementById('mobileMenuClose');
+
+  mobileToggle.addEventListener('click', function() { mobileMenu.classList.add('open'); });
+  mobileClose.addEventListener('click', function() { mobileMenu.classList.remove('open'); });
+  mobileMenu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() { mobileMenu.classList.remove('open'); });
+  });
+
+  // --- Cursor glow (desktop only) ---
+  if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
+    var glow = document.getElementById('cursorGlow');
+    var mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
+
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      glow.classList.add('active');
+    });
+    document.addEventListener('mouseleave', function() { glow.classList.remove('active'); });
+
+    function animateGlow() {
+      glowX += (mouseX - glowX) * 0.08;
+      glowY += (mouseY - glowY) * 0.08;
+      glow.style.left = glowX + 'px';
+      glow.style.top = glowY + 'px';
+      requestAnimationFrame(animateGlow);
+    }
+    animateGlow();
+  }
+
+  // --- Scroll reveal ---
+  var reveals = document.querySelectorAll('.reveal');
+  if (prefersReducedMotion) {
+    reveals.forEach(function(el) { el.classList.add('visible'); });
+  } else if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function(el) { observer.observe(el); });
+  } else {
+    reveals.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  // --- Terminal typing animation ---
+  var terminalLines = document.querySelectorAll('.terminal-line');
+  var terminalBody = document.getElementById('terminalBody');
+
+  if (prefersReducedMotion) {
+    terminalLines.forEach(function(line) { line.classList.add('visible'); });
+  } else {
+    var terminalObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          terminalLines.forEach(function(line) {
+            var delay = parseInt(line.getAttribute('data-delay') || '0');
+            setTimeout(function() { line.classList.add('visible'); }, delay);
+          });
+          terminalObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    terminalObserver.observe(terminalBody);
+  }
+
+  // --- Metric count-up ---
+  var metricEls = document.querySelectorAll('.metric-value');
+  var metricObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      metricObserver.unobserve(el);
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+
+      if (prefersReducedMotion) {
+        el.textContent = prefix + target + suffix;
+        return;
+      }
+
+      var duration = 1200;
+      var start = performance.now();
+      function tick(now) {
+        var elapsed = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(ease * target);
+        el.textContent = prefix + current + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      el.textContent = prefix + '0' + suffix;
+      requestAnimationFrame(tick);
+    });
+  }, { threshold: 0.5 });
+  metricEls.forEach(function(el) { metricObserver.observe(el); });
+
+  // --- Smooth scroll ---
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = a.getAttribute('href');
+      if (href === '#') return;
+      var target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+})();
 </script>
 </body>
 </html>
