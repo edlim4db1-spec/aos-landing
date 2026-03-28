@@ -318,41 +318,62 @@ p, li { text-wrap: pretty; }
   text-align: center;
 }
 
-/* Animated orbs */
+/* Aurora canvas background */
 .hero-gradient {
   position: absolute;
   inset: 0;
   overflow: hidden;
   z-index: 0;
 }
+.hero-aurora-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* CSS-only fallback orbs (visible until canvas inits, or for reduced-motion) */
 .hero-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  animation: orb-float 20s ease-in-out infinite;
+  filter: blur(120px);
+  will-change: transform, opacity;
+  animation: aurora-drift 18s ease-in-out infinite;
 }
 .hero-orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 70%);
-  top: 10%; left: 50%; transform: translateX(-50%);
+  width: 55vw; height: 55vw;
+  max-width: 700px; max-height: 700px;
+  background: radial-gradient(circle, rgba(0,212,170,0.13) 0%, transparent 70%);
+  top: 5%; left: 50%; transform: translateX(-50%);
 }
 .hero-orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(0,160,130,0.08) 0%, transparent 70%);
-  top: 30%; right: 10%;
-  animation-delay: -7s; animation-duration: 25s;
+  width: 40vw; height: 40vw;
+  max-width: 500px; max-height: 500px;
+  background: radial-gradient(circle, rgba(0,160,130,0.09) 0%, transparent 70%);
+  top: 25%; right: 5%;
+  animation-delay: -6s; animation-duration: 24s;
 }
 .hero-orb-3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255,181,71,0.05) 0%, transparent 70%);
-  bottom: 20%; left: 15%;
-  animation-delay: -14s; animation-duration: 22s;
+  width: 35vw; height: 35vw;
+  max-width: 400px; max-height: 400px;
+  background: radial-gradient(circle, rgba(80,40,180,0.07) 0%, transparent 70%);
+  bottom: 15%; left: 10%;
+  animation-delay: -12s; animation-duration: 22s;
 }
-@keyframes orb-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -40px) scale(1.05); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(15px, 30px) scale(1.02); }
+.hero-orb-4 {
+  width: 30vw; height: 30vw;
+  max-width: 380px; max-height: 380px;
+  background: radial-gradient(circle, rgba(255,181,71,0.04) 0%, transparent 70%);
+  top: 40%; left: 30%;
+  animation-delay: -9s; animation-duration: 26s;
+}
+/* Hide CSS orbs when canvas is active */
+.hero-gradient.canvas-active .hero-orb { display: none; }
+@keyframes aurora-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+  20% { transform: translate(25px, -35px) scale(1.08); opacity: 0.85; }
+  40% { transform: translate(-30px, 15px) scale(0.92); opacity: 1; }
+  60% { transform: translate(20px, 40px) scale(1.05); opacity: 0.9; }
+  80% { transform: translate(-15px, -20px) scale(0.97); opacity: 1; }
 }
 
 /* Grid pattern */
@@ -1143,10 +1164,12 @@ p, li { text-wrap: pretty; }
 
 <!-- ===================== HERO ===================== -->
 <section class="hero" id="hero">
-  <div class="hero-gradient" aria-hidden="true">
+  <div class="hero-gradient" id="heroGradient" aria-hidden="true">
+    <canvas class="hero-aurora-canvas" id="auroraCanvas"></canvas>
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
     <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-orb hero-orb-4"></div>
   </div>
   <div class="hero-grid" aria-hidden="true"></div>
 
@@ -1727,6 +1750,91 @@ p, li { text-wrap: pretty; }
       }
     });
   });
+
+  // --- Aurora gradient mesh background ---
+  if (!prefersReducedMotion) {
+    (function initAurora() {
+      var canvas = document.getElementById('auroraCanvas');
+      var container = document.getElementById('heroGradient');
+      if (!canvas || !canvas.getContext) return;
+
+      var ctx = canvas.getContext('2d');
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var w, h;
+      var animId;
+      var isVisible = true;
+
+      // Blob definition: each blob drifts smoothly
+      var blobs = [
+        { x: 0.5, y: 0.3, r: 0.38, color: [0, 212, 170], alpha: 0.12, vx: 0.012, vy: 0.008, phase: 0 },
+        { x: 0.3, y: 0.5, r: 0.30, color: [0, 140, 160], alpha: 0.09, vx: -0.008, vy: 0.012, phase: 2 },
+        { x: 0.7, y: 0.4, r: 0.32, color: [60, 20, 140], alpha: 0.07, vx: 0.010, vy: -0.006, phase: 4 },
+        { x: 0.4, y: 0.7, r: 0.25, color: [0, 180, 150], alpha: 0.08, vx: -0.006, vy: -0.010, phase: 1 },
+        { x: 0.6, y: 0.2, r: 0.22, color: [100, 40, 180], alpha: 0.05, vx: 0.007, vy: 0.009, phase: 3 },
+        { x: 0.5, y: 0.6, r: 0.18, color: [255, 181, 71], alpha: 0.03, vx: -0.009, vy: 0.005, phase: 5 },
+      ];
+
+      function resize() {
+        var rect = container.getBoundingClientRect();
+        w = rect.width;
+        h = rect.height;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function draw(time) {
+        if (!isVisible) { animId = requestAnimationFrame(draw); return; }
+
+        ctx.clearRect(0, 0, w, h);
+        var t = time * 0.0001; // slow time factor
+
+        for (var i = 0; i < blobs.length; i++) {
+          var b = blobs[i];
+          // Smooth looping drift using sin/cos
+          var bx = b.x + Math.sin(t * b.vx * 60 + b.phase) * 0.12;
+          var by = b.y + Math.cos(t * b.vy * 60 + b.phase * 1.3) * 0.10;
+          var br = b.r + Math.sin(t * 0.5 + b.phase) * 0.03;
+
+          var px = bx * w;
+          var py = by * h;
+          var pr = br * Math.max(w, h);
+
+          var grad = ctx.createRadialGradient(px, py, 0, px, py, pr);
+          grad.addColorStop(0, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',' + b.alpha + ')');
+          grad.addColorStop(0.5, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',' + (b.alpha * 0.4) + ')');
+          grad.addColorStop(1, 'rgba(' + b.color[0] + ',' + b.color[1] + ',' + b.color[2] + ',0)');
+
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+        }
+
+        animId = requestAnimationFrame(draw);
+      }
+
+      // Pause when hero is offscreen
+      var heroEl = document.getElementById('hero');
+      if ('IntersectionObserver' in window) {
+        var visObs = new IntersectionObserver(function(entries) {
+          isVisible = entries[0].isIntersecting;
+        }, { threshold: 0 });
+        visObs.observe(heroEl);
+      }
+
+      resize();
+      container.classList.add('canvas-active');
+      animId = requestAnimationFrame(draw);
+
+      // Debounced resize
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 150);
+      }, { passive: true });
+    })();
+  }
 })();
 </script>
 </body>
