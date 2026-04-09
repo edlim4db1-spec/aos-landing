@@ -98,6 +98,22 @@
   --t-slow: 0.5s;
 }
 
+
+/* ============================================================
+   GRAIN TEXTURE OVERLAY — kills flat digital template look
+   ============================================================ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.032;
+  mix-blend-mode: overlay;
+}
+.grain-overlay svg {
+  width: 100%;
+  height: 100%;
+}
 /* ============================================================
    RESET & BASE
    ============================================================ */
@@ -354,6 +370,17 @@ ul, ol { list-style: none; }
   100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
+
+/* ============================================================
+   CLIP-PATH REVEAL — Mistral-style wipe-up
+   ============================================================ */
+.clip-reveal {
+  clip-path: inset(100% 0 0 0 round 10px);
+  transition: clip-path 0.9s var(--ease-out-expo);
+}
+.clip-reveal.visible {
+  clip-path: inset(0% 0 0 0 round 10px);
+}
 /* ============================================================
    SCROLL REVEAL
    ============================================================ */
@@ -1507,6 +1534,9 @@ ul, ol { list-style: none; }
 </head>
 <body>
 
+<div class="grain-overlay" aria-hidden="true">
+  <svg><filter id="grain-filter"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(#grain-filter)"/></svg>
+</div>
 <!-- ============================================================
      NAVIGATION
      ============================================================ -->
@@ -1514,10 +1544,9 @@ ul, ol { list-style: none; }
   <div class="nav-inner">
     <a href="#" class="nav-logo" aria-label="AOS Home">
       <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <polygon points="16,3 27.5,9.5 27.5,22.5 16,29 4.5,22.5 4.5,9.5" stroke="#00D4AA" stroke-width="1.5" fill="none"/>
-        <circle cx="16" cy="16" r="3" fill="#00D4AA" opacity="0.9"/>
-        <circle cx="16" cy="6.5" r="1.5" fill="#00D4AA"/>
-        <circle cx="24.2" cy="11.2" r="1.5" fill="#5B8DEF"/>
+        <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#00D4AA" stroke-width="1.8" fill="none"/>
+        <polygon points="16,8 22,11.5 22,18.5 16,22 10,18.5 10,11.5" stroke="#00D4AA" stroke-width="1" fill="rgba(0,212,170,0.06)" opacity="0.7"/>
+        <circle cx="16" cy="15" r="2.2" fill="#00D4AA"/>
         <circle cx="24.2" cy="20.8" r="1.5" fill="#F59E42"/>
         <circle cx="16" cy="25.5" r="1.5" fill="#A47AE8"/>
         <circle cx="7.8" cy="20.8" r="1.5" fill="#EF6461"/>
@@ -1687,7 +1716,7 @@ ul, ol { list-style: none; }
       <p>WhatsApp groups, Excel spreadsheets, and gut-feel decisions are costing you money every day.</p>
     </div>
     <div class="pain-grid reveal-group">
-      <div class="card card-interactive pain-card reveal">
+      <div class="card card-interactive pain-card clip-reveal reveal">
         <div class="card-icon">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="6" y="8" width="12" height="14" rx="2"/>
@@ -1697,10 +1726,10 @@ ul, ol { list-style: none; }
             <circle cx="28" cy="8" r="3"/>
           </svg>
         </div>
-        <h3>Scattered Data</h3>
-        <p>Inventory in one spreadsheet, orders in another, finances in a third. No single source of truth across your operation.</p>
+        <h3>Last Tuesday, your line stopped.</h3>
+        <p>A resin PO was stuck in a WhatsApp group for 3 days. Nobody noticed. That cost you MYR 15,000 in downtime and a missed delivery to your biggest customer.</p>
       </div>
-      <div class="card card-interactive pain-card reveal">
+      <div class="card card-interactive pain-card clip-reveal reveal">
         <div class="card-icon">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="20" cy="14" r="6"/>
@@ -1710,10 +1739,10 @@ ul, ol { list-style: none; }
             <line x1="6" y1="10" x2="12" y2="4" stroke-dasharray="2 2"/>
           </svg>
         </div>
-        <h3>Decision Bottleneck</h3>
-        <p>Every purchase order, production schedule, and quality check waits for you. You are the single point of failure.</p>
+        <h3>Your margins are a mystery.</h3>
+        <p>You find out at month-end that margins dropped 6 points. The data was there — in 14 spreadsheets, 3 email threads, and someone's notebook. By the time you see it, it's too late.</p>
       </div>
-      <div class="card card-interactive pain-card reveal">
+      <div class="card card-interactive pain-card clip-reveal reveal">
         <div class="card-icon">
           <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="20" cy="20" r="12"/>
@@ -1724,8 +1753,8 @@ ul, ol { list-style: none; }
             <line x1="32" y1="26" x2="34" y2="28"/>
           </svg>
         </div>
-        <h3>Blind Spots</h3>
-        <p>You discover stockouts after customers complain. Cash flow surprises hit at month-end. No forecasting, just firefighting.</p>
+        <h3>Your best people are firefighting.</h3>
+        <p>Your production manager spends 2 hours a day chasing updates on WhatsApp. Your purchaser re-enters the same PO data three times. Your accountant closes the books in 5 days. None of this is their actual job.</p>
       </div>
     </div>
   </div>
@@ -2157,7 +2186,7 @@ ul, ol { list-style: none; }
   </svg>
   <div class="container final-cta-content reveal">
     <h2 class="hero-headline">Stop managing chaos.<br>Start commanding it.</h2>
-    <p>Your factory deserves an operating system that never sleeps.</p>
+    <p>Your first 14 days are free. No credit card required.</p>
     <div class="final-cta-buttons">
       <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
       <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
@@ -2174,8 +2203,9 @@ ul, ol { list-style: none; }
       <div class="footer-brand">
         <a href="#" class="nav-logo" aria-label="AOS Home">
           <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <polygon points="16,3 27.5,9.5 27.5,22.5 16,29 4.5,22.5 4.5,9.5" stroke="#00D4AA" stroke-width="1.5" fill="none"/>
-            <circle cx="16" cy="16" r="3" fill="#00D4AA" opacity="0.9"/>
+            <polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#00D4AA" stroke-width="1.8" fill="none"/>
+            <polygon points="16,8 22,11.5 22,18.5 16,22 10,18.5 10,11.5" stroke="#00D4AA" stroke-width="1" fill="rgba(0,212,170,0.06)" opacity="0.7"/>
+            <circle cx="16" cy="15" r="2.2" fill="#00D4AA"/>
           </svg>
           AOS
         </a>
@@ -2344,71 +2374,173 @@ buildFeed();
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-  camera.position.set(0, 4, 8);
-  camera.lookAt(0, 0, 0);
+  const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 0, 14);
 
-  // Build hexagonal grid
-  const hexRadius = 0.5;
-  const rows = 20;
-  const cols = 24;
-  const positions = [];
-  const indices = [];
+  // ── Agent colors & hex positions ──────────────────────────
+  const agents = [
+    { color: 0x00D4AA, name: 'Procurement' },
+    { color: 0x5B8DEF, name: 'Production' },
+    { color: 0xF59E42, name: 'Inventory' },
+    { color: 0xA47AE8, name: 'Sales' },
+    { color: 0xEF6461, name: 'Quality' },
+    { color: 0xE2B94B, name: 'Finance' },
+  ];
+  const R = 3.2;
+  const hexPos = agents.map((_, i) => {
+    const a = (Math.PI / 3) * i - Math.PI / 2;
+    return new THREE.Vector3(R * Math.cos(a), R * Math.sin(a), 0);
+  });
+  const center = new THREE.Vector3(0, 0, 0);
 
-  for (let r = -rows/2; r < rows/2; r++) {
-    for (let c = -cols/2; c < cols/2; c++) {
-      const x = c * hexRadius * 1.75 + (r % 2 ? hexRadius * 0.875 : 0);
-      const z = r * hexRadius * 1.5;
-      const baseIdx = positions.length / 3;
-      // Hex center + 6 vertices
-      positions.push(x, 0, z);
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i - Math.PI / 6;
-        positions.push(
-          x + hexRadius * 0.45 * Math.cos(angle),
-          0,
-          z + hexRadius * 0.45 * Math.sin(angle)
-        );
-      }
-      // Lines: center to vertices + edges
-      for (let i = 1; i <= 6; i++) {
-        indices.push(baseIdx, baseIdx + i);
-        indices.push(baseIdx + i, baseIdx + (i % 6) + 1);
-      }
-    }
-  }
+  // ── Glow texture (procedural) ─────────────────────────────
+  const gc = document.createElement('canvas');
+  gc.width = 128; gc.height = 128;
+  const gctx = gc.getContext('2d');
+  const grad = gctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.15, 'rgba(255,255,255,0.6)');
+  grad.addColorStop(0.5, 'rgba(255,255,255,0.1)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  gctx.fillStyle = grad;
+  gctx.fillRect(0, 0, 128, 128);
+  const glowTex = new THREE.CanvasTexture(gc);
 
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setIndex(indices);
+  // ── Center orchestrator node ──────────────────────────────
+  const centerGeo = new THREE.SphereGeometry(0.22, 16, 16);
+  const centerMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+  const centerMesh = new THREE.Mesh(centerGeo, centerMat);
+  scene.add(centerMesh);
+  // Center glow
+  const centerGlowMat = new THREE.SpriteMaterial({ map: glowTex, color: 0xffffff, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending });
+  const centerGlow = new THREE.Sprite(centerGlowMat);
+  centerGlow.scale.set(2.0, 2.0, 1);
+  scene.add(centerGlow);
 
-  const material = new THREE.LineBasicMaterial({
-    color: new THREE.Color('#00D4AA'),
-    transparent: true,
-    opacity: 0.07,
+  // ── Agent nodes + glow sprites ────────────────────────────
+  const nodes = [];
+  const glows = [];
+  agents.forEach((agent, i) => {
+    // Node sphere
+    const geo = new THREE.SphereGeometry(0.14, 12, 12);
+    const mat = new THREE.MeshBasicMaterial({ color: agent.color });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.copy(hexPos[i]);
+    scene.add(mesh);
+    nodes.push(mesh);
+
+    // Glow sprite
+    const sm = new THREE.SpriteMaterial({ map: glowTex, color: agent.color, transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending });
+    const sprite = new THREE.Sprite(sm);
+    sprite.scale.set(1.6, 1.6, 1);
+    sprite.position.copy(hexPos[i]);
+    scene.add(sprite);
+    glows.push(sprite);
+
+    // Connection line to center
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([hexPos[i], center]);
+    const lineMat = new THREE.LineBasicMaterial({ color: agent.color, transparent: true, opacity: 0.12 });
+    scene.add(new THREE.Line(lineGeo, lineMat));
+
+    // Ring connection to next node
+    const next = hexPos[(i + 1) % 6];
+    const ringGeo = new THREE.BufferGeometry().setFromPoints([hexPos[i], next]);
+    const ringMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04 });
+    scene.add(new THREE.Line(ringGeo, ringMat));
   });
 
-  const mesh = new THREE.LineSegments(geometry, material);
-  mesh.rotation.x = -Math.PI * 0.38;
-  scene.add(mesh);
-
-  let time = 0;
-  const posAttr = geometry.getAttribute('position');
-  const originalY = new Float32Array(posAttr.count);
-  for (let i = 0; i < posAttr.count; i++) {
-    originalY[i] = posAttr.getY(i);
+  // ── Data pulses flowing along connections ─────────────────
+  const pulses = [];
+  for (let i = 0; i < 12; i++) {
+    const agentIdx = i % 6;
+    const toCenter = i < 6;
+    const pm = new THREE.SpriteMaterial({ map: glowTex, color: agents[agentIdx].color, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending });
+    const ps = new THREE.Sprite(pm);
+    ps.scale.set(0.3, 0.3, 1);
+    scene.add(ps);
+    pulses.push({
+      sprite: ps,
+      from: toCenter ? hexPos[agentIdx] : center,
+      to: toCenter ? center : hexPos[agentIdx],
+      t: Math.random(),
+      speed: 0.003 + Math.random() * 0.004,
+      agentIdx
+    });
   }
+
+  // ── Ambient particles ─────────────────────────────────────
+  const pCount = 300;
+  const pGeo = new THREE.BufferGeometry();
+  const pPos = new Float32Array(pCount * 3);
+  const pVel = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    pPos[i * 3] = (Math.random() - 0.5) * 28;
+    pPos[i * 3 + 1] = (Math.random() - 0.5) * 20;
+    pPos[i * 3 + 2] = (Math.random() - 0.5) * 12 - 4;
+    pVel[i * 3] = (Math.random() - 0.5) * 0.003;
+    pVel[i * 3 + 1] = (Math.random() - 0.5) * 0.003;
+    pVel[i * 3 + 2] = 0;
+  }
+  pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pPos, 3));
+  const pMat = new THREE.PointsMaterial({ color: 0x00D4AA, size: 0.04, transparent: true, opacity: 0.25 });
+  scene.add(new THREE.Points(pGeo, pMat));
+
+  // ── Mouse tracking ────────────────────────────────────────
+  let mxTarget = 0, myTarget = 0, mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mxTarget = (e.clientX / window.innerWidth - 0.5) * 2;
+    myTarget = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  // ── Animation loop ────────────────────────────────────────
+  let time = 0;
+  const pPosAttr = pGeo.getAttribute('position');
 
   function animate() {
     requestAnimationFrame(animate);
-    time += 0.008;
+    time += 0.006;
 
-    for (let i = 0; i < posAttr.count; i++) {
-      const x = posAttr.getX(i);
-      const z = posAttr.getZ(i);
-      posAttr.setY(i, originalY[i] + Math.sin(x * 0.4 + z * 0.3 + time) * 0.15);
+    // Smooth mouse follow (lerp)
+    mx += (mxTarget - mx) * 0.04;
+    my += (myTarget - my) * 0.04;
+
+    // Scene rotation from mouse
+    scene.rotation.y = mx * 0.25 + time * 0.08;
+    scene.rotation.x = my * 0.12 + Math.sin(time * 0.5) * 0.03;
+
+    // Pulse nodes
+    nodes.forEach((n, i) => {
+      const s = 1 + Math.sin(time * 2.5 + i * 1.05) * 0.18;
+      n.scale.setScalar(s);
+      glows[i].material.opacity = 0.3 + Math.sin(time * 2 + i * 1.05) * 0.15;
+    });
+    centerMesh.scale.setScalar(1 + Math.sin(time * 1.8) * 0.12);
+    centerGlow.material.opacity = 0.35 + Math.sin(time * 1.8) * 0.15;
+
+    // Move data pulses
+    pulses.forEach(p => {
+      p.t += p.speed;
+      if (p.t > 1) {
+        p.t = 0;
+        // Swap direction
+        const tmp = p.from;
+        p.from = p.to;
+        p.to = tmp;
+      }
+      const ease = p.t * p.t * (3 - 2 * p.t); // smoothstep
+      p.sprite.position.lerpVectors(p.from, p.to, ease);
+      p.sprite.material.opacity = 0.6 * Math.sin(p.t * Math.PI);
+    });
+
+    // Drift particles
+    for (let i = 0; i < pCount; i++) {
+      pPosAttr.array[i * 3] += pVel[i * 3];
+      pPosAttr.array[i * 3 + 1] += pVel[i * 3 + 1];
+      // Wrap
+      if (Math.abs(pPosAttr.array[i * 3]) > 14) pPosAttr.array[i * 3] *= -0.9;
+      if (Math.abs(pPosAttr.array[i * 3 + 1]) > 10) pPosAttr.array[i * 3 + 1] *= -0.9;
     }
-    posAttr.needsUpdate = true;
+    pPosAttr.needsUpdate = true;
 
     renderer.render(scene, camera);
   }
@@ -2429,19 +2561,19 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
 
   // ── HERO: page-load entrance (staggered, no scroll) ──────
-  gsap.set('.hero-badge',   { opacity: 0, y: 14, scale: 0.95 });
-  gsap.set('.hero-headline',{ opacity: 0, y: 36 });
-  gsap.set('.hero-sub',     { opacity: 0, y: 22 });
-  gsap.set('.hero-ctas',    { opacity: 0, y: 16 });
-  gsap.set('.wa-phone',     { opacity: 0, x: 48 });
+  gsap.set('.hero-badge',   { opacity: 0, y: 14, scale: 0.95, filter: 'blur(4px)' });
+  gsap.set('.hero-headline',{ opacity: 0, y: 40, filter: 'blur(12px)' });
+  gsap.set('.hero-sub',     { opacity: 0, y: 24, filter: 'blur(6px)' });
+  gsap.set('.hero-ctas',    { opacity: 0, y: 18, filter: 'blur(4px)' });
+  gsap.set('.wa-phone',     { opacity: 0, x: 60, filter: 'blur(8px)' });
 
-  const heroTl = gsap.timeline({ delay: 0.25 });
+  const heroTl = gsap.timeline({ delay: 0.3 });
   heroTl
-    .to('.hero-badge',    { opacity: 1, y: 0, scale: 1,  duration: 0.55, ease: 'power3.out' })
-    .to('.hero-headline', { opacity: 1, y: 0,             duration: 0.80, ease: 'power4.out' }, '-=0.30')
-    .to('.hero-sub',      { opacity: 1, y: 0,             duration: 0.65, ease: 'power3.out' }, '-=0.48')
-    .to('.hero-ctas',     { opacity: 1, y: 0,             duration: 0.60, ease: 'power3.out' }, '-=0.42')
-    .to('.wa-phone',      { opacity: 1, x: 0,             duration: 0.90, ease: 'power4.out' }, '-=0.70');
+    .to('.hero-badge',    { opacity: 1, y: 0, scale: 1,  filter: 'blur(0px)', duration: 0.6, ease: 'power3.out' })
+    .to('.hero-headline', { opacity: 1, y: 0,             filter: 'blur(0px)', duration: 0.9, ease: 'power4.out' }, '-=0.35')
+    .to('.hero-sub',      { opacity: 1, y: 0,             filter: 'blur(0px)', duration: 0.7, ease: 'power3.out' }, '-=0.55')
+    .to('.hero-ctas',     { opacity: 1, y: 0,             filter: 'blur(0px)', duration: 0.65, ease: 'power3.out' }, '-=0.48')
+    .to('.wa-phone',      { opacity: 1, x: 0,             filter: 'blur(0px)', duration: 1.0, ease: 'power4.out' }, '-=0.75');
 
   // ── WhatsApp frame: subtle parallax on scroll ────────────
   gsap.to('.wa-frame', {
@@ -2463,9 +2595,9 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
   function animHeader(triggerEl, headerEl) {
     const el = headerEl || triggerEl.querySelector('.section-header');
     if (!el) return;
-    gsap.set(el, { opacity: 0, y: 22 });
+    gsap.set(el, { opacity: 0, y: 24, filter: 'blur(8px)' });
     gsap.to(el, {
-      opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
+      opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out',
       scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
     });
   }
@@ -2480,10 +2612,10 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
 
   // ── PAIN SECTION ─────────────────────────────────────────
   animHeader(document.querySelector('.pain-section'));
-  gsap.set('.pain-card', { opacity: 0, y: 36 });
+  gsap.set('.pain-card', { opacity: 0, y: 36, clipPath: 'inset(100% 0 0 0 round 10px)' });
   gsap.to('.pain-card', {
-    opacity: 1, y: 0, duration: 0.65, ease: 'power3.out',
-    stagger: 0.12,
+    opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0 round 10px)', duration: 0.85, ease: 'power3.out',
+    stagger: 0.15,
     scrollTrigger: { trigger: '.pain-grid', start: 'top 88%' }
   });
 
@@ -2506,10 +2638,10 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
 
   // ── AGENT CARDS ──────────────────────────────────────────
   animHeader(document.querySelector('.agents-section'));
-  gsap.set('.agent-card', { opacity: 0, y: 32, scale: 0.97 });
+  gsap.set('.agent-card', { opacity: 0, y: 32, scale: 0.97, filter: 'blur(6px)' });
   gsap.to('.agent-card', {
-    opacity: 1, y: 0, scale: 1, duration: 0.60, ease: 'power3.out',
-    stagger: { amount: 0.48, from: 'start' },
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.70, ease: 'power3.out',
+    stagger: { amount: 0.55, from: 'start' },
     scrollTrigger: { trigger: '.agents-grid', start: 'top 88%' }
   });
 
@@ -2545,10 +2677,10 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
 
   // ── PRICING CARDS ────────────────────────────────────────
   animHeader(document.querySelector('.pricing-section'));
-  gsap.set('.pricing-card', { opacity: 0, y: 32, scale: 0.96 });
+  gsap.set('.pricing-card', { opacity: 0, y: 32, scale: 0.96, filter: 'blur(4px)' });
   gsap.to('.pricing-card', {
-    opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power3.out',
-    stagger: 0.13,
+    opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.75, ease: 'power3.out',
+    stagger: 0.14,
     scrollTrigger: { trigger: '.pricing-grid', start: 'top 88%' }
   });
 
@@ -2560,9 +2692,9 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
   });
 
   // ── FINAL CTA ────────────────────────────────────────────
-  gsap.set('.final-cta-content', { opacity: 0, y: 40 });
+  gsap.set('.final-cta-content', { opacity: 0, y: 48, filter: 'blur(10px)', scale: 0.97 });
   gsap.to('.final-cta-content', {
-    opacity: 1, y: 0, duration: 0.95, ease: 'power4.out',
+    opacity: 1, y: 0, filter: 'blur(0px)', scale: 1, duration: 1.1, ease: 'power4.out',
     scrollTrigger: { trigger: '.final-cta', start: 'top 85%' }
   });
 
