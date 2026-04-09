@@ -2421,31 +2421,161 @@ buildFeed();
   });
 })();
 
-// ===== GSAP SCROLL TRIGGER (OPTIONAL ENHANCEMENT) =====
+// ===== GSAP SCROLL TRIGGER — FULL ANIMATION SUITE =====
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !reducedMotion) {
   gsap.registerPlugin(ScrollTrigger);
 
-  // Parallax on WhatsApp phone
+  // Hand off all .reveal elements to GSAP — disable CSS reveal system
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+
+  // ── HERO: page-load entrance (staggered, no scroll) ──────
+  gsap.set('.hero-badge',   { opacity: 0, y: 14, scale: 0.95 });
+  gsap.set('.hero-headline',{ opacity: 0, y: 36 });
+  gsap.set('.hero-sub',     { opacity: 0, y: 22 });
+  gsap.set('.hero-ctas',    { opacity: 0, y: 16 });
+  gsap.set('.wa-phone',     { opacity: 0, x: 48 });
+
+  const heroTl = gsap.timeline({ delay: 0.25 });
+  heroTl
+    .to('.hero-badge',    { opacity: 1, y: 0, scale: 1,  duration: 0.55, ease: 'power3.out' })
+    .to('.hero-headline', { opacity: 1, y: 0,             duration: 0.80, ease: 'power4.out' }, '-=0.30')
+    .to('.hero-sub',      { opacity: 1, y: 0,             duration: 0.65, ease: 'power3.out' }, '-=0.48')
+    .to('.hero-ctas',     { opacity: 1, y: 0,             duration: 0.60, ease: 'power3.out' }, '-=0.42')
+    .to('.wa-phone',      { opacity: 1, x: 0,             duration: 0.90, ease: 'power4.out' }, '-=0.70');
+
+  // ── WhatsApp frame: subtle parallax on scroll ────────────
   gsap.to('.wa-frame', {
-    y: -20,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 1,
-    }
+    y: -24, ease: 'none',
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
   });
 
-  // Nav background opacity on scroll
+  // ── Nav: border on scroll ────────────────────────────────
   ScrollTrigger.create({
     start: 'top -80',
     onUpdate: (self) => {
       const nav = document.getElementById('nav');
-      if (self.direction === 1 && self.progress > 0) {
+      if (nav && self.direction === 1 && self.progress > 0)
         nav.style.borderBottomColor = 'rgba(255,255,255,0.08)';
-      }
     }
+  });
+
+  // ── Helper: animate a section header in ──────────────────
+  function animHeader(triggerEl, headerEl) {
+    const el = headerEl || triggerEl.querySelector('.section-header');
+    if (!el) return;
+    gsap.set(el, { opacity: 0, y: 22 });
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+  }
+
+  // ── OPS FEED ─────────────────────────────────────────────
+  animHeader(document.querySelector('.ops-section'));
+  gsap.set('.ops-feed', { opacity: 0, y: 28 });
+  gsap.to('.ops-feed', {
+    opacity: 1, y: 0, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.ops-feed', start: 'top 90%' }
+  });
+
+  // ── PAIN SECTION ─────────────────────────────────────────
+  animHeader(document.querySelector('.pain-section'));
+  gsap.set('.pain-card', { opacity: 0, y: 36 });
+  gsap.to('.pain-card', {
+    opacity: 1, y: 0, duration: 0.65, ease: 'power3.out',
+    stagger: 0.12,
+    scrollTrigger: { trigger: '.pain-grid', start: 'top 88%' }
+  });
+
+  // ── HOW IT WORKS ─────────────────────────────────────────
+  animHeader(document.querySelector('.how-section'));
+  gsap.set('.how-step', { opacity: 0, x: -28 });
+  gsap.to('.how-step', {
+    opacity: 1, x: 0, duration: 0.60, ease: 'power3.out',
+    stagger: 0.14,
+    scrollTrigger: { trigger: '.how-steps', start: 'top 88%' }
+  });
+  // Screenshots: stagger with slight scale
+  const howShots = document.querySelectorAll('.how-screenshots > div');
+  gsap.set(howShots, { opacity: 0, y: 32, scale: 0.97 });
+  gsap.to(howShots, {
+    opacity: 1, y: 0, scale: 1, duration: 0.70, ease: 'power3.out',
+    stagger: 0.18,
+    scrollTrigger: { trigger: '.how-screenshots', start: 'top 88%' }
+  });
+
+  // ── AGENT CARDS ──────────────────────────────────────────
+  animHeader(document.querySelector('.agents-section'));
+  gsap.set('.agent-card', { opacity: 0, y: 32, scale: 0.97 });
+  gsap.to('.agent-card', {
+    opacity: 1, y: 0, scale: 1, duration: 0.60, ease: 'power3.out',
+    stagger: { amount: 0.48, from: 'start' },
+    scrollTrigger: { trigger: '.agents-grid', start: 'top 88%' }
+  });
+
+  // Agent metric counters — count up when card scrolls in
+  document.querySelectorAll('.agent-card-metric .metric-value').forEach(el => {
+    const orig = el.textContent.trim();
+    const m = orig.match(/^(\d+(?:\.\d+)?)(.*)/);
+    if (!m) return;
+    const num = parseFloat(m[1]), suffix = m[2], isFloat = m[1].includes('.');
+    el.textContent = '0' + suffix;
+    ScrollTrigger.create({
+      trigger: el, start: 'top 92%', once: true,
+      onEnter: () => {
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: num, duration: 1.25, ease: 'power2.out',
+          onUpdate() { el.textContent = (isFloat ? obj.val.toFixed(1) : Math.round(obj.val)) + suffix; },
+          onComplete() { el.textContent = orig; }
+        });
+      }
+    });
+  });
+
+  // ── COMPARISON TABLE ─────────────────────────────────────
+  animHeader(document.querySelector('.compare-section'));
+  const tableRows = document.querySelectorAll('.compare-table tr');
+  gsap.set(tableRows, { opacity: 0, x: -12 });
+  gsap.to(tableRows, {
+    opacity: 1, x: 0, duration: 0.38, ease: 'power2.out',
+    stagger: 0.045,
+    scrollTrigger: { trigger: '.compare-table', start: 'top 88%' }
+  });
+
+  // ── PRICING CARDS ────────────────────────────────────────
+  animHeader(document.querySelector('.pricing-section'));
+  gsap.set('.pricing-card', { opacity: 0, y: 32, scale: 0.96 });
+  gsap.to('.pricing-card', {
+    opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power3.out',
+    stagger: 0.13,
+    scrollTrigger: { trigger: '.pricing-grid', start: 'top 88%' }
+  });
+
+  // ── EARLY ACCESS ─────────────────────────────────────────
+  gsap.set('.early-content', { opacity: 0, y: 32 });
+  gsap.to('.early-content', {
+    opacity: 1, y: 0, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.early-section', start: 'top 85%' }
+  });
+
+  // ── FINAL CTA ────────────────────────────────────────────
+  gsap.set('.final-cta-content', { opacity: 0, y: 40 });
+  gsap.to('.final-cta-content', {
+    opacity: 1, y: 0, duration: 0.95, ease: 'power4.out',
+    scrollTrigger: { trigger: '.final-cta', start: 'top 85%' }
+  });
+
+  // ── SECTION PARALLAX: subtle background depth ────────────
+  ['agents-section', 'compare-section', 'pricing-section'].forEach(cls => {
+    const sec = document.querySelector('.' + cls);
+    if (!sec) return;
+    const grid = sec.querySelector('.structural-grid');
+    if (!grid) return;
+    gsap.to(grid, {
+      y: -30, ease: 'none',
+      scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1.5 }
+    });
   });
 }
 
