@@ -3,1418 +3,1795 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AOS -- Your factory runs itself.</title>
-<meta name="description" content="6 AI agents handle procurement, sales, and production for your factory. Get a daily brief on WhatsApp. Approve with one tap. Deploys in under an hour.">
-<meta name="theme-color" content="#08090D">
-
-<!-- Open Graph -->
-<meta property="og:title" content="AOS -- Your factory runs itself.">
-<meta property="og:description" content="AI agents that handle procurement, sales, and production. Describe your factory. We build the rest. You spend 30 minutes a day.">
+<title>AOS — Your Factory Runs Itself</title>
+<meta name="description" content="Six AI agents orchestrate your entire factory — procurement, production, inventory, sales, quality, finance. Setup in 30 minutes. From MYR 199/mo.">
+<meta name="theme-color" content="#0f0f14">
+<meta property="og:title" content="AOS — Your Factory Runs Itself">
+<meta property="og:description" content="Six AI agents manage your procurement, production, inventory, sales, quality, and finance. You check in 30 minutes a day.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.getaos.ai">
 <meta property="og:site_name" content="AOS">
-
-<!-- Twitter Card -->
+<meta property="og:image" content="https://www.getaos.ai/desktop-analytics.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AOS -- Your factory runs itself.">
-<meta name="twitter:description" content="6 AI agents monitor your factory 24/7. Daily WhatsApp briefs. One-tap approvals. From MYR 199/month.">
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300D4AA'/%3E%3Cstop offset='100%25' stop-color='%2300A88A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%2308090D'/%3E%3Cpath d='M16 6L26 12V24L16 30L6 24V12Z' stroke='url(%23g)' stroke-width='2' fill='none'/%3E%3Ctext x='16' y='21.5' text-anchor='middle' font-family='sans-serif' font-weight='700' font-size='13' fill='%2300D4AA'%3EA%3C/text%3E%3C/svg%3E">
-
-<!-- Fonts -->
-<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800,900&f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
-
+<meta name="twitter:title" content="AOS — Your Factory Runs Itself">
+<meta name="twitter:description" content="Six AI agents orchestrate your entire factory. Setup in 30 minutes. No IT department needed.">
+<meta name="twitter:image" content="https://www.getaos.ai/desktop-analytics.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='none' stroke='%2300D4AA' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300D4AA'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
-/* ========================================
-   RESET & TOKENS
-   ======================================== */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* ============================================================
+   AOS DESIGN SYSTEM — CSS Custom Properties
+   ============================================================ */
 :root {
-  --font-display: 'Cabinet Grotesk', -apple-system, sans-serif;
-  --font-body: 'Satoshi', -apple-system, sans-serif;
-
-  --bg: #08090D;
-  --surface: #0F1015;
-  --surface-2: #12131A;
-  --surface-3: #181920;
-  --border: rgba(255,255,255,0.06);
-  --border-hover: rgba(255,255,255,0.12);
-
-  --text: #E8E8E8;
-  --text-muted: #888;
-  --text-faint: #555;
+  --bg-base: #0f0f14;
+  --surface-1: #13131a;
+  --surface-2: #1a1a22;
+  --surface-3: #21212b;
+  --surface-4: #2a2a35;
+  --surface-5: #35354a;
 
   --accent: #00D4AA;
-  --accent-hover: #00E8BB;
-  --accent-dim: rgba(0,212,170,0.1);
-  --accent-glow: rgba(0,212,170,0.15);
-  --warm: #FFB547;
-  --warm-dim: rgba(255,181,71,0.1);
+  --accent-hover: #1AFFC4;
+  --accent-dim: rgba(0, 212, 170, 0.08);
+  --accent-glow: rgba(0, 212, 170, 0.12);
+  --accent-border: rgba(0, 212, 170, 0.30);
 
-  --ease: cubic-bezier(0.16,1,0.3,1);
-  --transition: 180ms cubic-bezier(0.16,1,0.3,1);
+  --agent-procurement: #00D4AA;
+  --agent-production: #5B8DEF;
+  --agent-inventory: #F59E42;
+  --agent-sales: #A47AE8;
+  --agent-quality: #EF6461;
+  --agent-finance: #E2B94B;
+
+  --agent-procurement-dim: rgba(0, 212, 170, 0.08);
+  --agent-production-dim: rgba(91, 141, 239, 0.08);
+  --agent-inventory-dim: rgba(245, 158, 66, 0.08);
+  --agent-sales-dim: rgba(164, 122, 232, 0.08);
+  --agent-quality-dim: rgba(239, 100, 97, 0.08);
+  --agent-finance-dim: rgba(226, 185, 75, 0.08);
+
+  --text-primary: #e4e4e7;
+  --text-secondary: #8b8b94;
+  --text-tertiary: #5a5a65;
+  --text-faint: #3a3a45;
+  --text-inverse: #0f0f14;
+
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.10);
+  --border-vivid: rgba(255, 255, 255, 0.16);
+  --border-focus: rgba(0, 212, 170, 0.50);
+
+  --success: #34d399;
+  --warning: #F59E42;
+  --error: #EF6461;
+
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', ui-monospace, monospace;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-section: clamp(5rem, 10vw, 10rem);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-standard: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-quick: 0.12s;
+  --t-normal: 0.28s;
+  --t-slow: 0.5s;
 }
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
+  background: var(--bg-base);
+  color: var(--text-secondary);
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text);
-  background: var(--bg);
-  overflow-x: hidden;
+  font-size: 0.9375rem;
+  font-weight: 420;
+  line-height: 1.60;
+  letter-spacing: -0.011em;
+  font-feature-settings: "cv01", "ss03";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
-button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
-ul { list-style: none; }
-img, svg { display: block; max-width: 100%; }
-h1,h2,h3,h4 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; }
-p, li { text-wrap: pretty; }
+img { display: block; max-width: 100%; height: auto; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul, ol { list-style: none; }
 
-::selection { background: rgba(0,212,170,0.25); color: var(--text); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ========================================
-   LAYOUT
-   ======================================== */
+/* ============================================================
+   CONTAINER
+   ============================================================ */
 .container {
-  max-width: 1200px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-@media (min-width: 768px) { .container { padding: 0 2rem; } }
+@media (min-width: 768px) { .container { padding: 0 3rem; } }
+@media (min-width: 1024px) { .container { padding: 0 4rem; } }
 
-.section { padding: clamp(4rem, 8vw, 8rem) 0; }
-
-/* ========================================
-   REVEAL ANIMATIONS
-   ======================================== */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
-
-/* ========================================
-   CURSOR GLOW
-   ======================================== */
-.cursor-glow {
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(circle, rgba(0,212,170,0.04) 0%, transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: opacity 0.3s;
-  opacity: 0;
-}
-.cursor-glow.active { opacity: 1; }
-
-/* ========================================
-   NAVIGATION
-   ======================================== */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1rem 0;
-  transition: background 0.3s, backdrop-filter 0.3s, padding 0.3s;
-}
-.nav.scrolled {
-  background: rgba(8,9,13,0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border);
-  padding: 0.75rem 0;
-}
-
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-@media (min-width: 768px) { .nav-inner { padding: 0 2rem; } }
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.nav-logo svg { width: 36px; height: 36px; }
-.nav-logo-text {
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.font-display {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 400;
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 2rem + 4vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.25rem + 2vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.10;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+.heading-m {
+  font-family: var(--font-body);
   font-size: 1.25rem;
-  letter-spacing: -0.02em;
+  font-weight: 590;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+.heading-s {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 590;
+  line-height: 1.33;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+.label-ui {
+  font-size: 0.8125rem;
+  font-weight: 510;
+  line-height: 1.50;
+  letter-spacing: -0.005em;
+}
+.caption {
+  font-size: 0.8125rem;
+  font-weight: 420;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+.micro {
+  font-size: 0.75rem;
+  font-weight: 510;
+  line-height: 1.40;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+.overline {
+  font-size: 0.6875rem;
+  font-weight: 510;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
 }
 
-.nav-links {
-  display: none;
-  gap: 2rem;
-  align-items: center;
-}
-@media (min-width: 768px) { .nav-links { display: flex; } }
-
-.nav-links a {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color var(--transition);
-}
-.nav-links a:hover { color: var(--text); }
-
-.nav-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1.25rem;
-  background: var(--accent);
-  color: var(--bg);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  border-radius: 999px;
-  transition: all var(--transition);
-}
-.nav-cta:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(0,212,170,0.3);
-}
-
-/* Mobile menu */
-.nav-mobile-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px; height: 44px;
-  color: var(--text);
-}
-@media (min-width: 768px) { .nav-mobile-toggle { display: none; } }
-
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  background: rgba(8,9,13,0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 99;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s var(--ease);
-}
-.mobile-menu.open { opacity: 1; pointer-events: auto; }
-.mobile-menu a {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-.mobile-menu-close {
-  position: absolute;
-  top: 1rem; right: 1.5rem;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--text);
-}
-
-/* ========================================
+/* ============================================================
    BUTTONS
-   ======================================== */
+   ============================================================ */
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
+  justify-content: center;
+  gap: var(--space-2);
   background: var(--accent);
-  color: var(--bg);
-  font-size: 1rem;
-  font-weight: 700;
+  color: var(--text-inverse);
   font-family: var(--font-body);
-  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 590;
+  letter-spacing: -0.005em;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
   border: none;
-  transition: all var(--transition);
+  transition: filter var(--t-quick) var(--ease-standard);
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+  font-feature-settings: "cv01", "ss03";
 }
-.btn-primary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,212,170,0.3);
-}
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { filter: brightness(1.15); }
+.btn-primary:active { filter: brightness(0.92); }
 
-.btn-primary.glow {
-  box-shadow: 0 0 20px rgba(0,212,170,0.2), 0 0 60px rgba(0,212,170,0.08);
-  animation: btn-glow 3s ease-in-out infinite;
-}
-@keyframes btn-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0,212,170,0.2), 0 0 60px rgba(0,212,170,0.08); }
-  50% { box-shadow: 0 0 28px rgba(0,212,170,0.35), 0 0 80px rgba(0,212,170,0.12); }
-}
-
-.btn-secondary {
+.btn-ghost {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 2rem;
+  justify-content: center;
+  gap: var(--space-2);
   background: transparent;
-  color: var(--text);
-  font-size: 1rem;
-  font-weight: 600;
+  color: var(--text-secondary);
   font-family: var(--font-body);
-  border-radius: 999px;
-  border: 1px solid var(--border-hover);
-  transition: all var(--transition);
+  font-size: 0.8125rem;
+  font-weight: 510;
+  letter-spacing: -0.005em;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  transition: border-color var(--t-quick) var(--ease-standard),
+              color var(--t-quick) var(--ease-standard),
+              filter var(--t-quick) var(--ease-standard);
+  cursor: pointer;
+  text-decoration: none;
+  min-height: 44px;
+  font-feature-settings: "cv01", "ss03";
 }
-.btn-secondary:hover {
-  border-color: rgba(255,255,255,0.24);
-  background: rgba(255,255,255,0.04);
-  transform: translateY(-1px);
+.btn-ghost:hover {
+  border-color: var(--border-vivid);
+  color: var(--text-primary);
 }
 
-/* ========================================
-   HERO
-   ======================================== */
-.hero {
+.btn-primary.lg, .btn-ghost.lg {
+  padding: 0.625rem 1.75rem;
+  font-size: 0.875rem;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
   position: relative;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8rem 1.5rem 4rem;
   overflow: hidden;
-  text-align: center;
+  transition: border-color var(--t-normal) var(--ease-standard),
+              filter var(--t-normal) var(--ease-standard);
+}
+.card:hover {
+  border-color: var(--border-vivid);
+  filter: brightness(1.06);
 }
 
-/* Animated orbs */
-.hero-gradient {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-}
-.hero-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  animation: orb-float 20s ease-in-out infinite;
-}
-.hero-orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 70%);
-  top: 10%; left: 50%; transform: translateX(-50%);
-}
-.hero-orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(0,160,130,0.08) 0%, transparent 70%);
-  top: 30%; right: 10%;
-  animation-delay: -7s; animation-duration: 25s;
-}
-.hero-orb-3 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(255,181,71,0.05) 0%, transparent 70%);
-  bottom: 20%; left: 15%;
-  animation-delay: -14s; animation-duration: 22s;
-}
-@keyframes orb-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -40px) scale(1.05); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(15px, 30px) scale(1.02); }
-}
-
-/* Grid pattern */
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 60px 60px;
-  z-index: 1;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 1rem;
-  background: var(--accent-dim);
-  border: 1px solid rgba(0,212,170,0.2);
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--accent);
-  margin-bottom: 2rem;
-}
-.hero-badge-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.hero h1 {
-  font-size: clamp(3rem, 0.5rem + 7vw, 6rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  margin-bottom: 1.5rem;
-}
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent) 0%, #00E8BB 50%, var(--warm) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-sub {
-  font-size: clamp(1.0625rem, 0.5rem + 1vw, 1.375rem);
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto 1rem;
-  line-height: 1.6;
-}
-.hero-diff {
-  font-size: clamp(0.875rem, 0.5rem + 0.5vw, 1rem);
-  color: var(--text-faint);
-  max-width: 580px;
-  margin: 0 auto 2.5rem;
-  line-height: 1.6;
-}
-
-.hero-ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
-.hero-meta {
-  font-size: 0.8125rem;
-  color: var(--text-faint);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  align-items: center;
-}
-.hero-meta .dot {
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: var(--text-faint);
-  display: inline-block;
-}
-
-/* ========================================
-   TERMINAL (WhatsApp Daily Brief)
-   ======================================== */
-.hero-terminal {
-  position: relative;
-  z-index: 2;
-  margin-top: 3rem;
-  max-width: 520px;
-  width: 100%;
-  margin-inline: auto;
-}
-
-.terminal-window {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--border);
-}
-.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
-.terminal-dot:nth-child(1) { background: #FF5F57; }
-.terminal-dot:nth-child(2) { background: #FEBC2E; }
-.terminal-dot:nth-child(3) { background: #28C840; }
-.terminal-title {
-  flex: 1;
-  text-align: center;
-  font-size: 0.8125rem;
-  color: var(--text-faint);
-  font-weight: 500;
-}
-
-.terminal-body {
-  padding: 1.25rem;
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-  font-size: 13px;
-  line-height: 1.8;
-  min-height: 200px;
-}
-
-.terminal-line {
-  opacity: 0;
-  transform: translateY(4px);
-}
-.terminal-line.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
-}
-.terminal-label { color: var(--accent); font-weight: 600; }
-.terminal-value { color: var(--text-muted); }
-.terminal-highlight { color: var(--warm); font-weight: 600; }
-.terminal-cursor {
-  display: inline-block;
-  width: 8px; height: 16px;
-  background: var(--accent);
-  animation: blink 1s step-end infinite;
-  vertical-align: text-bottom;
-  margin-left: 2px;
-}
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ========================================
-   SECTION HEADERS
-   ======================================== */
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin-bottom: 1rem;
-}
-.section-title {
-  font-size: clamp(2rem, 1rem + 3vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  margin-bottom: 1rem;
-}
-.section-desc {
-  font-size: clamp(1rem, 0.5rem + 0.75vw, 1.25rem);
-  color: var(--text-muted);
-  margin-bottom: 3rem;
-  max-width: 600px;
-  line-height: 1.7;
-}
-
-/* ========================================
-   PROBLEM SECTION
-   ======================================== */
-.problem { background: var(--bg); }
-
-.problem-grid {
-  display: grid;
-  gap: 1.5rem;
-}
-@media (min-width: 768px) { .problem-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.problem-card {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 2rem;
-  transition: border-color var(--transition), transform 0.3s;
-}
-.problem-card:hover {
-  border-color: rgba(255,181,71,0.25);
-  transform: translateY(-4px);
-}
-
-.problem-icon {
-  width: 48px; height: 48px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 1.25rem;
-  background: var(--warm-dim);
-}
-.problem-icon svg {
-  width: 24px; height: 24px;
-  stroke: var(--warm);
-  fill: none;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.problem-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-}
-.problem-card p {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-/* ========================================
-   SOLUTION / HOW IT WORKS
-   ======================================== */
-.solution {
-  background: var(--surface);
-  position: relative;
-}
-.solution::before {
+/* Mouse-tracking shine */
+.card-interactive { position: relative; overflow: hidden; }
+.card-interactive::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-hover), transparent);
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.04),
+    transparent 60%
+  );
+  mask-image: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    black,
+    transparent 60%
+  );
+  -webkit-mask-image: radial-gradient(
+    400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    black,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
-.steps {
-  display: grid;
-  gap: 1.5rem;
-}
-@media (min-width: 768px) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
-
-.step { text-align: left; position: relative; }
-
-.step-number {
+/* ============================================================
+   AGENT CHIPS
+   ============================================================ */
+.agent-chip {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 40px; height: 40px;
-  border-radius: 0.75rem;
-  background: var(--accent-dim);
-  border: 1px solid rgba(0,212,170,0.2);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.9375rem;
-  color: var(--accent);
-  margin-bottom: 1.25rem;
+  height: 18px;
+  padding: 0 0.375rem;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.agent-chip.procurement { background: var(--agent-procurement-dim); color: var(--agent-procurement); }
+.agent-chip.production  { background: var(--agent-production-dim);  color: var(--agent-production); }
+.agent-chip.inventory   { background: var(--agent-inventory-dim);   color: var(--agent-inventory); }
+.agent-chip.sales       { background: var(--agent-sales-dim);       color: var(--agent-sales); }
+.agent-chip.quality     { background: var(--agent-quality-dim);     color: var(--agent-quality); }
+.agent-chip.finance     { background: var(--agent-finance-dim);     color: var(--agent-finance); }
+
+/* ============================================================
+   STATUS DOT
+   ============================================================ */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.status-dot.active {
+  background: var(--success);
+  box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
+  animation: pulse-dot 2s var(--ease-out-expo) infinite;
+}
+@keyframes pulse-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4); }
+  70%  { box-shadow: 0 0 0 6px rgba(52, 211, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
 }
 
-.step h3 {
-  font-size: clamp(1.25rem, 1rem + 0.75vw, 1.5rem);
-  font-weight: 800;
-  margin-bottom: 0.75rem;
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--t-slow) var(--ease-standard),
+              transform var(--t-slow) var(--ease-standard);
 }
-.step p {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  line-height: 1.7;
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
+.reveal-group > .reveal:nth-child(2) { transition-delay: 70ms; }
+.reveal-group > .reveal:nth-child(3) { transition-delay: 140ms; }
+.reveal-group > .reveal:nth-child(4) { transition-delay: 210ms; }
+.reveal-group > .reveal:nth-child(5) { transition-delay: 280ms; }
+.reveal-group > .reveal:nth-child(6) { transition-delay: 350ms; }
+.reveal-group > .reveal:nth-child(7) { transition-delay: 420ms; }
+.reveal-group > .reveal:nth-child(8) { transition-delay: 490ms; }
+.reveal-group > .reveal:nth-child(9) { transition-delay: 560ms; }
+
+/* ============================================================
+   STRUCTURAL GRID BACKGROUND
+   ============================================================ */
+.structural-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  opacity: 0.3;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-default);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+.nav-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 590;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+.nav-link {
+  font-size: 0.8125rem;
+  font-weight: 510;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--t-quick) ease;
+}
+.nav-link:hover { color: var(--text-primary); }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.nav-actions .btn-ghost { display: none; }
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--text-secondary);
+  border-radius: 1px;
+  transition: transform var(--t-normal) var(--ease-standard),
+              opacity var(--t-normal) var(--ease-standard);
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 15, 20, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 99;
+  padding: 2rem 1.5rem;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 1.125rem;
+  font-weight: 510;
+  color: var(--text-secondary);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-default);
+  display: block;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.mobile-menu a:hover { color: var(--text-primary); }
+.mobile-menu-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
 @media (min-width: 768px) {
-  .step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 20px;
-    right: -1rem;
-    width: 24px; height: 2px;
-    background: var(--border-hover);
-  }
+  .nav-links { display: flex; }
+  .nav-actions .btn-ghost { display: inline-flex; }
+  .hamburger { display: none; }
 }
 
-/* ========================================
-   AGENTS SHOWCASE
-   ======================================== */
-.showcase { background: var(--bg); }
-
-.agents-grid {
-  display: grid;
-  gap: 1rem;
-}
-@media (min-width: 640px) { .agents-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .agents-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.agent-card {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
-}
-.agent-card:hover {
-  border-color: rgba(0,212,170,0.2);
-  box-shadow: 0 0 30px rgba(0,212,170,0.05);
-  transform: translateY(-3px);
-}
-
-.agent-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.agent-card-icon {
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 0.75rem;
-  background: var(--accent-dim);
-  color: var(--accent);
-}
-.agent-active {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--accent);
-}
-.agent-active-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-.agent-card h3 { font-size: 1rem; font-weight: 700; }
-.agent-card p { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; }
-
-/* ========================================
-   COMPARISON TABLE
-   ======================================== */
-.comparison { background: var(--surface); }
-
-.comparison-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin: 0 -1.5rem;
-  padding: 0 1.5rem;
-}
-
-.comparison-table {
-  width: 100%;
-  min-width: 600px;
-  border-collapse: collapse;
-}
-.comparison-table th,
-.comparison-table td {
-  padding: 1rem 1.25rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-  font-size: 0.9375rem;
-}
-.comparison-table thead th {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.comparison-table thead th:first-child { color: var(--text); }
-.comparison-table thead th.aos-col { color: var(--accent); }
-.comparison-table tbody td:first-child { font-weight: 600; color: var(--text); }
-.comparison-table tbody td { color: var(--text-muted); }
-.comparison-table tbody td.aos-col { color: var(--accent); font-weight: 600; }
-.comparison-table .check { color: var(--accent); }
-.comparison-table .cross { color: var(--text-faint); }
-
-/* ========================================
-   METRICS
-   ======================================== */
-.metrics {
-  background: var(--bg);
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-section) 0;
   overflow: hidden;
 }
-.metrics::before {
-  content: '';
+#hero-canvas {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 50% 80% at 50% 50%, rgba(0,212,170,0.04) 0%, transparent 70%);
+  z-index: 0;
   pointer-events: none;
 }
-
-.metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  text-align: center;
+.hero .structural-grid { z-index: 1; }
+.hero-blob {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+.hero-content {
   position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
 }
-@media (max-width: 640px) { .metrics-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
-
-.metric { padding: 1.25rem; }
-.metric-value {
-  font-family: var(--font-display);
-  font-size: clamp(3rem, 5vw, 4.5rem);
-  font-weight: 900;
+.hero-text {
+  max-width: 560px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 510;
   color: var(--accent);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-6);
 }
-.metric-label {
-  font-size: 1rem;
-  color: var(--text-muted);
+.hero-badge .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-accent 2s var(--ease-out-expo) infinite;
+}
+@keyframes pulse-accent {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.4); }
+  70%  { box-shadow: 0 0 0 6px rgba(0, 212, 170, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
+}
+.hero-sub {
+  font-size: 1.125rem;
+  font-weight: 420;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: var(--space-6);
+  max-width: 480px;
+}
+.hero-ctas {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  flex-wrap: wrap;
+}
+.hero-counters {
+  display: flex;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
+}
+.hero-counter {
+  display: flex;
+  flex-direction: column;
+}
+.hero-counter .value {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
   font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.hero-counter .label {
+  font-size: 0.75rem;
+  font-weight: 510;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-1);
+}
+.hero-screenshot {
+  display: none;
+}
+.browser-frame {
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transform: perspective(1200px) rotateY(-8deg) rotateX(4deg);
+  transition: transform 0.6s var(--ease-standard);
+}
+.browser-frame:hover {
+  transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
+}
+.chrome-bar {
+  height: 36px;
+  background: var(--surface-3);
+  border-bottom: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 0.375rem;
+}
+.traffic-light {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+.url-bar {
+  flex: 1;
+  height: 22px;
+  background: var(--surface-1);
+  border-radius: 4px;
+  margin: 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+.browser-frame img {
+  display: block;
+  width: 100%;
 }
 
-/* ========================================
-   EARLY ACCESS CTA
-   ======================================== */
-.early-access {
-  background: var(--surface);
-  text-align: center;
+@media (min-width: 1024px) {
+  .hero-content {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+  }
+  .hero-screenshot { display: block; }
+}
+
+/* ============================================================
+   OPS FEED SECTION
+   ============================================================ */
+.ops-section {
+  padding: var(--space-section) 0;
   position: relative;
   overflow: hidden;
 }
-.early-access-card {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 3.5rem 2.5rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 1.25rem;
+.ops-feed {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
+  height: 320px;
   position: relative;
+  margin-top: var(--space-12);
 }
-.early-access-card h2 {
-  font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
-  font-weight: 800;
-  margin-bottom: 1rem;
-}
-.early-access-card p {
-  font-size: 1.0625rem;
-  color: var(--text-muted);
-  max-width: 480px;
-  margin: 0 auto 2rem;
-  line-height: 1.7;
-}
-
-/* ========================================
-   PRICING
-   ======================================== */
-.pricing { background: var(--bg); }
-
-.pricing-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .pricing-grid {
-    grid-template-columns: 1fr;
-    max-width: 440px;
-    margin: 0 auto;
-  }
-}
-
-.pricing-card {
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 2.5rem 2rem;
-  transition: all 0.3s;
-}
-.pricing-card.featured {
-  border-color: var(--accent);
-  position: relative;
-  box-shadow: 0 0 60px rgba(0,212,170,0.08);
-}
-.pricing-badge {
+.ops-feed-mask {
   position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent);
-  color: var(--bg);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.375rem 1.125rem;
-  border-radius: 999px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    var(--surface-1) 0%,
+    transparent 15%,
+    transparent 85%,
+    var(--surface-1) 100%
+  );
 }
-
-.pricing-tier {
-  font-size: 0.8125rem;
-  font-weight: 600;
+.feed-scroll {
+  animation: feed-scroll 30s linear infinite;
+}
+@keyframes feed-scroll {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+.ops-feed-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.ops-feed-item .timestamp {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
   color: var(--text-faint);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+  min-width: 3.5rem;
 }
-.pricing-name {
-  font-family: var(--font-display);
-  font-size: 1.375rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+.ops-feed-item .message {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 420;
+}
+.ops-feed-item .message strong {
+  color: var(--text-primary);
+  font-weight: 510;
 }
 
-.pricing-price { margin-bottom: 0.5rem; }
-.pricing-amount {
-  font-family: var(--font-display);
-  font-size: 2.75rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
+/* ============================================================
+   PAIN SECTION
+   ============================================================ */
+.pain-section {
+  padding: var(--space-section) 0;
+  position: relative;
 }
-.pricing-currency {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  vertical-align: top;
-  margin-right: 2px;
+.pain-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: var(--space-12);
 }
-.pricing-period {
+@media (min-width: 768px) {
+  .pain-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.pain-card {
+  position: relative;
+}
+.pain-card .card-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-4);
+}
+.pain-card .card-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--text-tertiary);
+}
+.pain-card h3 {
   font-size: 1rem;
-  color: var(--text-faint);
-  font-weight: 400;
+  font-weight: 590;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-2);
 }
-.pricing-usd {
-  font-size: 0.8125rem;
-  color: var(--text-faint);
-  margin-bottom: 1.5rem;
-}
-.pricing-desc {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
+.pain-card p {
+  font-size: 0.875rem;
+  font-weight: 420;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
-.pricing-features { margin-bottom: 2rem; }
-.pricing-features li {
+/* ============================================================
+   HOW IT WORKS (STICKY SCROLL)
+   ============================================================ */
+.how-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.how-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+}
+@media (min-width: 1024px) {
+  .how-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+.how-sticky {
+  position: static;
+}
+@media (min-width: 1024px) {
+  .how-sticky {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+}
+.how-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+}
+.how-step {
+  display: flex;
+  gap: var(--space-4);
+}
+.how-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.how-step h4 {
+  font-size: 1rem;
+  font-weight: 590;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-1);
+}
+.how-step p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+.how-screenshots {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.how-screenshots .browser-frame {
+  transform: none;
+}
+.how-screenshots .browser-frame:hover {
+  transform: none;
+  filter: brightness(1.04);
+}
+.how-screenshot-label {
+  font-size: 0.75rem;
+  font-weight: 510;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+/* ============================================================
+   AGENT SHOWCASE
+   ============================================================ */
+.agents-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.agents-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: var(--space-12);
+}
+@media (min-width: 768px) {
+  .agents-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .agents-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.agent-card {
+  position: relative;
+}
+.agent-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.agent-card-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.agent-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+.agent-card-name {
+  font-size: 1rem;
+  font-weight: 590;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.agent-card-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  font-size: 0.6875rem;
+  font-weight: 510;
+  color: var(--success);
+}
+.agent-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: var(--space-4);
+}
+.agent-card-metric {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-default);
+}
+.agent-card-metric .metric-value {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+.agent-card-metric .metric-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* ============================================================
+   COMPARISON TABLE
+   ============================================================ */
+.compare-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.compare-wrapper {
+  margin-top: var(--space-12);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.compare-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+.compare-table th {
+  height: 44px;
+  padding: 0 0.75rem;
+  font-size: 0.6875rem;
+  font-weight: 510;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+  border-bottom: 1px solid var(--border-default);
+  background: var(--bg-base);
+  position: sticky;
+  top: 56px;
+}
+.compare-table th.aos-col {
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+.compare-table td {
+  height: 44px;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-default);
+  font-weight: 420;
+}
+.compare-table td.aos-col {
+  background: rgba(0, 212, 170, 0.04);
+  border-left: 1px solid rgba(0, 212, 170, 0.15);
+  border-right: 1px solid rgba(0, 212, 170, 0.15);
+  color: var(--text-primary);
+}
+.compare-table td.feature-name {
+  color: var(--text-primary);
+  font-weight: 510;
+}
+.compare-table .check-icon {
+  color: var(--success);
+}
+.compare-table .x-icon {
+  color: var(--text-faint);
+}
+.compare-table .mono-val {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: var(--space-12);
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.pricing-card {
+  position: relative;
+}
+.pricing-card.featured {
+  border-color: var(--accent-border);
+}
+.pricing-card.featured::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-border);
+  pointer-events: none;
+  box-shadow: 0 0 40px rgba(0, 212, 170, 0.06);
+}
+.pricing-card .tier-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 0.375rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 510;
+  background: var(--accent-dim);
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+}
+.pricing-card .tier-name {
+  font-size: 1.25rem;
+  font-weight: 590;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  margin-bottom: var(--space-2);
+}
+.pricing-card .tier-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+.pricing-card .tier-price .currency {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-tertiary);
+}
+.pricing-card .tier-price .amount {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.pricing-card .tier-price .period {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+}
+.pricing-card .tier-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: 1.55;
+}
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.pricing-feature {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.5rem 0;
-  font-size: 0.9375rem;
-  color: var(--text-muted);
+  gap: var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
 }
-.pricing-features li::before {
-  content: '';
+.pricing-feature svg {
   flex-shrink: 0;
-  width: 18px; height: 18px;
   margin-top: 2px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300D4AA' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") no-repeat center;
-  background-size: contain;
 }
 
-.pricing-cta {
-  display: block;
-  width: 100%;
-  padding: 0.875rem 1.5rem;
+/* ============================================================
+   EARLY ACCESS
+   ============================================================ */
+.early-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.early-content {
   text-align: center;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.25s;
+  max-width: 560px;
+  margin: 0 auto;
 }
-.pricing-cta:hover {
-  border-color: var(--accent);
+.founder-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 360px;
+  margin: var(--space-8) auto 0;
+}
+.founder-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
   background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--accent);
+  flex-shrink: 0;
 }
-.pricing-card.featured .pricing-cta {
-  background: var(--accent);
-  color: var(--bg);
-  border-color: var(--accent);
+.founder-info {
+  text-align: left;
 }
-.pricing-card.featured .pricing-cta:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0,212,170,0.25);
+.founder-name {
+  font-size: 0.9375rem;
+  font-weight: 590;
+  color: var(--text-primary);
+}
+.founder-role {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+.founder-location {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-1);
 }
 
-/* ========================================
+/* ============================================================
    FINAL CTA
-   ======================================== */
+   ============================================================ */
 .final-cta {
-  background: var(--surface);
+  padding: var(--space-section) 0;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
-.final-cta-bg {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(0,212,170,0.06) 0%, transparent 70%);
-  pointer-events: none;
+.final-cta .structural-grid { z-index: 0; }
+.final-cta-content {
+  position: relative;
+  z-index: 1;
 }
-.final-cta .container { position: relative; z-index: 1; }
-.final-cta h2 {
-  font-size: clamp(2rem, 1rem + 3vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  margin-bottom: 1rem;
+.final-cta .hero-headline {
+  font-size: clamp(2rem, 1.5rem + 3vw, 3.5rem);
 }
 .final-cta p {
-  color: var(--text-muted);
-  font-size: clamp(1rem, 0.5rem + 0.75vw, 1.25rem);
-  max-width: 500px;
-  margin: 0 auto 2rem;
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.final-cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
-/* ========================================
+/* ============================================================
    FOOTER
-   ======================================== */
+   ============================================================ */
 .footer {
-  border-top: 1px solid var(--border);
-  padding: 3rem 0 2rem;
-  background: var(--bg);
+  padding: var(--space-12) 0 var(--space-8);
+  border-top: 1px solid var(--border-default);
+  position: relative;
+  overflow: hidden;
 }
-
 .footer-grid {
   display: grid;
-  gap: 2.5rem;
-  margin-bottom: 2.5rem;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
 }
-@media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; } }
-
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-12); }
+}
 .footer-brand p {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  margin-top: 0.75rem;
-  max-width: 300px;
-  line-height: 1.7;
-}
-
-.footer-col h4 {
   font-size: 0.875rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-3);
+  max-width: 280px;
+  line-height: 1.55;
+}
+.footer-col h4 {
+  font-size: 0.6875rem;
+  font-weight: 510;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  margin-bottom: var(--space-4);
 }
 .footer-col a {
   display: block;
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  padding: 0.25rem 0;
-  transition: color var(--transition);
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  padding: var(--space-1) 0;
+  transition: color var(--t-quick) ease;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
 }
-.footer-col a:hover { color: var(--text); }
-
+.footer-col a:hover { color: var(--text-primary); }
 .footer-bottom {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-default);
+  position: relative;
+}
+.footer-ghost {
+  font-family: var(--font-body);
+  font-size: clamp(6rem, 5rem + 10vw, 14rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.02);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  bottom: -0.15em;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  text-align: center;
+}
+.footer-legal {
+  display: flex;
+  gap: var(--space-4);
+}
+.footer-legal a {
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  transition: color var(--t-quick) ease;
+}
+.footer-legal a:hover { color: var(--text-secondary); }
+.os-family {
+  display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
+  gap: var(--space-3);
+  margin-top: var(--space-4);
 }
-.footer-bottom p {
-  font-size: 0.8125rem;
+.os-family-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.6875rem;
+  font-weight: 510;
   color: var(--text-faint);
+  letter-spacing: 0.02em;
+}
+.os-family-item .os-label {
+  color: var(--text-tertiary);
 }
 
-.footer-socials {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+/* ============================================================
+   SECTION HELPERS
+   ============================================================ */
+.section-header {
+  max-width: 560px;
 }
-.footer-socials a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px; height: 36px;
-  color: var(--text-faint);
-  transition: color var(--transition);
+.section-header .overline {
+  margin-bottom: var(--space-4);
 }
-.footer-socials a:hover { color: var(--text); }
-.footer-socials svg { width: 18px; height: 18px; }
+.section-header p {
+  margin-top: var(--space-4);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .feed-scroll { animation: none !important; }
+  .status-dot.active { animation: none; }
+  .hero-badge .pulse-dot { animation: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  #hero-canvas { display: none; }
+}
+
+/* ============================================================
+   MOBILE REFINEMENTS
+   ============================================================ */
 @media (max-width: 767px) {
-  .hero { padding: 6rem 1.25rem 3rem; }
-  .hero h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .footer-bottom { flex-direction: column; text-align: center; }
+  .hero-counters {
+    gap: var(--space-6);
+  }
+  .hero-counter .value {
+    font-size: 1.25rem;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+  }
 }
 </style>
 </head>
 <body>
 
-<!-- Cursor glow -->
-<div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-
-<!-- Mobile menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-  </button>
-  <a href="#product">Product</a>
-  <a href="#agents-section">Agents</a>
-  <a href="#pricing">Pricing</a>
-  <a href="https://app.getaos.ai" class="nav-cta">Get Started Free</a>
-            <a href="https://app.getaos.ai?demo=true" style="display:block;margin-top:16px;color:rgba(255,255,255,0.5);font-size:14px;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#00D4AA'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">See it in action — no signup needed →</a>
-</div>
-
-<!-- ===================== NAVIGATION ===================== -->
-<nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="AOS Home">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M18 6L28 12V24L18 30L8 24V12L18 6Z" stroke="currentColor" stroke-width="1.5" opacity="0.2"/>
-        <path d="M18 10L25 14V22L18 26L11 22V14L18 10Z" stroke="url(#navLogoGrad)" stroke-width="2"/>
-        <circle cx="18" cy="10" r="2" fill="#00D4AA"/>
-        <circle cx="25" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
-        <circle cx="25" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
-        <circle cx="18" cy="26" r="1.5" fill="#00D4AA" opacity="0.7"/>
-        <circle cx="11" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
-        <circle cx="11" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
-        <circle cx="18" cy="18" r="2.5" fill="#00D4AA"/>
-        <line x1="18" y1="18" x2="18" y2="10" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <line x1="18" y1="18" x2="25" y2="14" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <line x1="18" y1="18" x2="25" y2="22" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <line x1="18" y1="18" x2="18" y2="26" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <line x1="18" y1="18" x2="11" y2="22" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <line x1="18" y1="18" x2="11" y2="14" stroke="#00D4AA" stroke-width="1" opacity="0.3"/>
-        <defs>
-          <linearGradient id="navLogoGrad" x1="11" y1="10" x2="25" y2="26">
-            <stop stop-color="#00D4AA"/>
-            <stop offset="1" stop-color="#00A88A"/>
-          </linearGradient>
-        </defs>
+    <a href="#" class="nav-logo" aria-label="AOS Home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="16,3 27.5,9.5 27.5,22.5 16,29 4.5,22.5 4.5,9.5" stroke="#00D4AA" stroke-width="1.5" fill="none"/>
+        <circle cx="16" cy="16" r="3" fill="#00D4AA" opacity="0.9"/>
+        <circle cx="16" cy="6.5" r="1.5" fill="#00D4AA"/>
+        <circle cx="24.2" cy="11.2" r="1.5" fill="#5B8DEF"/>
+        <circle cx="24.2" cy="20.8" r="1.5" fill="#F59E42"/>
+        <circle cx="16" cy="25.5" r="1.5" fill="#A47AE8"/>
+        <circle cx="7.8" cy="20.8" r="1.5" fill="#EF6461"/>
+        <circle cx="7.8" cy="11.2" r="1.5" fill="#E2B94B"/>
+        <line x1="16" y1="16" x2="16" y2="6.5" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
+        <line x1="16" y1="16" x2="24.2" y2="11.2" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
+        <line x1="16" y1="16" x2="24.2" y2="20.8" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
+        <line x1="16" y1="16" x2="16" y2="25.5" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
+        <line x1="16" y1="16" x2="7.8" y2="20.8" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
+        <line x1="16" y1="16" x2="7.8" y2="11.2" stroke="rgba(255,255,255,0.08)" stroke-width="0.75"/>
       </svg>
-      <span class="nav-logo-text">AOS</span>
+      AOS
     </a>
-
     <div class="nav-links">
-      <a href="#product">Product</a>
-      <a href="#agents-section">Agents</a>
-      <a href="#pricing">Pricing</a>
-      <a href="https://app.getaos.ai" class="nav-cta">Get Started Free</a>
+      <a href="#agents" class="nav-link">Agents</a>
+      <a href="#how" class="nav-link">How It Works</a>
+      <a href="#compare" class="nav-link">Compare</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
     </div>
-
-    <button class="nav-mobile-toggle" id="mobileMenuToggle" aria-label="Open menu">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>
-    </button>
+    <div class="nav-actions">
+      <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost">See Live Demo</a>
+      <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary">Get Started Free</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
-<!-- ===================== HERO ===================== -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#agents" onclick="closeMobile()">Agents</a>
+  <a href="#how" onclick="closeMobile()">How It Works</a>
+  <a href="#compare" onclick="closeMobile()">Compare</a>
+  <a href="#pricing" onclick="closeMobile()">Pricing</a>
+  <div class="mobile-menu-ctas">
+    <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg" style="justify-content: center;">See Live Demo</a>
+    <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg" style="justify-content: center;">Get Started Free</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
 <section class="hero" id="hero">
-  <div class="hero-gradient" aria-hidden="true">
-    <div class="hero-orb hero-orb-1"></div>
-    <div class="hero-orb hero-orb-2"></div>
-    <div class="hero-orb hero-orb-3"></div>
-  </div>
-  <div class="hero-grid" aria-hidden="true"></div>
-
-  <div class="hero-content">
-    <div class="hero-badge reveal">
-      <span class="hero-badge-dot"></span>
-      Now onboarding manufacturers
-    </div>
-
-    <h1 class="reveal reveal-delay-1">Your factory<br><span class="gradient-text">runs itself.</span></h1>
-
-    <p class="hero-sub reveal reveal-delay-2">AI agents that handle procurement, sales, and production. Describe your factory. We build the rest. You spend 30 minutes a day.</p>
-
-    <p class="hero-diff reveal reveal-delay-2">Unlike traditional ERPs that take 6 months and $50,000 to implement, AOS deploys in under an hour.</p>
-
-    <div class="hero-ctas reveal reveal-delay-3">
-      <a href="https://app.getaos.ai" class="btn-primary glow">
-        Get Started Free
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
-      <a href="#product" class="btn-secondary">See how it works</a>
-    </div>
-
-    <div class="hero-meta reveal reveal-delay-4">
-      <span>No credit card required</span>
-      <span class="dot"></span>
-      <span>14-day free trial</span>
-      <span class="dot"></span>
-      <span>Setup in under an hour</span>
-    </div>
-  </div>
-
-  <!-- WhatsApp Daily Brief Terminal -->
-  <div class="hero-terminal reveal reveal-delay-4">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <span class="terminal-dot"></span>
-        <span class="terminal-dot"></span>
-        <span class="terminal-dot"></span>
-        <span class="terminal-title">AOS Daily Brief -- WhatsApp</span>
+  <canvas id="hero-canvas"></canvas>
+  <div class="structural-grid"></div>
+  <svg class="hero-blob" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+    <defs>
+      <filter id="blur-heavy">
+        <feGaussianBlur stdDeviation="64"/>
+      </filter>
+    </defs>
+    <ellipse cx="350" cy="200" rx="300" ry="180" fill="rgba(0, 212, 170, 0.12)" filter="url(#blur-heavy)"/>
+    <ellipse cx="550" cy="300" rx="200" ry="140" fill="rgba(91, 141, 239, 0.06)" filter="url(#blur-heavy)"/>
+  </svg>
+  <div class="container hero-content">
+    <div class="hero-text">
+      <div class="hero-badge reveal">
+        <span class="pulse-dot"></span>
+        Now in Early Access
       </div>
-      <div class="terminal-body" id="terminalBody">
-        <div class="terminal-line" data-delay="400">
-          <span class="terminal-label">Good morning, Ahmad.</span>
+      <h1 class="hero-headline reveal">Your factory runs itself.</h1>
+      <p class="hero-sub reveal">Six AI agents orchestrate your procurement, production, inventory, sales, quality, and finance. You check in 30 minutes a day.</p>
+      <div class="hero-ctas reveal">
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
+        <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
+      </div>
+      <div class="hero-counters reveal-group">
+        <div class="hero-counter reveal">
+          <span class="value" data-target="6">0</span>
+          <span class="label">AI Agents</span>
         </div>
-        <div class="terminal-line" data-delay="1200">
-          <span class="terminal-value">Here's your factory brief for today:</span>
+        <div class="hero-counter reveal">
+          <span class="value" data-target="30">0</span>
+          <span class="label">Min / Day</span>
         </div>
-        <div class="terminal-line" data-delay="2000">&nbsp;</div>
-        <div class="terminal-line" data-delay="2400">
-          <span class="terminal-highlight">3 POs ready</span> <span class="terminal-value">for approval (MYR 12,400)</span>
+        <div class="hero-counter reveal">
+          <span class="value">24/7</span>
+          <span class="label">Autonomous Ops</span>
         </div>
-        <div class="terminal-line" data-delay="3200">
-          <span class="terminal-highlight">Steel rod stock</span> <span class="terminal-value">below reorder point</span>
+      </div>
+    </div>
+    <div class="hero-screenshot reveal">
+      <div class="browser-frame">
+        <div class="chrome-bar">
+          <div class="traffic-light"></div>
+          <div class="traffic-light"></div>
+          <div class="traffic-light"></div>
+          <div class="url-bar">app.getaos.ai</div>
         </div>
-        <div class="terminal-line" data-delay="4000">
-          <span class="terminal-value">Production line B:</span> <span class="terminal-highlight">94% on schedule</span>
+        <img src="desktop-analytics.png" alt="AOS CEO Analytics Dashboard" loading="eager" width="1200" height="750">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LIVE OPERATIONS FEED
+     ============================================================ -->
+<section class="ops-section" id="ops">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">Live Operations</div>
+      <h2 class="section-title">Watch your factory think.</h2>
+      <p>Real-time decisions from six autonomous agents working in concert.</p>
+    </div>
+    <div class="ops-feed reveal">
+      <div class="ops-feed-mask"></div>
+      <div class="feed-scroll" id="feed-scroll">
+        <!-- Feed items duplicated for seamless loop -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PAIN SECTION
+     ============================================================ -->
+<section class="pain-section" id="pain">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">The Problem</div>
+      <h2 class="section-title">Your factory is stuck in 2010.</h2>
+      <p>WhatsApp groups, Excel spreadsheets, and gut-feel decisions are costing you money every day.</p>
+    </div>
+    <div class="pain-grid reveal-group">
+      <div class="card card-interactive pain-card reveal">
+        <div class="card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="8" width="12" height="14" rx="2"/>
+            <rect x="22" y="18" width="12" height="14" rx="2"/>
+            <path d="M18 15h4M22 25h-4" stroke-dasharray="2 2"/>
+            <circle cx="12" cy="28" r="3"/>
+            <circle cx="28" cy="8" r="3"/>
+          </svg>
         </div>
-        <div class="terminal-line" data-delay="4800">
-          <span class="terminal-value">AR overdue:</span> <span class="terminal-highlight">MYR 8,200 (2 invoices)</span>
+        <h3>Scattered Data</h3>
+        <p>Inventory in one spreadsheet, orders in another, finances in a third. No single source of truth across your operation.</p>
+      </div>
+      <div class="card card-interactive pain-card reveal">
+        <div class="card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="14" r="6"/>
+            <path d="M8 34c0-6.627 5.373-12 12-12s12 5.373 12 12"/>
+            <path d="M20 20v6M17 23l3 3 3-3"/>
+            <line x1="28" y1="10" x2="34" y2="4"/>
+            <line x1="6" y1="10" x2="12" y2="4" stroke-dasharray="2 2"/>
+          </svg>
         </div>
-        <div class="terminal-line" data-delay="5600">&nbsp;</div>
-        <div class="terminal-line" data-delay="6200">
-          <span class="terminal-label">Reply 1 to approve all POs.</span><span class="terminal-cursor"></span>
+        <h3>Decision Bottleneck</h3>
+        <p>Every purchase order, production schedule, and quality check waits for you. You are the single point of failure.</p>
+      </div>
+      <div class="card card-interactive pain-card reveal">
+        <div class="card-icon">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="20" cy="20" r="12"/>
+            <path d="M20 12v8l5 5"/>
+            <path d="M14 8l-2-4M26 8l2-4" stroke-dasharray="2 2"/>
+            <line x1="20" y1="34" x2="20" y2="36"/>
+            <line x1="8" y1="26" x2="6" y2="28"/>
+            <line x1="32" y1="26" x2="34" y2="28"/>
+          </svg>
+        </div>
+        <h3>Blind Spots</h3>
+        <p>You discover stockouts after customers complain. Cash flow surprises hit at month-end. No forecasting, just firefighting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">How It Works</div>
+      <h2 class="section-title">Three steps to autonomous operations.</h2>
+    </div>
+    <div class="how-layout" style="margin-top: var(--space-12);">
+      <div class="how-sticky reveal">
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-num">01</div>
+            <div>
+              <h4>Describe your factory</h4>
+              <p>Tell AOS about your products, suppliers, and processes. Natural language. No technical setup required.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">02</div>
+            <div>
+              <h4>Deploy your agents</h4>
+              <p>Six specialized AI agents activate across procurement, production, inventory, sales, quality, and finance.</p>
+            </div>
+          </div>
+          <div class="how-step">
+            <div class="how-step-num">03</div>
+            <div>
+              <h4>Run on autopilot</h4>
+              <p>Agents make decisions 24/7. You approve critical actions via WhatsApp or the web app. 30 minutes a day.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="how-screenshots reveal-group">
+        <div class="reveal">
+          <div class="how-screenshot-label">Step 1 &mdash; Dashboard overview</div>
+          <div class="browser-frame">
+            <div class="chrome-bar">
+              <div class="traffic-light"></div><div class="traffic-light"></div><div class="traffic-light"></div>
+              <div class="url-bar">app.getaos.ai/dashboard</div>
+            </div>
+            <img src="desktop-dashboard.jpg" alt="AOS Dashboard with KPIs" loading="lazy" width="1200" height="750">
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="how-screenshot-label">Step 2 &mdash; AI Assistant</div>
+          <div class="browser-frame">
+            <div class="chrome-bar">
+              <div class="traffic-light"></div><div class="traffic-light"></div><div class="traffic-light"></div>
+              <div class="url-bar">app.getaos.ai/chat</div>
+            </div>
+            <img src="desktop-chat.jpg" alt="AOS AI Chat Assistant" loading="lazy" width="1200" height="750">
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="how-screenshot-label">Step 3 &mdash; Autonomous procurement</div>
+          <div class="browser-frame">
+            <div class="chrome-bar">
+              <div class="traffic-light"></div><div class="traffic-light"></div><div class="traffic-light"></div>
+              <div class="url-bar">app.getaos.ai/procurement</div>
+            </div>
+            <img src="desktop-procurement.jpg" alt="AOS Procurement Module" loading="lazy" width="1200" height="750">
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== PROBLEM ===================== -->
-<section class="section problem" id="about">
+<!-- ============================================================
+     AGENT SHOWCASE
+     ============================================================ -->
+<section class="agents-section" id="agents">
   <div class="container">
-    <div class="section-label reveal">The Problem</div>
-    <h2 class="section-title reveal">Your factory is stuck<br>in 2010.</h2>
-    <p class="section-desc reveal">You built a real business. But you're running it on spreadsheets, group chats, and memory. It works until it doesn't.</p>
-
-    <div class="problem-grid">
-      <div class="problem-card reveal">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    <div class="section-header reveal">
+      <div class="overline">AI Agents</div>
+      <h2 class="section-title">Six agents. One orchestrator.</h2>
+      <p>Each agent is a domain specialist that works autonomously, collaborates through a central orchestrator, and learns from your factory's patterns.</p>
+    </div>
+    <div class="agents-grid reveal-group">
+      <!-- Procurement -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00D4AA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Procurement</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <h3>Excel everything</h3>
-        <p>Purchase orders in one sheet. Pricing in another. Inventory in a third. Nothing connects. Mistakes compound silently.</p>
+        <p>Auto-creates purchase orders, compares supplier pricing across vendors, and triggers reorders before stockouts happen.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">23%</span>
+          <span class="metric-label">cost reduction</span>
+        </div>
       </div>
-      <div class="problem-card reveal reveal-delay-1">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <!-- Production -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#5B8DEF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Production</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <h3>WhatsApp chaos</h3>
-        <p>Orders buried in group chats. Supplier quotes lost in scroll. Critical info mixed with lunch plans. No audit trail.</p>
+        <p>Manages work orders, tracks production stages, flags delays automatically, and schedules based on BOM requirements.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">18%</span>
+          <span class="metric-label">throughput increase</span>
+        </div>
       </div>
-      <div class="problem-card reveal reveal-delay-2">
-        <div class="problem-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="m4.93 4.93 14.14 14.14" stroke-width="2"/></svg>
+      <!-- Inventory -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#F59E42" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Inventory</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <h3>ERPs that cost more than your equipment</h3>
-        <p>18-month implementations. Consultants who charge by the hour. Software designed for multinationals, forced onto SMEs.</p>
+        <p>Real-time stock tracking with shortage predictions, automated reorder triggers, and warehouse optimization.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">40%</span>
+          <span class="metric-label">fewer stockouts</span>
+        </div>
+      </div>
+      <!-- Sales -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#A47AE8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Sales</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
+        </div>
+        <p>Generates quotes instantly, automates customer follow-ups, and forecasts demand based on order patterns.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">2.4x</span>
+          <span class="metric-label">faster quotes</span>
+        </div>
+      </div>
+      <!-- Quality -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#EF6461" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Quality</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
+        </div>
+        <p>Tracks defects in real-time, monitors SPC charts, manages incoming inspections, and enforces quality gates.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">67%</span>
+          <span class="metric-label">fewer defect escapes</span>
+        </div>
+      </div>
+      <!-- Finance -->
+      <div class="card card-interactive agent-card reveal">
+        <div class="agent-card-header">
+          <div class="agent-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#E2B94B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+              <path d="M6 16h4M14 16h4"/>
+            </svg>
+          </div>
+          <span class="agent-card-name">Finance</span>
+          <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
+        </div>
+        <p>Automated invoicing, cash flow monitoring, margin analysis, and daily P&L summaries sent to your phone.</p>
+        <div class="agent-card-metric">
+          <span class="metric-value">15h</span>
+          <span class="metric-label">saved weekly</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== HOW IT WORKS ===================== -->
-<section class="section solution" id="product">
+<!-- ============================================================
+     COMPARISON TABLE
+     ============================================================ -->
+<section class="compare-section" id="compare">
   <div class="container">
-    <div class="section-label reveal">How It Works</div>
-    <h2 class="section-title reveal">Three steps. One system.</h2>
-    <p class="section-desc reveal">No consultants. No six-month implementation. Describe your factory and AOS builds your operating system in minutes.</p>
-
-    <div class="steps">
-      <div class="step reveal">
-        <div class="step-number">1</div>
-        <h3>Describe</h3>
-        <p>Tell AOS about your business. Products, suppliers, customers, workflows. In plain language. Like briefing a new operations manager.</p>
-      </div>
-      <div class="step reveal reveal-delay-1">
-        <div class="step-number">2</div>
-        <h3>Deploy</h3>
-        <p>AOS builds your custom agent system. Procurement, sales, production, inventory, logistics. Connected, configured, ready. In under an hour.</p>
-      </div>
-      <div class="step reveal reveal-delay-2">
-        <div class="step-number">3</div>
-        <h3>Run</h3>
-        <p>Your AI agents work around the clock. You check in for 30 minutes. Review, approve, decide. The system handles everything else.</p>
-      </div>
+    <div class="section-header reveal">
+      <div class="overline">Compare</div>
+      <h2 class="section-title">Built different.</h2>
+      <p>AOS is not another ERP. It is the first AI-native operating system purpose-built for manufacturing SMEs.</p>
     </div>
-  </div>
-</section>
-
-<!-- ===================== AI AGENTS ===================== -->
-<section class="section showcase" id="agents-section">
-  <div class="container">
-    <div class="section-label reveal">AI Agents</div>
-    <h2 class="section-title reveal">Six agents. Zero consultants.</h2>
-    <p class="section-desc reveal">Each agent specializes in one domain. Together, they run your factory while you focus on growing it. All 6 included from the Growth plan. Starter includes any 2.</p>
-
-    <div class="agents-grid">
-      <div class="agent-card reveal">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Procurement Agent</h3>
-        <p>Compares supplier quotes, generates purchase orders, tracks deliveries. Flags anomalies before they become problems.</p>
-      </div>
-
-      <div class="agent-card reveal reveal-delay-1">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Sales Agent</h3>
-        <p>Responds to inquiries, generates quotes with real margins, follows up automatically. Never forgets a lead.</p>
-      </div>
-
-      <div class="agent-card reveal reveal-delay-2">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Production Agent</h3>
-        <p>Schedules production runs, optimizes machine allocation, predicts bottlenecks. Your floor runs smoother.</p>
-      </div>
-
-      <div class="agent-card reveal">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Inventory Agent</h3>
-        <p>Tracks stock in real time. Auto-reorders before you run out. Eliminates the surprise stockout that kills your timeline.</p>
-      </div>
-
-      <div class="agent-card reveal reveal-delay-1">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="23 7 16 12 16 2 23 7"/><path d="M1 20h22"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Logistics Agent</h3>
-        <p>Coordinates deliveries, tracks shipments, optimizes routes. Your customers know when to expect their order.</p>
-      </div>
-
-      <div class="agent-card reveal reveal-delay-2">
-        <div class="agent-card-header">
-          <div class="agent-card-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-          </div>
-          <div class="agent-active"><span class="agent-active-dot"></span> Active</div>
-        </div>
-        <h3>Operations Agent</h3>
-        <p>The coordinator. Connects all agents, compiles your daily brief, surfaces what needs your attention.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== COMPARISON TABLE ===================== -->
-<section class="section comparison">
-  <div class="container">
-    <div class="section-label reveal">The Difference</div>
-    <h2 class="section-title reveal">AOS vs. the old way.</h2>
-    <p class="section-desc reveal">Built for factories with 10-200 people, not Fortune 500 enterprises.</p>
-
-    <div class="comparison-wrapper reveal">
-      <table class="comparison-table">
+    <div class="compare-wrapper reveal">
+      <table class="compare-table">
         <thead>
           <tr>
-            <th>Feature</th>
-            <th class="aos-col">AOS</th>
-            <th>SAP</th>
-            <th>Oracle</th>
-            <th>Odoo</th>
+            <th style="width: 22%;">Feature</th>
+            <th class="aos-col" style="width: 19.5%;">AOS</th>
+            <th style="width: 19.5%;">SAP B1</th>
+            <th style="width: 19.5%;">Oracle NetSuite</th>
+            <th style="width: 19.5%;">Odoo</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Setup time</td>
-            <td class="aos-col">Under 1 hour</td>
-            <td>6-18 months</td>
-            <td>12-24 months</td>
-            <td>1-3 months</td>
+            <td class="feature-name">Setup Time</td>
+            <td class="aos-col"><span class="mono-val" style="color: var(--accent);">30 min</span></td>
+            <td><span class="mono-val">3-6 months</span></td>
+            <td><span class="mono-val">3-6 months</span></td>
+            <td><span class="mono-val">1-3 months</span></td>
           </tr>
           <tr>
-            <td>Monthly cost</td>
-            <td class="aos-col">From MYR 199</td>
-            <td>$50K+/year</td>
-            <td>$100K+/year</td>
-            <td>$1K+/month</td>
+            <td class="feature-name">AI Agents</td>
+            <td class="aos-col"><span class="mono-val" style="color: var(--accent);">6 autonomous</span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
           </tr>
           <tr>
-            <td>AI agents</td>
-            <td class="aos-col">6 autonomous</td>
-            <td>0</td>
-            <td>0</td>
-            <td>0</td>
+            <td class="feature-name">NLP Commands</td>
+            <td class="aos-col"><span class="check-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2.5 7 5.5 10.5 11.5 3.5"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
           </tr>
           <tr>
-            <td>WhatsApp briefs</td>
-            <td class="aos-col"><span class="check">Yes</span></td>
-            <td><span class="cross">No</span></td>
-            <td><span class="cross">No</span></td>
-            <td><span class="cross">No</span></td>
+            <td class="feature-name">WhatsApp Integration</td>
+            <td class="aos-col"><span class="check-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2.5 7 5.5 10.5 11.5 3.5"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
+            <td><span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="3" x2="11" y2="11"/><line x1="11" y1="3" x2="3" y2="11"/></svg></span></td>
           </tr>
           <tr>
-            <td>Implementation</td>
-            <td class="aos-col">Self-serve</td>
-            <td>Consultant army</td>
-            <td>Consultant army</td>
-            <td>Partner required</td>
+            <td class="feature-name">Monthly Cost</td>
+            <td class="aos-col"><span class="mono-val" style="color: var(--accent);">MYR 199</span></td>
+            <td><span class="mono-val">MYR 5,000+</span></td>
+            <td><span class="mono-val">MYR 8,000+</span></td>
+            <td><span class="mono-val">MYR 800+</span></td>
           </tr>
           <tr>
-            <td>Daily time needed</td>
-            <td class="aos-col">30 minutes</td>
-            <td>Full-time staff</td>
-            <td>Full-time staff</td>
-            <td>Hours/day</td>
+            <td class="feature-name">Implementation Cost</td>
+            <td class="aos-col"><span class="mono-val" style="color: var(--accent);">MYR 0</span></td>
+            <td><span class="mono-val">MYR 50,000+</span></td>
+            <td><span class="mono-val">MYR 100,000+</span></td>
+            <td><span class="mono-val">MYR 15,000+</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Needs IT Department</td>
+            <td class="aos-col"><span class="check-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2.5 7 5.5 10.5 11.5 3.5"/></svg></span> <span style="font-size: 0.75rem; color: var(--text-tertiary);">No</span></td>
+            <td style="color: var(--error);">Yes</td>
+            <td style="color: var(--error);">Yes</td>
+            <td style="color: var(--warning);">Recommended</td>
           </tr>
         </tbody>
       </table>
@@ -1422,160 +1799,198 @@ p, li { text-wrap: pretty; }
   </div>
 </section>
 
-<!-- ===================== METRICS ===================== -->
-<section class="section metrics">
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section class="pricing-section" id="pricing">
   <div class="container">
-    <div class="metrics-grid">
-      <div class="metric reveal">
-        <div class="metric-value" data-target="6" data-suffix="">6</div>
-        <div class="metric-label">AI agents working for you</div>
-      </div>
-      <div class="metric reveal reveal-delay-1">
-        <div class="metric-value" data-target="30" data-suffix=" min">30 min</div>
-        <div class="metric-label">Your daily time commitment</div>
-      </div>
-      <div class="metric reveal reveal-delay-2">
-        <div class="metric-value" data-target="1" data-suffix=" hr" data-prefix="<"><1 hr</div>
-        <div class="metric-label">From signup to running</div>
-      </div>
+    <div class="section-header text-center mx-auto reveal">
+      <div class="overline">Pricing</div>
+      <h2 class="section-title">Start free. Scale as you grow.</h2>
+      <p>No implementation fees. No consultants. No hidden costs.</p>
     </div>
-  </div>
-</section>
-
-<!-- ===================== EARLY ACCESS CTA ===================== -->
-<section class="section early-access">
-  <div class="container">
-    <div class="early-access-card reveal">
-      <h2>Be one of the first.</h2>
-      <p>We're onboarding a small group of manufacturers for early access. Get in now and help shape the future of factory operations.</p>
-      <a href="https://app.getaos.ai" class="btn-primary glow">
-        Get Started Free
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== PRICING ===================== -->
-<section class="section pricing" id="pricing">
-  <div class="container">
-    <div class="pricing-header">
-      <div class="section-label reveal" style="justify-content:center;">Pricing</div>
-      <h2 class="section-title reveal" style="text-align:center;">Simple plans. Real value.</h2>
-      <p class="section-desc reveal" style="margin:0 auto 3rem; text-align:center;">Start with what you need. Scale when you're ready. No hidden fees.</p>
-    </div>
-
-    <div class="pricing-grid">
+    <div class="pricing-grid reveal-group">
       <!-- Starter -->
-      <div class="pricing-card reveal">
-        <div class="pricing-tier">Starter</div>
-        <div class="pricing-name">Starter</div>
-        <div class="pricing-price">
-          <span class="pricing-currency">MYR</span>
-          <span class="pricing-amount">199</span>
-          <span class="pricing-period">/mo</span>
+      <div class="card pricing-card reveal">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">
+          <span class="currency">MYR</span>
+          <span class="amount">199</span>
+          <span class="period">/mo</span>
         </div>
-        <div class="pricing-usd">~$49 USD/mo</div>
-        <p class="pricing-desc">For small factories getting started with AI operations.</p>
-        <ul class="pricing-features">
-          <li>2 AI agents (pick any two)</li>
-          <li>Up to 5 users</li>
-          <li>WhatsApp integration</li>
-          <li>Email support</li>
-          <li>Standard dashboards</li>
-        </ul>
-        <a href="https://app.getaos.ai" class="pricing-cta">Get Started Free</a>
+        <div class="tier-desc">For small factories getting started with AI-powered operations.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>3 AI Agents</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>50 SKUs</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>WhatsApp notifications</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Email support</span>
+          </div>
+        </div>
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-ghost" style="width: 100%; justify-content: center;">Get Started</a>
       </div>
-      <!-- Growth -->
-      <div class="pricing-card featured reveal reveal-delay-1">
-        <span class="pricing-badge">Most popular</span>
-        <div class="pricing-tier">Growth</div>
-        <div class="pricing-name">Growth</div>
-        <div class="pricing-price">
-          <span class="pricing-currency">MYR</span>
-          <span class="pricing-amount">599</span>
-          <span class="pricing-period">/mo</span>
+      <!-- Growth (Featured) -->
+      <div class="card pricing-card featured reveal">
+        <div class="tier-badge">Most Popular</div>
+        <div class="tier-name">Growth</div>
+        <div class="tier-price">
+          <span class="currency">MYR</span>
+          <span class="amount">599</span>
+          <span class="period">/mo</span>
         </div>
-        <div class="pricing-usd">~$149 USD/mo</div>
-        <p class="pricing-desc">For growing factories ready to automate end-to-end.</p>
-        <ul class="pricing-features">
-          <li>All 6 AI agents</li>
-          <li>Up to 20 users</li>
-          <li>WhatsApp + integrations</li>
-          <li>Priority support</li>
-          <li>Custom dashboards</li>
-          <li>Advanced analytics</li>
-        </ul>
-        <a href="https://app.getaos.ai" class="pricing-cta">Get Started Free</a>
+        <div class="tier-desc">Full autonomous operations for growing manufacturers.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>All 6 AI Agents</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Unlimited SKUs</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>WhatsApp commands</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Priority support</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Custom reports</span>
+          </div>
+        </div>
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary" style="width: 100%; justify-content: center;">Get Started Free</a>
       </div>
       <!-- Enterprise -->
-      <div class="pricing-card reveal reveal-delay-2">
-        <div class="pricing-tier">Enterprise</div>
-        <div class="pricing-name">Enterprise</div>
-        <div class="pricing-price">
-          <span class="pricing-currency">MYR</span>
-          <span class="pricing-amount">1,199</span>
-          <span class="pricing-period">/mo</span>
+      <div class="card pricing-card reveal">
+        <div class="tier-name">Enterprise</div>
+        <div class="tier-price">
+          <span class="currency">MYR</span>
+          <span class="amount">1,199</span>
+          <span class="period">/mo</span>
         </div>
-        <div class="pricing-usd">~$299 USD/mo</div>
-        <p class="pricing-desc">For multi-site operations needing full control.</p>
-        <ul class="pricing-features">
-          <li>All 6 AI agents</li>
-          <li>Unlimited users</li>
-          <li>Multi-site management</li>
-          <li>Dedicated support</li>
-          <li>Custom integrations</li>
-          <li>API access</li>
-          <li>SLA guarantee</li>
-        </ul>
-        <a href="mailto:hello@getaos.ai" class="pricing-cta">Contact Sales</a>
+        <div class="tier-desc">Multi-site operations with dedicated support and SLAs.</div>
+        <div class="pricing-features">
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Everything in Growth</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Multi-site support</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>99.9% SLA</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Dedicated account manager</span>
+          </div>
+          <div class="pricing-feature">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
+            <span>Custom integrations</span>
+          </div>
+        </div>
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-ghost" style="width: 100%; justify-content: center;">Contact Sales</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== FINAL CTA ===================== -->
-<section class="section final-cta">
-  <div class="final-cta-bg" aria-hidden="true"></div>
+<!-- ============================================================
+     EARLY ACCESS
+     ============================================================ -->
+<section class="early-section" id="early">
   <div class="container">
-    <h2 class="reveal">Your factory deserves better<br>than spreadsheets.</h2>
-    <p class="reveal reveal-delay-1">14-day free trial. No credit card required. Set up in under an hour.</p>
-    <a href="https://app.getaos.ai" class="btn-primary glow reveal reveal-delay-2">
-      Get Started Free
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
+    <div class="early-content reveal">
+      <div class="overline">Early Access</div>
+      <h2 class="section-title" style="margin-top: var(--space-4);">Join the first 50 factories.</h2>
+      <p style="margin-top: var(--space-4); font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">We are onboarding a select group of manufacturing SMEs in Malaysia. Early adopters get direct access to our founding team and shape the product roadmap.</p>
+      <div style="margin-top: var(--space-8); display: flex; justify-content: center; gap: var(--space-3); flex-wrap: wrap;">
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Apply for Early Access</a>
+      </div>
+      <div class="founder-card">
+        <div class="founder-avatar">EL</div>
+        <div class="founder-info">
+          <div class="founder-name">Edward Lim</div>
+          <div class="founder-role">Founder, AOS Systems</div>
+          <div class="founder-location">Built in Malaysia for factories everywhere</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ===================== FOOTER ===================== -->
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="final-cta">
+  <div class="structural-grid"></div>
+  <svg class="hero-blob" xmlns="http://www.w3.org/2000/svg" style="overflow:visible; top: -100px;">
+    <defs>
+      <filter id="blur-heavy-2">
+        <feGaussianBlur stdDeviation="64"/>
+      </filter>
+    </defs>
+    <ellipse cx="450" cy="200" rx="250" ry="150" fill="rgba(0, 212, 170, 0.08)" filter="url(#blur-heavy-2)"/>
+    <ellipse cx="350" cy="280" rx="180" ry="120" fill="rgba(91, 141, 239, 0.04)" filter="url(#blur-heavy-2)"/>
+  </svg>
+  <div class="container final-cta-content reveal">
+    <h2 class="hero-headline">Stop managing chaos.<br>Start commanding it.</h2>
+    <p>Your factory deserves an operating system that never sleeps.</p>
+    <div class="final-cta-buttons">
+      <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
+      <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="/" class="nav-logo" aria-label="AOS Home">
-          <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M18 10L25 14V22L18 26L11 22V14L18 10Z" stroke="#00D4AA" stroke-width="2"/>
-            <circle cx="18" cy="18" r="2.5" fill="#00D4AA"/>
-            <circle cx="18" cy="10" r="1.5" fill="#00D4AA"/>
-            <circle cx="25" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
-            <circle cx="25" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
-            <circle cx="18" cy="26" r="1.5" fill="#00D4AA" opacity="0.7"/>
-            <circle cx="11" cy="22" r="1.5" fill="#00D4AA" opacity="0.5"/>
-            <circle cx="11" cy="14" r="1.5" fill="#00D4AA" opacity="0.7"/>
+        <a href="#" class="nav-logo" aria-label="AOS Home">
+          <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="16,3 27.5,9.5 27.5,22.5 16,29 4.5,22.5 4.5,9.5" stroke="#00D4AA" stroke-width="1.5" fill="none"/>
+            <circle cx="16" cy="16" r="3" fill="#00D4AA" opacity="0.9"/>
           </svg>
-          <span class="nav-logo-text">AOS</span>
+          AOS
         </a>
-        <p>The operating system for modern factories. Built in Malaysia. Deployed everywhere.</p>
+        <p>The AI-native operating system for manufacturing. Six agents. One orchestrator. Your factory runs itself.</p>
+        <div class="os-family">
+          <span class="os-family-item"><span class="os-label">MOS</span> Manufacturing</span>
+          <span class="os-family-item"><span class="os-label">ROS</span> Retail</span>
+          <span class="os-family-item"><span class="os-label">LOS</span> Logistics</span>
+          <span class="os-family-item"><span class="os-label">FOS</span> Finance</span>
+        </div>
       </div>
       <div class="footer-col">
         <h4>Product</h4>
-        <a href="#product">How it works</a>
-        <a href="#agents-section">AI Agents</a>
+        <a href="#agents">AI Agents</a>
+        <a href="#how">How It Works</a>
         <a href="#pricing">Pricing</a>
+        <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener">Live Demo</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="#about">About</a>
+        <a href="#early">About</a>
+        <a href="#early">Early Access</a>
         <a href="mailto:hello@getaos.ai">Contact</a>
       </div>
       <div class="footer-col">
@@ -1585,150 +2000,260 @@ p, li { text-wrap: pretty; }
       </div>
     </div>
     <div class="footer-bottom">
-      <p>2026 Agentic OS Systems. All rights reserved.</p>
-      <div class="footer-socials">
-        <a href="https://x.com/getaos" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        </a>
-        <a href="https://linkedin.com/company/agentic-os" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-        </a>
+      <div class="footer-ghost">AOS</div>
+      <div class="footer-copy">&copy; 2026 AOS Systems Sdn Bhd. Kuala Lumpur, Malaysia.</div>
+      <div class="footer-legal">
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- ===================== JAVASCRIPT ===================== -->
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
 <script>
-(function() {
-  'use strict';
+// ===== MOBILE MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
 
-  // Respect reduced motion
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
 
-  // --- Navigation scroll ---
-  var nav = document.getElementById('nav');
-  window.addEventListener('scroll', function() {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  }, { passive: true });
+function closeMobile() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-  // --- Mobile menu ---
-  var mobileMenu = document.getElementById('mobileMenu');
-  var mobileToggle = document.getElementById('mobileMenuToggle');
-  var mobileClose = document.getElementById('mobileMenuClose');
+// ===== SCROLL REVEAL (IntersectionObserver) =====
+const revealEls = document.querySelectorAll('.reveal');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  mobileToggle.addEventListener('click', function() { mobileMenu.classList.add('open'); });
-  mobileClose.addEventListener('click', function() { mobileMenu.classList.remove('open'); });
-  mobileMenu.querySelectorAll('a').forEach(function(a) {
-    a.addEventListener('click', function() { mobileMenu.classList.remove('open'); });
-  });
-
-  // --- Cursor glow (desktop only) ---
-  if (!prefersReducedMotion && window.matchMedia('(pointer: fine)').matches) {
-    var glow = document.getElementById('cursorGlow');
-    var mouseX = 0, mouseY = 0, glowX = 0, glowY = 0;
-
-    document.addEventListener('mousemove', function(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      glow.classList.add('active');
+if (!reducedMotion) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
     });
-    document.addEventListener('mouseleave', function() { glow.classList.remove('active'); });
+  }, { threshold: 0.12 });
 
-    function animateGlow() {
-      glowX += (mouseX - glowX) * 0.08;
-      glowY += (mouseY - glowY) * 0.08;
-      glow.style.left = glowX + 'px';
-      glow.style.top = glowY + 'px';
-      requestAnimationFrame(animateGlow);
-    }
-    animateGlow();
+  revealEls.forEach(el => revealObserver.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add('visible'));
+}
+
+// ===== MOUSE-TRACKING CARD SHINE =====
+document.querySelectorAll('.card-interactive').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%';
+    const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%';
+    card.style.setProperty('--mouse-x', x);
+    card.style.setProperty('--mouse-y', y);
+  });
+});
+
+// ===== COUNTER ANIMATION =====
+function animateCounter(el, target, duration) {
+  duration = duration || 1200;
+  const start = performance.now();
+  const ease = t => 1 - Math.pow(1 - t, 4);
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(ease(p) * target);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
   }
+  requestAnimationFrame(step);
+}
 
-  // --- Scroll reveal ---
-  var reveals = document.querySelectorAll('.reveal');
-  if (prefersReducedMotion) {
-    reveals.forEach(function(el) { el.classList.add('visible'); });
-  } else if ('IntersectionObserver' in window) {
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(function(el) { observer.observe(el); });
-  } else {
-    reveals.forEach(function(el) { el.classList.add('visible'); });
-  }
-
-  // --- Terminal typing animation ---
-  var terminalLines = document.querySelectorAll('.terminal-line');
-  var terminalBody = document.getElementById('terminalBody');
-
-  if (prefersReducedMotion) {
-    terminalLines.forEach(function(line) { line.classList.add('visible'); });
-  } else {
-    var terminalObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          terminalLines.forEach(function(line) {
-            var delay = parseInt(line.getAttribute('data-delay') || '0');
-            setTimeout(function() { line.classList.add('visible'); }, delay);
-          });
-          terminalObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    terminalObserver.observe(terminalBody);
-  }
-
-  // --- Metric count-up ---
-  var metricEls = document.querySelectorAll('.metric-value');
-  var metricObserver = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (!entry.isIntersecting) return;
-      var el = entry.target;
-      metricObserver.unobserve(el);
-      var target = parseInt(el.getAttribute('data-target'), 10);
-      var prefix = el.getAttribute('data-prefix') || '';
-      var suffix = el.getAttribute('data-suffix') || '';
-
-      if (prefersReducedMotion) {
-        el.textContent = prefix + target + suffix;
-        return;
+if (!reducedMotion) {
+  const counterEls = document.querySelectorAll('.hero-counter .value[data-target]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = parseInt(entry.target.getAttribute('data-target'));
+        animateCounter(entry.target, target, 1200);
+        counterObserver.unobserve(entry.target);
       }
-
-      var duration = 1200;
-      var start = performance.now();
-      function tick(now) {
-        var elapsed = now - start;
-        var progress = Math.min(elapsed / duration, 1);
-        var ease = 1 - Math.pow(1 - progress, 3);
-        var current = Math.round(ease * target);
-        el.textContent = prefix + current + suffix;
-        if (progress < 1) requestAnimationFrame(tick);
-      }
-      el.textContent = prefix + '0' + suffix;
-      requestAnimationFrame(tick);
     });
   }, { threshold: 0.5 });
-  metricEls.forEach(function(el) { metricObserver.observe(el); });
+  counterEls.forEach(el => counterObserver.observe(el));
+} else {
+  document.querySelectorAll('.hero-counter .value[data-target]').forEach(el => {
+    el.textContent = el.getAttribute('data-target');
+  });
+}
 
-  // --- Smooth scroll ---
-  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-    a.addEventListener('click', function(e) {
-      var href = a.getAttribute('href');
-      if (href === '#') return;
-      var target = document.querySelector(href);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// ===== LIVE OPERATIONS FEED =====
+const feedData = [
+  { agent: 'procurement', time: '08:14', msg: '<strong>PO-2847</strong> auto-created for resin supplier PolyMax — 2,400 kg at MYR 12.40/kg' },
+  { agent: 'inventory', time: '08:16', msg: 'Shortage alert: ABS Pellets below reorder point. Reorder triggered for <strong>500 kg</strong>' },
+  { agent: 'production', time: '08:22', msg: 'Work order <strong>WO-1193</strong> moved to Assembly stage. On schedule.' },
+  { agent: 'quality', time: '08:25', msg: 'Incoming inspection passed for batch <strong>RM-4420</strong>. SPC within control limits.' },
+  { agent: 'sales', time: '08:31', msg: 'Quote <strong>QT-892</strong> generated for Seng Huat Engineering — MYR 24,600' },
+  { agent: 'finance', time: '08:34', msg: 'Invoice <strong>INV-3301</strong> sent to customer. Cash flow forecast updated.' },
+  { agent: 'procurement', time: '08:41', msg: 'Supplier comparison complete: 3 quotes received. <strong>Best price selected</strong> automatically.' },
+  { agent: 'production', time: '08:45', msg: 'Delay detected on <strong>WO-1189</strong>. Auto-rescheduled downstream stages.' },
+  { agent: 'inventory', time: '08:52', msg: 'Stock reconciliation complete. <strong>247 SKUs</strong> verified, 0 discrepancies.' },
+  { agent: 'quality', time: '08:58', msg: 'Defect rate for Line 3 dropped to <strong>0.8%</strong> — below target threshold.' },
+  { agent: 'finance', time: '09:02', msg: 'Daily P&L summary: Revenue MYR <strong>48,200</strong>, Margin <strong>34.2%</strong>.' },
+  { agent: 'sales', time: '09:08', msg: 'Follow-up sent to <strong>3 overdue quotations</strong>. 1 customer responded.' },
+  { agent: 'procurement', time: '09:15', msg: 'Lead time alert: Supplier KT Plastics delayed by <strong>2 days</strong>. Backup sourced.' },
+  { agent: 'production', time: '09:22', msg: 'BOM explosion complete for <strong>WO-1195</strong>. All materials available.' },
+];
+
+function buildFeed() {
+  const scroll = document.getElementById('feed-scroll');
+  let html = '';
+  function renderItem(item) {
+    return `<div class="ops-feed-item">
+      <span class="timestamp">${item.time}</span>
+      <span class="agent-chip ${item.agent}">${item.agent}</span>
+      <span class="message">${item.msg}</span>
+    </div>`;
+  }
+  feedData.forEach(item => { html += renderItem(item); });
+  feedData.forEach(item => { html += renderItem(item); });
+  scroll.innerHTML = html;
+}
+buildFeed();
+
+// ===== THREE.JS HEXAGONAL GRID HERO =====
+(function initHeroCanvas() {
+  if (reducedMotion) return;
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(0, 4, 8);
+  camera.lookAt(0, 0, 0);
+
+  // Build hexagonal grid
+  const hexRadius = 0.5;
+  const rows = 20;
+  const cols = 24;
+  const positions = [];
+  const indices = [];
+
+  for (let r = -rows/2; r < rows/2; r++) {
+    for (let c = -cols/2; c < cols/2; c++) {
+      const x = c * hexRadius * 1.75 + (r % 2 ? hexRadius * 0.875 : 0);
+      const z = r * hexRadius * 1.5;
+      const baseIdx = positions.length / 3;
+      // Hex center + 6 vertices
+      positions.push(x, 0, z);
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i - Math.PI / 6;
+        positions.push(
+          x + hexRadius * 0.45 * Math.cos(angle),
+          0,
+          z + hexRadius * 0.45 * Math.sin(angle)
+        );
       }
-    });
+      // Lines: center to vertices + edges
+      for (let i = 1; i <= 6; i++) {
+        indices.push(baseIdx, baseIdx + i);
+        indices.push(baseIdx + i, baseIdx + (i % 6) + 1);
+      }
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setIndex(indices);
+
+  const material = new THREE.LineBasicMaterial({
+    color: new THREE.Color('#00D4AA'),
+    transparent: true,
+    opacity: 0.07,
+  });
+
+  const mesh = new THREE.LineSegments(geometry, material);
+  mesh.rotation.x = -Math.PI * 0.38;
+  scene.add(mesh);
+
+  let time = 0;
+  const posAttr = geometry.getAttribute('position');
+  const originalY = new Float32Array(posAttr.count);
+  for (let i = 0; i < posAttr.count; i++) {
+    originalY[i] = posAttr.getY(i);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    time += 0.008;
+
+    for (let i = 0; i < posAttr.count; i++) {
+      const x = posAttr.getX(i);
+      const z = posAttr.getZ(i);
+      posAttr.setY(i, originalY[i] + Math.sin(x * 0.4 + z * 0.3 + time) * 0.15);
+    }
+    posAttr.needsUpdate = true;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
   });
 })();
+
+// ===== GSAP SCROLL TRIGGER (OPTIONAL ENHANCEMENT) =====
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !reducedMotion) {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Parallax on hero screenshot
+  gsap.to('.hero-screenshot .browser-frame', {
+    y: -30,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1,
+    }
+  });
+
+  // Nav background opacity on scroll
+  ScrollTrigger.create({
+    start: 'top -80',
+    onUpdate: (self) => {
+      const nav = document.getElementById('nav');
+      if (self.direction === 1 && self.progress > 0) {
+        nav.style.borderBottomColor = 'rgba(255,255,255,0.08)';
+      }
+    }
+  });
+}
+
+// ===== SMOOTH SCROLL FOR NAV LINKS =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 </script>
 </body>
 </html>
