@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AOS — Run Your Company with AI Agents</title>
-<meta name="description" content="Six AI agents orchestrate your entire factory — procurement, production, inventory, sales, quality, finance. Setup in 30 minutes. From MYR 199/mo.">
+<meta name="description" content="AOS is the agentic operating system that executes procurement, planning, and operations autonomously. Not dashboards — autonomous execution.">
 <meta name="theme-color" content="#0f0f14">
 <meta property="og:title" content="AOS — Run Your Company with AI Agents">
-<meta property="og:description" content="Six AI agents manage your procurement, production, inventory, sales, quality, and finance. You check in 30 minutes a day.">
+<meta property="og:description" content="AOS is an agentic operating system that executes procurement, planning, and operations — autonomously. Not dashboards. Not tools. Autonomous execution.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.getaos.ai">
 <meta property="og:site_name" content="AOS">
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AOS — Run Your Company with AI Agents">
-<meta name="twitter:description" content="Six AI agents orchestrate your entire factory. Setup in 30 minutes. No IT department needed.">
+<meta name="twitter:description" content="AOS is an agentic operating system that executes procurement, planning, and operations — autonomously.">
 <meta name="twitter:image" content="https://www.getaos.ai/desktop-analytics.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='none' stroke='%2300D4AA' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300D4AA'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1554,6 +1554,217 @@ ul, ol { list-style: none; }
     font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
   }
 }
+
+/* ============================================================
+   DEMO SECTION — "This is not a dashboard"
+   ============================================================ */
+.demo-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.demo-terminal {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-top: var(--space-12);
+  max-width: 640px;
+}
+.demo-terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-default);
+}
+.demo-terminal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-4);
+}
+.demo-terminal-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-left: 8px;
+  letter-spacing: 0.03em;
+}
+.demo-user-msg {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+.demo-user-msg .demo-label {
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+.demo-aos-msg {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.25rem;
+}
+.demo-aos-msg .demo-label {
+  color: var(--accent);
+  font-weight: 500;
+}
+.demo-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.375rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.demo-step .check {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+/* ============================================================
+   USE CASE SECTION — "When things go wrong"
+   ============================================================ */
+.usecase-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.usecase-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  border-left: 3px solid var(--accent);
+  padding: 2rem;
+  margin-top: var(--space-12);
+  max-width: 640px;
+}
+.usecase-scenario {
+  font-size: 1rem;
+  font-weight: 590;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.usecase-scenario span {
+  color: var(--accent);
+}
+.usecase-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  padding-left: 2rem;
+}
+.usecase-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--accent);
+  opacity: 0.25;
+}
+.usecase-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  position: relative;
+}
+.usecase-step::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.2;
+}
+.usecase-step::after {
+  content: '';
+  position: absolute;
+  left: calc(-2rem + 4px);
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.usecase-step-num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 1.25rem;
+}
+
+/* ============================================================
+   WHY NOW SECTION
+   ============================================================ */
+.whynow-section {
+  padding: var(--space-section) 0;
+  position: relative;
+}
+.whynow-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: var(--space-12);
+}
+@media (min-width: 768px) {
+  .whynow-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.whynow-block {
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+}
+.whynow-block p {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 510;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+.whynow-quote {
+  margin-top: var(--space-12);
+  text-align: center;
+  max-width: 640px;
+}
+.whynow-quote blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1rem + 1.5vw, 1.75rem);
+  color: var(--text-primary);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+
+/* ============================================================
+   AGENT CAPABILITY TAG
+   ============================================================ */
+.agent-capability {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.03em;
+  margin-top: var(--space-2);
+}
 </style>
 </head>
 <body>
@@ -1625,11 +1836,11 @@ ul, ol { list-style: none; }
   <div class="container hero-content">
     <div class="hero-text">
       <div class="hero-badge reveal"><span class="pulse-dot"></span>Now in Early Access</div>
-      <h1 class="hero-headline reveal">Run your company with AI&nbsp;agents.</h1>
-      <p class="hero-sub reveal">AOS replaces manual coordination across procurement, production, and operations — with intelligent agents that act, decide, and execute in real&nbsp;time.</p>
+      <h1 class="hero-headline reveal">Run your company with AI&nbsp;agents.<br><span style="color: var(--text-secondary);">Not dashboards.</span></h1>
+      <p class="hero-sub reveal">AOS is an agentic operating system that executes procurement, planning, and operations — autonomously.</p>
       <div class="hero-ctas reveal">
-        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
-        <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
+        <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Access</a>
+        <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">Watch Demo</a>
       </div>
     </div>
 
@@ -1688,6 +1899,34 @@ ul, ol { list-style: none; }
         <div class="time-label">7:33 AM</div>
         <p class="narr-text"><b>Done.</b> Jack's factory is running. He hasn't opened a laptop. Six agents handle the rest.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DEMO SECTION — "This is not a dashboard"
+     ============================================================ -->
+<section class="demo-section" id="demo">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">Live System</div>
+      <h2 class="section-title">This is not a dashboard.</h2>
+      <p>Tell AOS what's happening. It handles the rest.</p>
+    </div>
+    <div class="demo-terminal reveal">
+      <div class="demo-terminal-header">
+        <span class="demo-terminal-dot"></span>
+        <span class="demo-terminal-dot"></span>
+        <span class="demo-terminal-dot"></span>
+        <span class="demo-terminal-label">aos-terminal</span>
+      </div>
+      <div class="demo-user-msg"><span class="demo-label">You:</span> "We will run out of material in 7 days"</div>
+      <div class="demo-aos-msg"><span class="demo-label">AOS:</span></div>
+      <div class="demo-step"><span class="check">&#10003;</span> Checked MRP forecast</div>
+      <div class="demo-step"><span class="check">&#10003;</span> Identified shortage risk</div>
+      <div class="demo-step"><span class="check">&#10003;</span> Contacted 3 approved suppliers</div>
+      <div class="demo-step"><span class="check">&#10003;</span> Drafted RFQ + PO</div>
+      <div class="demo-step"><span class="check">&#10003;</span> Suggested alternate material</div>
     </div>
   </div>
 </section>
@@ -1773,7 +2012,7 @@ ul, ol { list-style: none; }
   <div class="container">
     <div class="section-header reveal">
       <div class="overline">How It Works</div>
-      <h2 class="section-title">Three steps to autonomous operations.</h2>
+      <h2 class="section-title">From data &rarr; decisions &rarr; execution</h2>
     </div>
     <div class="how-layout" style="margin-top: var(--space-12);">
       <div class="how-sticky reveal">
@@ -1781,22 +2020,22 @@ ul, ol { list-style: none; }
           <div class="how-step">
             <div class="how-step-num">01</div>
             <div>
-              <h4>Describe your factory</h4>
-              <p>Tell AOS about your products, suppliers, and processes. Natural language. No technical setup required.</p>
+              <h4>Ingest</h4>
+              <p>ERP, emails, Excel, machine data</p>
             </div>
           </div>
           <div class="how-step">
             <div class="how-step-num">02</div>
             <div>
-              <h4>Deploy your agents</h4>
-              <p>Six specialized AI agents activate across procurement, production, inventory, sales, quality, and finance.</p>
+              <h4>Understand</h4>
+              <p>Knowledge graph + operational memory</p>
             </div>
           </div>
           <div class="how-step">
             <div class="how-step-num">03</div>
             <div>
-              <h4>Run on autopilot</h4>
-              <p>Agents make decisions 24/7. You approve critical actions via WhatsApp or the web app. 30 minutes a day.</p>
+              <h4>Execute</h4>
+              <p>Agents take real actions — not just suggestions</p>
             </div>
           </div>
         </div>
@@ -1844,8 +2083,8 @@ ul, ol { list-style: none; }
   <div class="container">
     <div class="section-header reveal">
       <div class="overline">AI Agents</div>
-      <h2 class="section-title">Six agents. One orchestrator.</h2>
-      <p>Each agent is a domain specialist that works autonomously, collaborates through a central orchestrator, and learns from your factory's patterns.</p>
+      <h2 class="section-title">Your AI workforce</h2>
+      <p>Each agent acts independently — and collaborates as a system.</p>
     </div>
     <div class="agents-grid reveal-group">
       <!-- Procurement -->
@@ -1861,7 +2100,8 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Procurement</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Auto-creates purchase orders, compares supplier pricing across vendors, and triggers reorders before stockouts happen.</p>
+        <p>Sourcing, RFQs, purchase orders</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">23%</span>
           <span class="metric-label">cost reduction</span>
@@ -1880,7 +2120,8 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Production</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Manages work orders, tracks production stages, flags delays automatically, and schedules based on BOM requirements.</p>
+        <p>Scheduling, MRP, capacity planning</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">18%</span>
           <span class="metric-label">throughput increase</span>
@@ -1899,7 +2140,8 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Inventory</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Real-time stock tracking with shortage predictions, automated reorder triggers, and warehouse optimization.</p>
+        <p>Stock tracking, reorder triggers, warehouse optimization</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">40%</span>
           <span class="metric-label">fewer stockouts</span>
@@ -1917,7 +2159,8 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Sales</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Generates quotes instantly, automates customer follow-ups, and forecasts demand based on order patterns.</p>
+        <p>Quotes, follow-ups, demand forecasting</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">2.4x</span>
           <span class="metric-label">faster quotes</span>
@@ -1935,7 +2178,8 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Quality</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Tracks defects in real-time, monitors SPC charts, manages incoming inspections, and enforces quality gates.</p>
+        <p>Compliance, inspections, defect tracking</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">67%</span>
           <span class="metric-label">fewer defect escapes</span>
@@ -1954,11 +2198,33 @@ ul, ol { list-style: none; }
           <span class="agent-card-name">Finance</span>
           <span class="agent-card-status"><span class="status-dot active"></span> Active</span>
         </div>
-        <p>Automated invoicing, cash flow monitoring, margin analysis, and daily P&L summaries sent to your phone.</p>
+        <p>Invoicing, P&amp;L, cash flow monitoring</p>
+        <div class="agent-capability">Has memory · Has tools · Can act</div>
         <div class="agent-card-metric">
           <span class="metric-value">15h</span>
           <span class="metric-label">saved weekly</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     USE CASE — "When things go wrong"
+     ============================================================ -->
+<section class="usecase-section" id="usecase">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">Real-World Response</div>
+      <h2 class="section-title">When things go wrong, AOS already fixed&nbsp;it.</h2>
+    </div>
+    <div class="usecase-card reveal">
+      <div class="usecase-scenario">Scenario: <span>Late supplier delivery</span></div>
+      <div class="usecase-timeline">
+        <div class="usecase-step"><span class="usecase-step-num">1</span> Detects delay</div>
+        <div class="usecase-step"><span class="usecase-step-num">2</span> Replans production</div>
+        <div class="usecase-step"><span class="usecase-step-num">3</span> Notifies stakeholders</div>
+        <div class="usecase-step"><span class="usecase-step-num">4</span> Prevents downtime</div>
       </div>
     </div>
   </div>
@@ -1972,7 +2238,7 @@ ul, ol { list-style: none; }
     <div class="section-header reveal">
       <div class="overline">Compare</div>
       <h2 class="section-title">Built different.</h2>
-      <p>AOS is not another ERP. It is the first AI-native operating system purpose-built for manufacturing SMEs.</p>
+      <p>AOS is not another ERP. It is the first agentic operating system purpose-built for manufacturing SMEs.</p>
     </div>
     <div class="compare-wrapper reveal">
       <table class="compare-table">
@@ -2042,6 +2308,32 @@ ul, ol { list-style: none; }
 </section>
 
 <!-- ============================================================
+     WHY NOW
+     ============================================================ -->
+<section class="whynow-section" id="whynow">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="overline">Timing</div>
+      <h2 class="section-title">Why now</h2>
+    </div>
+    <div class="whynow-grid reveal-group">
+      <div class="whynow-block reveal">
+        <p>AI can now reason, act, and integrate across systems.</p>
+      </div>
+      <div class="whynow-block reveal">
+        <p>Companies are still run manually.</p>
+      </div>
+      <div class="whynow-block reveal">
+        <p>AOS replaces coordination work with autonomous execution.</p>
+      </div>
+    </div>
+    <div class="whynow-quote mx-auto reveal">
+      <blockquote>"We're not adding AI to workflows — we're replacing workflows with AI."</blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
      PRICING
      ============================================================ -->
 <section class="pricing-section" id="pricing">
@@ -2060,7 +2352,7 @@ ul, ol { list-style: none; }
           <span class="amount">199</span>
           <span class="period">/mo</span>
         </div>
-        <div class="tier-desc">For small factories getting started with AI-powered operations.</div>
+        <div class="tier-desc">For small factories getting started with autonomous operations.</div>
         <div class="pricing-features">
           <div class="pricing-feature">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="3 8 6.5 11.5 13 4.5"/></svg>
@@ -2191,11 +2483,11 @@ ul, ol { list-style: none; }
     <ellipse cx="350" cy="280" rx="180" ry="120" fill="rgba(91, 141, 239, 0.04)" filter="url(#blur-heavy-2)"/>
   </svg>
   <div class="container final-cta-content reveal">
-    <h2 class="hero-headline">Stop managing chaos.<br>Start commanding it.</h2>
+    <h2 class="hero-headline">The future isn't AI tools.<br>It's AI-operated companies.</h2>
     <p>Your first 14 days are free. No credit card required.</p>
     <div class="final-cta-buttons">
-      <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
-      <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
+      <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Request Access</a>
+      <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">Book Demo</a>
     </div>
   </div>
 </section>
@@ -2215,7 +2507,7 @@ ul, ol { list-style: none; }
           </svg>
           AOS
         </a>
-        <p>The AI-native operating system for manufacturing. Six agents. One orchestrator. Run your company with AI agents.</p>
+        <p>The agentic operating system for autonomous companies. Six agents. One system. Run your company with AI agents.</p>
         <div class="os-family">
           <span class="os-family-item"><span class="os-label">MOS</span> Manufacturing</span>
           <span class="os-family-item"><span class="os-label">ROS</span> Retail</span>
@@ -2669,6 +2961,49 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
         });
       }
     });
+  });
+
+  // ── DEMO SECTION ─────────────────────────────────────────
+  animHeader(document.querySelector('.demo-section'));
+  gsap.set('.demo-terminal', { opacity: 0, y: 32, scale: 0.98 });
+  gsap.to('.demo-terminal', {
+    opacity: 1, y: 0, scale: 1, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.demo-terminal', start: 'top 88%' }
+  });
+  // Stagger demo steps
+  gsap.set('.demo-step', { opacity: 0, x: -16 });
+  gsap.to('.demo-step', {
+    opacity: 1, x: 0, duration: 0.5, ease: 'power3.out',
+    stagger: 0.12,
+    scrollTrigger: { trigger: '.demo-terminal', start: 'top 80%' }
+  });
+
+  // ── USE CASE SECTION ────────────────────────────────────
+  animHeader(document.querySelector('.usecase-section'));
+  gsap.set('.usecase-card', { opacity: 0, y: 32, scale: 0.98 });
+  gsap.to('.usecase-card', {
+    opacity: 1, y: 0, scale: 1, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.usecase-card', start: 'top 88%' }
+  });
+  gsap.set('.usecase-step', { opacity: 0, x: -20 });
+  gsap.to('.usecase-step', {
+    opacity: 1, x: 0, duration: 0.5, ease: 'power3.out',
+    stagger: 0.15,
+    scrollTrigger: { trigger: '.usecase-timeline', start: 'top 85%' }
+  });
+
+  // ── WHY NOW SECTION ─────────────────────────────────────
+  animHeader(document.querySelector('.whynow-section'));
+  gsap.set('.whynow-block', { opacity: 0, y: 28, scale: 0.97 });
+  gsap.to('.whynow-block', {
+    opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out',
+    stagger: 0.14,
+    scrollTrigger: { trigger: '.whynow-grid', start: 'top 88%' }
+  });
+  gsap.set('.whynow-quote', { opacity: 0, y: 20 });
+  gsap.to('.whynow-quote', {
+    opacity: 1, y: 0, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: '.whynow-quote', start: 'top 90%' }
   });
 
   // ── COMPARISON TABLE ─────────────────────────────────────
