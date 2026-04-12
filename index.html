@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AOS — Your Factory Runs Itself</title>
+<title>AOS — Run Your Company with AI Agents</title>
 <meta name="description" content="Six AI agents orchestrate your entire factory — procurement, production, inventory, sales, quality, finance. Setup in 30 minutes. From MYR 199/mo.">
 <meta name="theme-color" content="#0f0f14">
-<meta property="og:title" content="AOS — Your Factory Runs Itself">
+<meta property="og:title" content="AOS — Run Your Company with AI Agents">
 <meta property="og:description" content="Six AI agents manage your procurement, production, inventory, sales, quality, and finance. You check in 30 minutes a day.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.getaos.ai">
@@ -15,7 +15,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AOS — Your Factory Runs Itself">
+<meta name="twitter:title" content="AOS — Run Your Company with AI Agents">
 <meta name="twitter:description" content="Six AI agents orchestrate your entire factory. Setup in 30 minutes. No IT department needed.">
 <meta name="twitter:image" content="https://www.getaos.ai/desktop-analytics.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='none' stroke='%2300D4AA' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2300D4AA'/%3E%3C/svg%3E">
@@ -619,216 +619,237 @@ ul, ol { list-style: none; }
   flex-wrap: wrap;
 }
 
-/* ── WhatsApp Phone Mockup ─────────────────────────────── */
+/* ── AOS Chat Simulation ─────────────────────────────── */
 .wa-phone {
   display: none;
 }
-.wa-frame {
+.aos-chat-frame {
   width: 100%;
-  max-width: 360px;
-  background: #0b141a;
-  border-radius: 24px;
-  border: 2px solid #2a2a2a;
+  max-width: 400px;
+  background: #0f0f14;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
   overflow: hidden;
-  box-shadow: 0 40px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
-  transform: perspective(1200px) rotateY(-6deg) rotateX(3deg);
+  box-shadow: 0 40px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.03);
+  transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
   transition: transform 0.6s var(--ease-standard);
 }
-.wa-frame:hover {
-  transform: perspective(1200px) rotateY(-3deg) rotateX(1deg);
+.aos-chat-frame:hover {
+  transform: perspective(1200px) rotateY(-2deg) rotateX(1deg);
 }
-.wa-status-bar {
+
+/* Header bar */
+.aos-chat-header {
+  background: #13131a;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.aos-chat-logo {
+  width: 28px;
   height: 28px;
-  background: #1f2c34;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  font-size: 10px;
-  font-weight: 600;
-  color: #e9edef;
-}
-.wa-header {
-  background: #1f2c34;
-  padding: 6px 10px 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid rgba(255,255,255,.04);
-}
-.wa-avatar {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00D4AA, #00a884);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(0,212,170,0.15), rgba(0,212,170,0.05));
+  border: 1px solid rgba(0,212,170,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: #fff;
   flex-shrink: 0;
 }
-.wa-contact-name {
+.aos-chat-logo svg { width: 16px; height: 16px; }
+.aos-chat-header-text {
+  flex: 1;
+}
+.aos-chat-title {
   font-size: 13px;
-  font-weight: 500;
-  color: #e9edef;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
-.wa-contact-status {
+.aos-chat-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 10px;
-  color: #8696a0;
+  color: var(--text-tertiary);
 }
-.wa-chat {
-  padding: 6px 8px;
-  background: #0b141a;
-  height: 420px;
+.aos-chat-status .online-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 6px rgba(52,211,153,0.4);
+}
+
+/* Chat body */
+.aos-chat-body {
+  padding: 16px;
+  background: #0f0f14;
+  height: 380px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 12px;
   scroll-behavior: smooth;
 }
-.wa-chat::-webkit-scrollbar { width: 3px; }
-.wa-chat::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
-.wa-msg {
-  max-width: 88%;
-  padding: 5px 7px 2px;
-  border-radius: 7px;
-  font-size: 12.5px;
-  line-height: 1.4;
-  color: #e9edef;
-  word-wrap: break-word;
+.aos-chat-body::-webkit-scrollbar { width: 3px; }
+.aos-chat-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 3px; }
+
+/* Messages */
+.chat-msg {
+  max-width: 92%;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s var(--ease-standard), transform 0.3s var(--ease-standard);
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease-standard), transform 0.35s var(--ease-standard);
 }
-.wa-msg.show { opacity: 1; transform: none; }
-.wa-msg.in {
-  background: #1f2c34;
-  align-self: flex-start;
-  border-top-left-radius: 0;
-}
-.wa-msg.out {
-  background: #005c4b;
+.chat-msg.show { opacity: 1; transform: none; }
+
+/* User messages — right aligned bubble */
+.chat-msg.user {
   align-self: flex-end;
-  border-top-right-radius: 0;
+  background: #1a1a22;
+  border-radius: 16px;
+  border-bottom-right-radius: 4px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
-.wa-msg .ts {
-  font-size: 9px;
-  color: #8696a0;
-  float: right;
-  margin: 3px 0 0 6px;
+
+/* AOS messages — left aligned with accent border */
+.chat-msg.aos {
+  align-self: flex-start;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid var(--accent);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-secondary);
 }
-.wa-msg .ck { color: #53bdeb; }
-.wa-msg::after { content: ''; display: block; clear: both; height: 1px; }
-.wa-msg b { font-weight: 600; }
-.wa-msg .t { color: #00D4AA; }
-.wa-msg .a { color: #F59E42; }
-.wa-msg .r { color: #EF6461; }
-.wa-msg .g { color: #25D366; }
-.wa-msg .m {
-  font-family: var(--font-mono);
-  background: rgba(255,255,255,.06);
-  padding: 0 3px;
-  border-radius: 2px;
-  font-size: 11px;
-  text-decoration: none;
-}
-.wa-msg hr { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 4px 0; }
-.wa-sys {
-  align-self: center;
-  background: rgba(31,44,52,.85);
-  padding: 2px 10px;
-  border-radius: 5px;
-  font-size: 10px;
-  color: #8696a0;
-  margin: 4px 0;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-.wa-sys.show { opacity: 1; }
-.wa-kpi-row { display: flex; gap: 4px; margin: 4px 0; }
-.wa-kpi {
-  flex: 1;
-  background: rgba(255,255,255,.03);
+.chat-msg.aos strong { color: var(--text-primary); font-weight: 590; }
+
+/* Status chips */
+.chat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
   border-radius: 4px;
-  padding: 4px 6px;
-  text-align: center;
-}
-.wa-kpi .v { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.wa-kpi .l { font-size: 8.5px; color: #8696a0; margin-top: 1px; }
-.wa-action {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 6px;
-  background: rgba(0,168,132,.06);
-  border: 1px solid rgba(0,168,132,.18);
-  border-radius: 5px;
-  color: #00a884;
-  font-size: 11.5px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
   font-weight: 500;
   margin-top: 4px;
-  cursor: pointer;
-  transition: background 0.12s;
 }
-.wa-action:hover { background: rgba(0,168,132,.12); }
-.wa-action.danger { background: rgba(239,100,97,.05); border-color: rgba(239,100,97,.18); color: #EF6461; }
-.wa-action.danger:hover { background: rgba(239,100,97,.1); }
-.wa-input-bar {
-  height: 38px;
-  background: #1f2c34;
+.chat-chip.teal {
+  background: rgba(0,212,170,0.08);
+  color: #00D4AA;
+}
+.chat-chip.amber {
+  background: rgba(245,158,66,0.08);
+  color: #F59E42;
+}
+
+/* Action buttons */
+.chat-actions {
+  display: flex;
+  gap: 8px;
+  align-self: flex-start;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s var(--ease-standard), transform 0.35s var(--ease-standard);
+}
+.chat-actions.show { opacity: 1; transform: none; }
+.chat-action-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 560;
+  cursor: pointer;
+  transition: all 0.15s var(--ease-standard);
+  font-family: var(--font-body);
+}
+.chat-action-btn.primary {
+  background: var(--accent);
+  color: var(--text-inverse);
+  border: none;
+}
+.chat-action-btn.primary:hover { filter: brightness(1.15); }
+.chat-action-btn.primary.clicked {
+  animation: btn-click 0.3s var(--ease-standard);
+  filter: brightness(1.3);
+}
+.chat-action-btn.secondary {
+  background: transparent;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-strong);
+}
+.chat-action-btn.secondary:hover { border-color: var(--border-vivid); color: var(--text-secondary); }
+
+@keyframes btn-click {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Thinking dots */
+.aos-thinking {
+  display: none;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid var(--accent);
+  align-self: flex-start;
+}
+.aos-thinking.show { display: flex; }
+.aos-thinking span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: aos-think-pulse 1.4s ease-in-out infinite;
+}
+.aos-thinking span:nth-child(2) { animation-delay: 0.2s; }
+.aos-thinking span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes aos-think-pulse {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Chat input bar */
+.aos-chat-input-bar {
+  padding: 10px 16px;
+  background: #13131a;
+  border-top: 1px solid rgba(255,255,255,0.06);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 6px;
+  gap: 8px;
 }
-.wa-input {
+.aos-chat-input {
   flex: 1;
-  background: #2a3942;
-  border: none;
-  border-radius: 16px;
-  padding: 6px 10px;
-  color: #e9edef;
+  background: #1a1a22;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--text-primary);
   font-size: 12px;
-  font-family: inherit;
+  font-family: var(--font-body);
   outline: none;
 }
-.wa-input::placeholder { color: #8696a0; }
-.wa-mic {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #00a884;
+.aos-chat-input::placeholder { color: var(--text-tertiary); }
+.aos-chat-send {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: none;
+  cursor: pointer;
 }
-.wa-mic svg { width: 14px; height: 14px; fill: #fff; }
-.wa-typing {
-  display: none;
-  gap: 3px;
-  padding: 7px 10px;
-  align-self: flex-start;
-  background: #1f2c34;
-  border-radius: 7px;
-  border-top-left-radius: 0;
-}
-.wa-typing.show { display: flex; }
-.wa-typing span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #8696a0;
-  animation: wa-dot 1.4s ease-in-out infinite;
-}
-.wa-typing span:nth-child(2) { animation-delay: .2s; }
-.wa-typing span:nth-child(3) { animation-delay: .4s; }
-@keyframes wa-dot {
-  0%,60%,100% { opacity: .3; transform: translateY(0); }
-  30% { opacity: 1; transform: translateY(-3px); }
-}
+.aos-chat-send svg { width: 14px; height: 14px; fill: var(--text-inverse); }
 
 /* Hero narrative text beside the phone */
 .hero-narrative {
@@ -860,6 +881,9 @@ ul, ol { list-style: none; }
   }
   .wa-phone { display: block; }
   .hero-narrative { display: block; }
+}
+@media (max-width: 1023px) {
+  .aos-chat-frame { max-width: 100%; }
 }
 @media (max-width: 1023px) {
   .hero-ctas { flex-direction: column; }
@@ -1601,79 +1625,61 @@ ul, ol { list-style: none; }
   <div class="container hero-content">
     <div class="hero-text">
       <div class="hero-badge reveal"><span class="pulse-dot"></span>Now in Early Access</div>
-      <h1 class="hero-headline reveal">Your factory runs itself.</h1>
-      <p class="hero-sub reveal">Every morning at 7:30, AOS sends your daily brief on WhatsApp. You reply with one word. Six AI agents handle the rest.</p>
+      <h1 class="hero-headline reveal">Run your company with AI&nbsp;agents.</h1>
+      <p class="hero-sub reveal">AOS replaces manual coordination across procurement, production, and operations — with intelligent agents that act, decide, and execute in real&nbsp;time.</p>
       <div class="hero-ctas reveal">
         <a href="https://app.getaos.ai" target="_blank" rel="noopener" class="btn-primary lg">Get Started Free</a>
         <a href="https://app.getaos.ai?demo=true" target="_blank" rel="noopener" class="btn-ghost lg">See Live Demo</a>
       </div>
     </div>
 
-    <!-- WhatsApp Phone Mockup -->
+    <!-- AOS Chat Simulation -->
     <div class="wa-phone reveal">
-      <div class="wa-frame">
-        <div class="wa-status-bar"><span>7:30 AM</span><span>5G</span></div>
-        <div class="wa-header">
-          <div class="wa-avatar">A</div>
-          <div><div class="wa-contact-name">AOS Manufacturing</div><div class="wa-contact-status">online</div></div>
-        </div>
-        <div class="wa-chat" id="waChat">
-          <div class="wa-sys" data-s="0">TODAY</div>
-
-          <div class="wa-msg in" data-s="1"><b>Good morning, Jack.</b> Here's your brief for <b>Plastik Maju Industries</b>.<span class="ts">7:30</span></div>
-
-          <div class="wa-msg in" data-s="2">
-            <b class="t">Revenue MTD</b>
-            <div class="wa-kpi-row">
-              <div class="wa-kpi"><div class="v t">MYR 353K</div><div class="l">+14% vs last mo</div></div>
-              <div class="wa-kpi"><div class="v">38.4%</div><div class="l">Gross Margin</div></div>
-              <div class="wa-kpi"><div class="v g">94%</div><div class="l">Inventory</div></div>
-            </div>
-            <span class="ts">7:30</span>
+      <div class="aos-chat-frame">
+        <div class="aos-chat-header">
+          <div class="aos-chat-logo">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="16,4 26,10 26,22 16,28 6,22 6,10" stroke="#00D4AA" stroke-width="1.5" fill="none"/>
+              <circle cx="16" cy="16" r="2" fill="#00D4AA"/>
+            </svg>
           </div>
-
-          <div class="wa-msg in" data-s="3">
-            <b>Overnight</b><hr>
-            <span class="t">Procurement</span> — 3 POs auto-created<br>
-            • <span class="m">PO-6452</span> PP resin, Polychem — <b>MYR 4,250</b><br>
-            • <span class="m">PO-6453</span> ABS, ChemTrade — <b>MYR 3,800</b><br>
-            • <span class="m">PO-6454</span> Colorant, Megah — <b>MYR 920</b><hr>
-            <span class="a">Pending approval:</span> <b>MYR 8,970</b>
-            <span class="ts">7:30</span>
-          </div>
-
-          <div class="wa-msg in" data-s="4">
-            <b class="r">Needs Attention</b><hr>
-            <span class="r">•</span> <span class="m">WO-0044</span> EV Battery Cover — <b class="r">2 days overdue</b><br>
-            <span class="a">•</span> PP resin at <b class="a">12%</b> — reorder triggered
-            <span class="ts">7:30</span>
-          </div>
-
-          <div class="wa-msg in" data-s="5">
-            What would you like to do?
-            <div class="wa-action" id="waApprove">Approve all 3 POs (MYR 8,970)</div>
-            <div class="wa-action danger">Review overdue WO-0044</div>
-            <span class="ts">7:30</span>
-          </div>
-
-          <div class="wa-typing" id="waTyping"><span></span><span></span><span></span></div>
-
-          <div class="wa-msg out" data-s="6">Approve all<span class="ts">7:31 <span class="ck">✓✓</span></span></div>
-
-          <div class="wa-msg in" data-s="7">
-            <span class="g">✓ Done.</span> All 3 POs approved and sent to suppliers.<br><br>
-            PDF copies sent to your email.<br><br>
-            <b>Your factory is running. Have a good day, Jack.</b>
-            <span class="ts">7:31</span>
+          <div class="aos-chat-header-text">
+            <div class="aos-chat-title">AOS Command Center</div>
+            <div class="aos-chat-status"><span class="online-dot"></span>Online</div>
           </div>
         </div>
-        <div class="wa-input-bar">
-          <input class="wa-input" placeholder="Type a message" readonly>
-          <div class="wa-mic"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="aos-chat-body" id="aosChatBody">
+          <!-- User message -->
+          <div class="chat-msg user" data-step="1">We're running low on PP resin. What should we do?</div>
+
+          <!-- Thinking dots -->
+          <div class="aos-thinking" id="aosThinking"><span></span><span></span><span></span></div>
+
+          <!-- AOS messages -->
+          <div class="chat-msg aos" data-step="2">Checking inventory levels...</div>
+
+          <div class="chat-msg aos" data-step="3">PP resin at <strong>12%</strong> — below reorder point. <span class="chat-chip amber">Warning</span></div>
+
+          <div class="chat-msg aos" data-step="4">Found 3 approved suppliers. Best price: <strong>ChemTrade at MYR 3,800/ton.</strong> <span class="chat-chip teal">Best match</span></div>
+
+          <div class="chat-msg aos" data-step="5">Draft PO ready for approval. Estimated delivery: <strong>3 days.</strong></div>
+
+          <!-- Action buttons -->
+          <div class="chat-actions" data-step="6">
+            <button class="chat-action-btn primary" id="aosApproveBtn">Approve PO</button>
+            <button class="chat-action-btn secondary">Review alternatives</button>
+          </div>
+
+          <!-- Final confirmation -->
+          <div class="chat-msg aos" data-step="7"><strong>PO-6455</strong> sent to ChemTrade. PDF attached. <span class="chat-chip teal">✓ Confirmed</span></div>
+        </div>
+        <div class="aos-chat-input-bar">
+          <input class="aos-chat-input" placeholder="Ask AOS anything..." readonly>
+          <button class="aos-chat-send"><svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>
         </div>
       </div>
 
-      <!-- Narrative annotations beside phone on desktop -->
+      <!-- Narrative annotations beside chat on desktop -->
       <div class="hero-narrative">
         <div class="time-label">7:30 AM</div>
         <p class="narr-text">AOS sends Jack his daily brief. <b>Revenue, inventory, overnight POs, alerts</b> — all in one WhatsApp message.</p>
@@ -1807,13 +1813,13 @@ ul, ol { list-style: none; }
           </div>
         </div>
         <div class="reveal">
-          <div class="how-screenshot-label">Step 2 &mdash; AI Assistant</div>
+          <div class="how-screenshot-label">Step 2 &mdash; AI Agent</div>
           <div class="browser-frame">
             <div class="chrome-bar">
               <div class="traffic-light"></div><div class="traffic-light"></div><div class="traffic-light"></div>
               <div class="url-bar">app.getaos.ai/chat</div>
             </div>
-            <img src="desktop-chat.jpg" alt="AOS AI Chat Assistant" loading="lazy" width="1200" height="750">
+            <img src="desktop-chat.jpg" alt="AOS AI Agent Chat" loading="lazy" width="1200" height="750">
           </div>
         </div>
         <div class="reveal">
@@ -2209,7 +2215,7 @@ ul, ol { list-style: none; }
           </svg>
           AOS
         </a>
-        <p>The AI-native operating system for manufacturing. Six agents. One orchestrator. Your factory runs itself.</p>
+        <p>The AI-native operating system for manufacturing. Six agents. One orchestrator. Run your company with AI agents.</p>
         <div class="os-family">
           <span class="os-family-item"><span class="os-label">MOS</span> Manufacturing</span>
           <span class="os-family-item"><span class="os-label">ROS</span> Retail</span>
@@ -2575,8 +2581,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
     .to('.hero-ctas',     { opacity: 1, y: 0,             filter: 'blur(0px)', duration: 0.65, ease: 'power3.out' }, '-=0.48')
     .to('.wa-phone',      { opacity: 1, x: 0,             filter: 'blur(0px)', duration: 1.0, ease: 'power4.out' }, '-=0.75');
 
-  // ── WhatsApp frame: subtle parallax on scroll ────────────
-  gsap.to('.wa-frame', {
+  // ── Chat frame: subtle parallax on scroll ────────────
+  gsap.to('.aos-chat-frame', {
     y: -24, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }
   });
@@ -2711,63 +2717,109 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !redu
   });
 }
 
-// ===== WHATSAPP HERO ANIMATION =====
+// ===== AOS CHAT SIMULATION =====
 (function() {
-  const waChat = document.getElementById('waChat');
-  if (!waChat) return;
-  const msgs = waChat.querySelectorAll('[data-s]');
-  const typing = document.getElementById('waTyping');
-  const approveBtn = document.getElementById('waApprove');
-  let step = 0;
-  const briefSteps = 5; // steps 0-5 auto-play
+  const chatBody = document.getElementById('aosChatBody');
+  if (!chatBody) return;
+  const thinking = document.getElementById('aosThinking');
+  const msgs = chatBody.querySelectorAll('[data-step]');
+  const approveBtn = document.getElementById('aosApproveBtn');
 
-  function showStep(n) {
-    msgs.forEach(m => { if (parseInt(m.dataset.s) === n) m.classList.add('show'); });
-    waChat.scrollTop = waChat.scrollHeight;
+  function showMsg(step) {
+    msgs.forEach(m => { if (parseInt(m.dataset.step) === step) m.classList.add('show'); });
+    chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  function playBrief() {
-    if (step > briefSteps) return;
-    showStep(step);
-    step++;
-    if (step <= briefSteps) {
-      if (step > 1) {
-        typing.classList.add('show');
-        waChat.scrollTop = waChat.scrollHeight;
-        setTimeout(() => { typing.classList.remove('show'); playBrief(); }, 500 + Math.random() * 300);
-      } else {
-        setTimeout(playBrief, 250);
-      }
+  function hideAllMsgs() {
+    msgs.forEach(m => m.classList.remove('show'));
+    const actions = chatBody.querySelector('.chat-actions');
+    if (actions) actions.classList.remove('show');
+    if (approveBtn) {
+      approveBtn.classList.remove('clicked');
+      approveBtn.style.opacity = '';
+      approveBtn.style.pointerEvents = '';
     }
+    thinking.classList.remove('show');
+    chatBody.scrollTop = 0;
   }
 
-  // Start the brief when hero is in view
+  function showThinking(duration) {
+    return new Promise(resolve => {
+      thinking.classList.add('show');
+      chatBody.scrollTop = chatBody.scrollHeight;
+      setTimeout(() => {
+        thinking.classList.remove('show');
+        resolve();
+      }, duration);
+    });
+  }
+
+  async function playSequence() {
+    hideAllMsgs();
+
+    // 0.5s — User message
+    await delay(500);
+    showMsg(1);
+
+    // 1.5s — Thinking
+    await delay(1000);
+    await showThinking(1000);
+
+    // 2.5s — "Checking inventory..."
+    showMsg(2);
+    await delay(1000);
+
+    // 3.5s — "PP resin at 12%"
+    await showThinking(600);
+    showMsg(3);
+    await delay(1500);
+
+    // 5s — "Found 3 suppliers"
+    await showThinking(600);
+    showMsg(4);
+    await delay(2000);
+
+    // 7s — "Draft PO ready"
+    await showThinking(600);
+    showMsg(5);
+    await delay(1500);
+
+    // 8.5s — Buttons appear
+    const actions = chatBody.querySelector('.chat-actions');
+    if (actions) actions.classList.add('show');
+    chatBody.scrollTop = chatBody.scrollHeight;
+    await delay(1500);
+
+    // 10s — "Approve PO" auto-clicked
+    if (approveBtn) {
+      approveBtn.classList.add('clicked');
+      approveBtn.style.opacity = '0.6';
+      approveBtn.style.pointerEvents = 'none';
+    }
+    await delay(1000);
+
+    // 11s — Final confirmation
+    await showThinking(600);
+    showMsg(7);
+    await delay(2000);
+
+    // 13s — Pause then loop
+    await delay(2000);
+    playSequence();
+  }
+
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Start when hero is in view
   const heroObs = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
-      setTimeout(playBrief, 600);
+      setTimeout(playSequence, 600);
       heroObs.disconnect();
     }
   }, { threshold: 0.2 });
   heroObs.observe(document.getElementById('hero'));
-
-  // Approve button interaction
-  if (approveBtn) {
-    approveBtn.addEventListener('click', function() {
-      this.style.opacity = '0.4';
-      this.style.pointerEvents = 'none';
-      setTimeout(() => {
-        showStep(6); // user says "Approve all"
-        setTimeout(() => {
-          typing.classList.add('show');
-          waChat.scrollTop = waChat.scrollHeight;
-          setTimeout(() => {
-            typing.classList.remove('show');
-            showStep(7); // AOS confirms
-          }, 1000);
-        }, 400);
-      }, 300);
-    });
-  }
 })();
 
 // ===== SMOOTH SCROLL FOR NAV LINKS =====
